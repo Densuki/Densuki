@@ -7,21 +7,9 @@
 <hr><br>
 
 <p align="center">
-  <picture>
-    <source
-      srcset="https://github-readme-stats.vercel.app/api?username=Densuki&show_icons=true&locale=pt-br&border_radius=10&theme=aura&show=discussions_started,discussions_answered&hide=prs,contribs#gh-dark-mode-only"
-      media="(prefers-color-scheme: dark)"
-    />
-  <img width="450" align="left" alt="Github Stats - Densuki" src="https://github-readme-stats.vercel.app/api?username=Densuki&show_icons=true&locale=pt-br&border_radius=10&show=discussions_started,discussions_answered&hide=prs,contribs&theme=aura#gh-dark-mode-only"/>
-  </picture>
+<img width="450" align="left" alt="Github Stats - Densuki" src="https://github-readme-stats.vercel.app/api?username=Densuki&show_icons=true&locale=pt-br&border_radius=10&show=discussions_started,discussions_answered&hide=prs,contribs&theme=aura#gh-dark-mode-only"/>
   
-  <picture>
-    <source
-      srcset="https://github-readme-stats.vercel.app/api?username=Densuki&show_icons=true&locale=pt-br&border_radius=10&theme=tokyonight&show=discussions_started,discussions_answered&hide=prs,contribs#gh-light-mode-only"
-      media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"
-    />
-      <img width="450" align="right" alt="Github Stats - Densuki" src="https://github-readme-stats.vercel.app/api?username=Densuki&show_icons=true&locale=pt-br&border_radius=10&show=discussions_started,discussions_answered&hide=prs,contribs&theme=tokyonight#gh-light-mode-only"/>
-  </picture>
+<img width="450" align="right" alt="Github Stats - Densuki" src="https://github-readme-stats.vercel.app/api?username=Densuki&show_icons=true&locale=pt-br&border_radius=10&show=discussions_started,discussions_answered&hide=prs,contribs&theme=tokyonight#gh-light-mode-only"/>
 </p>
 
 <p align="center"> 
