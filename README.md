@@ -47,11 +47,11 @@ Clickando nos links abaixo e saiba mais sobre mim e minhas atividades.
 
 ## GitHub
 <div align="center">
-  <img height="190" align="right" src="https://github-readme-stats.vercel.app/api/top-langs?username=Densuki&layout=compact&langs_count=4&card_width=320" />
+  <img height="190" src="https://github-readme-stats.vercel.app/api/top-langs?username=Densuki&layout=compact&langs_count=4&card_width=320" />
 </div>
-
+<br>
 <div align="center">
-<img width="450" align="left" alt="Github Stats - Densuki" src="https://github-readme-stats.vercel.app/api?username=Densuki&show_icons=true&locale=pt-br&border_radius=10&show=discussions_started,discussions_answered&hide=prs,contribs&theme=aura#gh-dark-mode-only"/>
+<img width="450" alt="Github Stats - Densuki" src="https://github-readme-stats.vercel.app/api?username=Densuki&show_icons=true&locale=pt-br&border_radius=10&show=discussions_started,discussions_answered&hide=prs,contribs&theme=aura#gh-dark-mode-only"/>
   
 <!-- <img width="450" align="right" alt="Github Stats - Densuki" src="https://github-readme-stats.vercel.app/api?username=Densuki&show_icons=true&locale=pt-br&border_radius=10&show=discussions_started,discussions_answered&hide=prs,contribs&theme=tokyonight#gh-light-mode-only"/> -->
 </div>
