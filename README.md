@@ -4,6 +4,8 @@ https://github.com/HerXayah/HerXayah/blob/master/README.md
 https://devicon.dev/
 https://dev.to/envoy_/150-badges-for-github-pnk#social
 https://github.com/rafaballerini/rafaballerini/
+
+&nbsp; = Espaço em branco pro texto.
 -->
 
 <div align="center"> 
@@ -14,13 +16,13 @@ https://github.com/rafaballerini/rafaballerini/
 <div>
 <h2 align="center"> 🦊 ~ Apresentação ~ 🦊 </h2>
   <div align="center">
-<img src="https://imgur.com/Y29t28k.png" align="right" width="30%" height="30%">
+<img src="https://imgur.com/Y29t28k.png" align="right" width="50%" height="50%">
   </div>
   
 <li>Olá 👋🏻, me chamo <strong>João Gabriel. Sou Brasileiro e tenho 24 anos</strong></li>
-<li>No ambiente virutal atendo pelos Pseudônimos de "<strong>Yukiri Densuki</strong>" e "<strong>Ryusei Orihara"</strong></li>
-<li>Sou uma pessoa bem "animada", um pouco introvertido 😅, mas bastante comunicativo quando acostumado ao<br>&nbsp;&nbsp;&nbsp;&nbsp; ambiente</li>
-<li>Por Hobby, costumo escrever e desenhar, assim me auto intitulando de "<em>Mangaká</em>",<br>&nbsp;&nbsp;&nbsp;&nbsp; a quem cria "<em>Histórias em Quadrinhos Japonês</em>"</li>
+<!-- <li>No ambiente virutal atendo pelos Pseudônimos de "<strong>Yukiri Densuki</strong>" e "<strong>Ryusei Orihara"</strong></li> -->
+<li>Sou uma pessoa bem "animada", um pouco introvertido 😅, mas bastante comunicativo quando acostumado ao ambiente</li>
+<li>Por Hobby, costumo escrever e desenhar, assim me auto intitulando de "<em>Mangaká</em>", a quem cria "<em>Histórias em Quadrinhos Japonês</em>"</li>
 <li>Amante de Games e animes, além de ter interesses em I.A. e Tecnologias voltadas para Robôtica e Jogos</li>
 <br><br><br>
 </div>
@@ -250,7 +252,7 @@ https://github.com/rafaballerini/rafaballerini/
 <!--     <img src="https://i.pinimg.com/originals/8d/4b/77/8d4b77c44b7a68c0fd609411e2c0ec3c.gif" align="right"> -->
   </div>
   <div align="center">
-  <img height="180em" align="left" alt="Github Stats - Densuki" src="https://github-readme-stats.vercel.app/api?username=Densuki&show_icons=true&locale=pt-br&border_radius=10&show=discussions_started,discussions_answered&hide=prs,contribs&theme=aura#gh-dark-mode-only"/>
+  <img height="180cm" align="left" alt="Github Stats - Densuki" src="https://github-readme-stats.vercel.app/api?username=Densuki&show_icons=true&locale=pt-br&border_radius=10&show=discussions_started,discussions_answered&hide=prs,contribs&theme=aura#gh-dark-mode-only"/>
   
   <!-- 
   <img width="450" align="right" alt="Github Stats - Densuki" src="https://github-readme-stats.vercel.app/api?username=Densuki&show_icons=true&locale=pt-br&border_radius=10&show=discussions_started,discussions_answered&hide=prs,contribs&theme=tokyonight#gh-light-mode-only"/> 
@@ -258,6 +260,6 @@ https://github.com/rafaballerini/rafaballerini/
   </div>
   <br>
   <div align="center">
-    <img height="180em" align="right" src="https://github-readme-stats.vercel.app/api/top-langs?username=Densuki&layout=compact&langs_count=4&card_width=320&locale=pt-br&theme=aura" />
+    <img height="180cm" align="right" src="https://github-readme-stats.vercel.app/api/top-langs?username=Densuki&layout=compact&langs_count=4&card_width=320&locale=pt-br&theme=aura" />
   </div>
 </div>
