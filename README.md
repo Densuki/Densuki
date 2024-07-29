@@ -16,7 +16,7 @@ https://github.com/rafaballerini/rafaballerini/
 <div>
 <h2 align="center"> 🦊 ~ Apresentação ~ 🦊 </h2>
   <div align="center">
-<img src="https://imgur.com/Y29t28k.png" align="right" width="50%" height="50%">
+<img src="https://imgur.com/Y29t28k.png" align="right" width="40%" height="40%">
   </div>
   
 <li>Olá 👋🏻, me chamo <strong>João Gabriel. Sou Brasileiro e tenho 24 anos</strong></li>
@@ -188,14 +188,24 @@ https://github.com/rafaballerini/rafaballerini/
     <div align="center">
 <!--   <img src="https://i.imgur.com/KXx0cCx.gif" align="right" width="373.5px" height="208.5px"> -->
     </div>
-  Clickando nos links abaixo e saiba mais sobre mim e minhas atividades.
-  <br>
+  <p>Clickando nos links abaixo e saiba mais sobre mim e minhas atividades.</p>
 </div>
+<br>
 
-[![Discord](https://img.shields.io/badge/Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white)](https://discord.com/users/568923940768972808)
-[![Pinterest](https://img.shields.io/badge/-pinterest-black?style=for-the-badge&logo=pinterest&logoColor=white&labelColor=red&color=red)](https://www.pinterest.com/)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/)
-[![Instagram](https://img.shields.io/badge/-Instagram-%23E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/yukiridensuki)
+<div style="display: inline_block"><br>
+  <a href="https://discord.com/users/568923940768972808">
+    <img alt="Discord-button" src="https://img.shields.io/badge/Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white" />
+  </a>
+<!--   <a href="https://www.pinterest.com/">
+    <img alt="Pinterest-button" src="https://img.shields.io/badge/-pinterest-black?style=for-the-badge&logo=pinterest&logoColor=white&labelColor=red&color=red" />
+  </a> -->
+  <a href="https://www.linkedin.com/in/">
+    <img alt="LinkedIn-button" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />
+  </a>
+  <a href="https://www.instagram.com/yukiridensuki">
+    <img alt="Instagram-button" src="https://img.shields.io/badge/-Instagram-%23E4405F?style=for-the-badge&logo=instagram&logoColor=white" />
+  </a>
+</div>
 
 
 <!-- SOCIAL -->
@@ -252,7 +262,7 @@ https://github.com/rafaballerini/rafaballerini/
 <!--     <img src="https://i.pinimg.com/originals/8d/4b/77/8d4b77c44b7a68c0fd609411e2c0ec3c.gif" align="right"> -->
   </div>
   <div align="center">
-  <img height="180cm" align="left" alt="Github Stats - Densuki" src="https://github-readme-stats.vercel.app/api?username=Densuki&show_icons=true&locale=pt-br&border_radius=10&show=discussions_started,discussions_answered&hide=prs,contribs&theme=aura#gh-dark-mode-only"/>
+  <img height="50%" align="left" alt="Github Stats - Densuki" src="https://github-readme-stats.vercel.app/api?username=Densuki&show_icons=true&locale=pt-br&border_radius=10&show=discussions_started,discussions_answered&hide=prs,contribs&theme=aura#gh-dark-mode-only"/>
   
   <!-- 
   <img width="450" align="right" alt="Github Stats - Densuki" src="https://github-readme-stats.vercel.app/api?username=Densuki&show_icons=true&locale=pt-br&border_radius=10&show=discussions_started,discussions_answered&hide=prs,contribs&theme=tokyonight#gh-light-mode-only"/> 
@@ -260,6 +270,6 @@ https://github.com/rafaballerini/rafaballerini/
   </div>
   <br>
   <div align="center">
-    <img height="180cm" align="right" src="https://github-readme-stats.vercel.app/api/top-langs?username=Densuki&layout=compact&langs_count=4&card_width=320&locale=pt-br&theme=aura" />
+    <img height="50%" align="right" src="https://github-readme-stats.vercel.app/api/top-langs?username=Densuki&layout=compact&langs_count=4&card_width=320&locale=pt-br&theme=aura" />
   </div>
 </div>
