@@ -16,7 +16,7 @@ https://github.com/rafaballerini/rafaballerini/
 <div>
 <h2 align="center"> 🦊 ~ Apresentação ~ 🦊 </h2>
   <div align="center">
-<img src="https://imgur.com/Y29t28k.png" align="right" width="40%" height="40%">
+<img src="https://imgur.com/Y29t28k.png" align="right" width="35%" height="35%">
   </div>
   
 <li>Olá 👋🏻, me chamo <strong>João Gabriel. Sou Brasileiro e tenho 24 anos</strong></li>
@@ -262,7 +262,7 @@ https://github.com/rafaballerini/rafaballerini/
 <!--     <img src="https://i.pinimg.com/originals/8d/4b/77/8d4b77c44b7a68c0fd609411e2c0ec3c.gif" align="right"> -->
   </div>
   <div align="center">
-  <img height="50%" align="left" alt="Github Stats - Densuki" src="https://github-readme-stats.vercel.app/api?username=Densuki&show_icons=true&locale=pt-br&border_radius=10&show=discussions_started,discussions_answered&hide=prs,contribs&theme=aura#gh-dark-mode-only"/>
+  <img height="30%" align="left" alt="Github Stats - Densuki" src="https://github-readme-stats.vercel.app/api?username=Densuki&show_icons=true&locale=pt-br&border_radius=10&show=discussions_started,discussions_answered&hide=prs,contribs&theme=aura#gh-dark-mode-only"/>
   
   <!-- 
   <img width="450" align="right" alt="Github Stats - Densuki" src="https://github-readme-stats.vercel.app/api?username=Densuki&show_icons=true&locale=pt-br&border_radius=10&show=discussions_started,discussions_answered&hide=prs,contribs&theme=tokyonight#gh-light-mode-only"/> 
@@ -270,6 +270,6 @@ https://github.com/rafaballerini/rafaballerini/
   </div>
   <br>
   <div align="center">
-    <img height="50%" align="right" src="https://github-readme-stats.vercel.app/api/top-langs?username=Densuki&layout=compact&langs_count=4&card_width=320&locale=pt-br&theme=aura" />
+    <img height="80%" align="right" src="https://github-readme-stats.vercel.app/api/top-langs?username=Densuki&layout=compact&langs_count=4&card_width=320&locale=pt-br&theme=aura" />
   </div>
 </div>
