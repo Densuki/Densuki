@@ -2,15 +2,21 @@
 -----------------------------------------------------------------------
                             LINKS & MODELOS
 -----------------------------------------------------------------------
-https://github.com/HerXayah/HerXayah/blob/master/README.md
+https://lanyard.kyrie25.me/
+https://docs.pipz.com/central-de-ajuda/learning-center/guia-basico-de-markdown#open
+https://github.com/HerXayah/HerXayah/
 https://devicon.dev/
-https://dev.to/envoy_/150-badges-for-github-pnk#social
+https://dev.to/envoy_/150-badges-for-github-pnk
 https://github.com/rafaballerini/rafaballerini/
 https://www.vectorlogo.zone/
 https://letrasff.com/
 https://github.com/MikeCodesDotNET/ColoredBadges
-https://github.com/anuraghazra/github-readme-stats/tree/master
-https://github.com/mayhemantt/mayhemantt/tree/master
+https://github.com/anuraghazra/github-readme-stats/
+https://github.com/mayhemantt/mayhemantt/
+https://github.com/onimur/onimur
+https://github.com/Defcon27/Defcon27/
+https://github.com/Prince-Shivaram/Prince-Shivaram/
+https://emojiterra.com/
 -----------------------------------------------------------------------
 &nbsp; = Espaço em branco pro texto.
 -----------------------------------------------------------------------
