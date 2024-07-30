@@ -24,7 +24,7 @@ https://github.com/mayhemantt/mayhemantt/tree/master
       <p><em>"É por isso que não sabem quem são. Nós sabemos quem somos e por isso não precisamos de nomes." — gato, CORALINE.</em></p>
   </div><hr>
   <div align="center">
-    <img src="https://imgur.com/Y29t28k.png" align="right" width="40%" height="40%">
+    <img src="https://imgur.com/Y29t28k.png" alt="Nira_Zutomayo-Darken" align="right" width="40%" height="40%">
   </div>
   <div align="left">
     <li>Olá 👋🏻, me chamo <strong>João Gabriel. Sou Brasileiro e tenho 24 anos</strong></li>
@@ -53,29 +53,33 @@ https://github.com/mayhemantt/mayhemantt/tree/master
   | **Criativo** | Tenho bastante criatividade, sou bem proativo e procuro inovar quando possível. Gosto de compartilhar minhas experiêncis com os demais afim de aumentar o conhecimento de ambos os lados. |
 
   <hr>
-  <div align="center"> <img src="https://imgur.com/55OnKDe.gif" align="left" width="373.5px" height="208.5px"> </div><br>
+  <div align="center"> <img src="https://imgur.com/55OnKDe.gif" alt="Matrix_Evolution-gif" align="left" width="473.5px" height="308.5px"> </div><br>
   <div>
-    <p>
+    <p align="center">
       <strong>
-        Tenho interesse em aprofundar meus conhecimentos, adquirindo novas experiências e, se possível, conectar-me com estudantes e profissionais que carreguem a mesma visão e objetivo de aprender e/ou ensinar.
+        Tenho interesse em aprofundar meus conhecimentos,<br>
+        adquirindo novas experiências e, se possível,<br>
+        conectar-me com estudantes e profissionais<br>
+        que carreguem a mesma visão e objetivo de aprender e/ou ensinar.
       </strong>
     </p>
-  </div>
+  </div><br><br><br><br><br><br><br><hr>
 
   <div>
     <h2 align="center">👨🏻‍💻『 ✦ 𝐋𝐢𝐧𝐠𝐮𝐚𝐠𝐞𝐧𝐬 & 𝐅𝐞𝐫𝐫𝐚𝐦𝐞𝐧𝐭𝐚𝐬 ✦ 』👨🏻‍💻</h2><br>
-    <div style="display: inline_block" align="center"><br>
+    <div align="center"> <img src="https://imgur.com/Xdos04a.gif" alt="Coding-gif" align="right" width="380.5px" height="210px"> </div><br>
       <!-- LANGUAGES -->
-        <a href="#">
-          <img src="svg/dev/languages/css3.svg" alt="css3" style="vertical-align:top; margin:6px 4px">
-        </a>
+    <div style="display: inline_block" align="center"><br>
+        <p><strong>Web Developer</strong><br></p>
+        <a href="#"> <img alt="HTML-button" src="svg/dev/languages/html.svg" alt="html" style="vertical-align:top; margin:6px 4px"> </a>
+        <a href="#"> <img alt="CSS-button"src="svg/dev/languages/css3.svg" alt="css3" style="vertical-align:top; margin:6px 4px"> </a>
+        <a href="#"> <img alt="JavaScript-button"src="svg/dev/languages/js.svg" alt="js" style="vertical-align:top; margin:6px 4px"> </a>
+    <br><br>
+        <a href="#"> <img alt="Java-button"src="svg/dev/languages/java.svg" alt="java" style="vertical-align:top; margin:6px 4px"> </a>
+        <a href="#"> <img alt="PHP-button"src="svg/dev/languages/php.svg" alt="php" style="vertical-align:top; margin:6px 4px"> </a>
+        <a href="#"> <img alt="Python-button"src="svg/dev/languages/python.svg" alt="python" style="vertical-align:top; margin:6px 4px"> </a>
+    </div><br>
       <!--
-      <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" />
-      <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" />
-      <img src="https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white" />
-      <img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white" />
-      <img src="https://img.shields.io/badge/Python-14354C?style=for-the-badge&logo=python&logoColor=white" />
-      <img src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E" />
       <img src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white" />
       <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" />
       <img src="https://img.shields.io/badge/Kotlin-0095D5?&style=for-the-badge&logo=kotlin&logoColor=white" />
@@ -85,8 +89,6 @@ https://github.com/mayhemantt/mayhemantt/tree/master
       <img src="https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white" />
       <img src="https://img.shields.io/badge/AngularJS-E23237?style=for-the-badge&logo=angularjs&logoColor=white" />
       -->
-    </div>
-  </div>
 </div><br>
 
 <div>
@@ -100,17 +102,17 @@ https://github.com/mayhemantt/mayhemantt/tree/master
   <div style="display: inline_block"  align="center"><br>
     <a href="https://discord.com/users/568923940768972808">
       <img alt="Discord-button" src="https://img.shields.io/badge/Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white" />
-    </a>
+    </a><br>
   <!--   
     <a href="https://www.pinterest.com/">
       <img alt="Pinterest-button" src="https://img.shields.io/badge/-pinterest-black?style=for-the-badge&logo=pinterest&logoColor=white&labelColor=red&color=red" />
     </a> 
   -->
     <a href="https://www.linkedin.com/in/">
-      <img alt="LinkedIn-button" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />
+      <img alt="LinkedIn-button"src="svg/social/linkedin.svg" alt="linkedin" style="vertical-align:top; margin:6px 4px">
     </a>
     <a href="https://www.instagram.com/yukiridensuki">
-      <img alt="Instagram-button" src="https://img.shields.io/badge/-Instagram-%23E4405F?style=for-the-badge&logo=instagram&logoColor=white" />
+      <img alt="Instagram-button" src="svg/social/instagram.svg" alt="instagram" style="vertical-align:top; margin:6px 4px">
     </a>
   </div>
 </div><hr><br>
