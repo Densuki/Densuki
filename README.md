@@ -42,9 +42,10 @@ https://img.shields.io/badge/play-station-blue.svg?logo=data:image/svg%2bxml;bas
   <h2 align="center">👨🏻‍💻『 ✦ 𝐒𝐨𝐛𝐫𝐞 𝐌𝐢𝐦 ✦ 』👨🏻‍💻</h2>
   <div align="center">
       <h3>
-        | <img src="https://img.shields.io/badge/Nome-João Gabriel Sousa Santos-purple.svg"> |
-        <img src="https://img.shields.io/badge/Estudando-Ciências da Computação-blue.svg">  |
-        <img src="https://img.shields.io/badge/País-Brasil-yellow.svg"> |
+        <img src="https://img.shields.io/badge/Nome-João_Gabriel_Sousa_Santos-purple.svg">
+        <img src="https://img.shields.io/badge/Estudando-Ciências_da_Computação-blue.svg"> 
+        <img src="https://img.shields.io/badge/Língua-pt_BR-green.svg">
+        <img src="https://img.shields.io/badge/País-Brasil-yellow.svg">
       </h3>
       <p><em>"É por isso que não sabem quem são. Nós sabemos quem somos e por isso não precisamos de nomes." — gato, CORALINE.</em></p>
   </div><hr>
