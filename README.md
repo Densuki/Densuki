@@ -43,7 +43,7 @@ https://img.shields.io/badge/play-station-blue.svg?logo=data:image/svg%2bxml;bas
   <div align="center">
       <h3>
         | <img src="https://img.shields.io/badge/Nome-João Gabriel Sousa Santos-purple.svg"> |
-        <img src="https://img.shields.io/badge/Faculdade-Ciências da Computação-blue.svg">  |
+        <img src="https://img.shields.io/badge/Estudando-Ciências da Computação-blue.svg">  |
         <img src="https://img.shields.io/badge/País-Brasil-yellow.svg"> |
       </h3>
       <p><em>"É por isso que não sabem quem são. Nós sabemos quem somos e por isso não precisamos de nomes." — gato, CORALINE.</em></p>
