@@ -56,7 +56,7 @@ https://emojiterra.com/
   | **Estudos** | Estou atualmente cursando **Ciência da Computação** pela **Estácio**, além de fazer vários cursos por fora — no momento — como de **Java**, **JavaScript**, **PHP**, **Python** pela *DIO* e no Youtube de *[Gustavo Guanabara](https://www.youtube.com/c/CursoemVídeo/)*. |
   | **Arte** | Além da programação, possuo qualidades para artes, como: Pixelart, Modelagem 3D e Ilustrações. |
   | **Escrita** | Juntamente com a arte venho desensolvendo histórias, algo que me ajuda a desenvolver o meu lado "criativo" e treina o meu senso de inovação, além de ajudar na hora de desenvolver alguns projetos pessoais. |
-  | **Criativo** | Tenho bastante criatividade, sou bem proativo e procuro inovar quando possível. Gosto de compartilhar minhas experiêncis com os demais afim de aumentar o conhecimento de ambos os lados. |
+  | **Criativo** | Tenho bastante criatividade, sou bem proativo e procuro inovar quando possível. Gosto de compartilhar minhas experiências com os demais afim de aumentar o conhecimento de ambos os lados. |
 
   <hr>
   <div align="center"> <img src="https://imgur.com/55OnKDe.gif" alt="Matrix_Evolution-gif" align="left" width="473.5px" height="308.5px"> </div><br>
