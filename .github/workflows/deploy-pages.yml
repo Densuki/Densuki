@@ -29,15 +29,26 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          # cache: 'npm'
 
       - name: Criar docs/data se não existir
         run: mkdir -p docs/data
 
-      - name: Gerar dados dinâmicos
-        continue-on-error: true  # ✅ Continua mesmo se algum generator falhar
+      - name: Inicializar JSONs vazios
         run: |
-          # Executa generators se existirem
+          for file in assets/*.json; do
+            if [ ! -s "$file" ]; then
+              echo "⚠️ $file está vazio, inicializando..."
+              if [[ "$file" == *"statistics.json" ]] || [[ "$file" == *"cache.json" ]]; then
+                echo '{}' > "$file"
+              else
+                echo '[]' > "$file"
+              fi
+            fi
+          done
+
+      - name: Gerar dados dinâmicos
+        continue-on-error: true
+        run: |
           for generator in certificates courses current-book current-game custom-stats weekly-song; do
             if [ -f "generators/${generator}.js" ]; then
               echo "▶️ Rodando generators/${generator}.js"
@@ -54,25 +65,33 @@ jobs:
         run: |
           if [ ! -f docs/index.html ]; then
             echo "⚠️ docs/index.html não encontrado!"
-            echo 'Criando index.html padrão...'
-            cat > docs/index.html << 'EOF'
-            <!DOCTYPE html>
-            <html lang="pt-BR">
-            <head>
-              <meta charset="UTF-8">
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>Densuki</title>
-            </head>
-            <body>
-              <h1>🚀 Densuki</h1>
-              <p>Bem-vindo ao meu portfólio!</p>
-              <ul>
-                <li><a href="about.html">Sobre</a></li>
-                <li><a href="portfolio.html">Portfólio</a></li>
-              </ul>
-            </body>
-            </html>
-            EOF
+            echo "Criando index.html padrão..."
+            echo '<!DOCTYPE html>
+          <html lang="pt-BR">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Densuki</title>
+            <style>
+              body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+              h1 { color: #2c3e50; }
+              ul { list-style: none; padding: 0; }
+              li { margin: 10px 0; }
+              a { color: #3498db; text-decoration: none; }
+            </style>
+          </head>
+          <body>
+            <h1>🚀 Densuki</h1>
+            <p>Bem-vindo ao meu portfólio!</p>
+            <ul>
+              <li><a href="about.html">📖 Sobre</a></li>
+              <li><a href="portfolio.html">💼 Portfólio</a></li>
+              <li><a href="projects.html">📁 Projetos</a></li>
+              <li><a href="certificates.html">🏆 Certificados</a></li>
+              <li><a href="courses.html">📚 Cursos</a></li>
+            </ul>
+          </body>
+          </html>' > docs/index.html
           fi
 
       - name: Listar conteúdo de docs
