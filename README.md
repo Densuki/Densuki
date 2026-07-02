@@ -53,7 +53,7 @@ https://img.shields.io/badge/play-station-blue.svg?logo=data:image/svg%2bxml;bas
     <img src="https://imgur.com/Y29t28k.png" alt="Nira_Zutomayo-Darken" align="right" width="40%" height="40%">
   </div>
   <div align="left">
-    <li>Olá 👋🏻, me chamo <strong>João Gabriel. Sou Brasileiro e tenho 24 anos</strong></li>
+    <li>Olá 👋🏻, me chamo <strong>João Gabriel. Sou Brasileiro e tenho <!-- AGE_START -->24<!-- AGE_END --> anos.</strong></li>
     <!--<li>No ambiente virutal atendo pelos Pseudônimos de "<strong>Yukiri Densuki</strong>" e "<strong>Ryusei Orihara"</strong></li>-->
     <li>Sou uma pessoa bem "animada", um pouco introvertido 😅,<br> mas bastante comunicativo quando acostumado ao ambiente</li>
     <li>Por Hobby, costumo escrever e desenhar, assim me auto intitulando<br> de "<em>Mangaká</em>", a quem cria "<em>Histórias em Quadrinhos Japonês</em>"</li>
