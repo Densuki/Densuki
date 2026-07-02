@@ -1,4 +1,3 @@
-<div align="center"> <strong>Contador de Visitantes</strong> <br> <img src="https://profile-counter.glitch.me/Densuki/count.svg" /> </div>
 <div>
   <h2 align="center">👨🏻‍💻『 ✦ 𝐒𝐨𝐛𝐫𝐞 𝐌𝐢𝐦 ✦ 』👨🏻‍💻</h2>
   <div align="center">
