@@ -1,69 +1,104 @@
 name: Deploy GitHub Pages
 
 on:
-  workflow_dispatch:  # manual trigger
+  workflow_dispatch:
   push:
     branches: [ main ]
     paths:
       - 'docs/**'
       - 'assets/**'
       - 'generators/**'
-      - 'scripts/**'
-  schedule:
-    - cron: "0 4 * * *"  # atualiza todo dia às 4h
 
 permissions:
   contents: read
   pages: write
   id-token: write
 
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
-      
-      - name: Instalar dependências
-        run: |
-          if [ -f package.json ]; then
-            npm install
-          fi
-      
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Criar docs/data se não existir
+        run: mkdir -p docs/data
+
       - name: Gerar dados dinâmicos
+        continue-on-error: true  # ✅ Continua mesmo se algum generator falhar
         run: |
-          # Executa todos os generators para dados atualizados
-          node generators/certificates.js
-          node generators/courses.js
-          node generators/current-book.js
-          node generators/current-game.js
-          node generators/custom-stats.js
-          node generators/weekly-song.js
-          
-          # Copia dados atualizados para docs/data/
-          cp assets/*.json docs/data/ || true
-      
-      - name: Build do site (opcional)
+          # Executa generators se existirem
+          for generator in certificates courses current-book current-game custom-stats weekly-song; do
+            if [ -f "generators/${generator}.js" ]; then
+              echo "▶️ Rodando generators/${generator}.js"
+              node generators/${generator}.js || echo "⚠️ ${generator}.js falhou"
+            fi
+          done
+
+      - name: Sincronizar JSONs para docs/data
         run: |
-          # Se você tiver um build script para HTML
-          # node docs/js/build.js
-          
-          # Ou apenas confirma que os arquivos estão ok
-          echo "✅ Build concluído"
-      
+          cp assets/*.json docs/data/ 2>/dev/null || echo "⚠️ Nenhum JSON encontrado em assets/"
+          ls -la docs/data/ || echo "⚠️ docs/data/ está vazio"
+
+      - name: Verificar se existe index.html
+        run: |
+          if [ ! -f docs/index.html ]; then
+            echo "⚠️ docs/index.html não encontrado!"
+            echo 'Criando index.html padrão...'
+            cat > docs/index.html << 'EOF'
+            <!DOCTYPE html>
+            <html lang="pt-BR">
+            <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>Densuki</title>
+            </head>
+            <body>
+              <h1>🚀 Densuki</h1>
+              <p>Bem-vindo ao meu portfólio!</p>
+              <ul>
+                <li><a href="about.html">Sobre</a></li>
+                <li><a href="portfolio.html">Portfólio</a></li>
+              </ul>
+            </body>
+            </html>
+            EOF
+          fi
+
+      - name: Listar conteúdo de docs
+        run: |
+          echo "📁 Conteúdo de docs/:"
+          ls -la docs/
+          echo ""
+          echo "📄 Arquivos HTML:"
+          find docs/ -name "*.html" -type f
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
-      
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: './docs'
-      
-      - name: Deploy para GitHub Pages
+
+      - name: Debug - Verificar estrutura
+        run: |
+          echo "=== Estrutura de docs/ ==="
+          tree docs/ || find docs/ -type f
+          echo ""
+          echo "=== Conteúdo de docs/data/ ==="
+          cat docs/data/*.json 2>/dev/null || echo "Sem JSONs"
+
+      - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
