@@ -1,15 +1,51 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-    <meta charset="UTF-8">
-    <title>Meu Mundo • João Gabriel Sousa Santos</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu Mundo • João Gabriel Sousa Santos</title>
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  
+  <!-- Meta tags -->
+  <meta property="og:title" content="João Gabriel Sousa Santos • Portfólio">
+  <meta property="og:description" content="Desenvolvedor Full Stack">
 </head>
-
 <body>
-
-    <h1>🚧 Em construção...</h1>
-
+  <!-- Navbar -->
+  <div id="navbar"></div>
+  
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Olá, eu sou <span id="name">Carregando...</span></h1>
+    <p id="role"></p>
+  </section>
+  
+  <!-- Cards dinâmicos -->
+  <section id="projects">
+    <h2>Projetos</h2>
+    <div id="project-list"></div>
+  </section>
+  
+  <!-- Footer -->
+  <div id="footer"></div>
+  
+  <!-- JavaScript -->
+  <script src="js/main.js" type="module"></script>
+  
+  <!-- Dados JSON -->
+  <script>
+    // Carrega dados dinâmicos
+    async function loadData() {
+      const response = await fetch('data/profile.json');
+      const profile = await response.json();
+      
+      document.getElementById('name').textContent = profile.name;
+      document.getElementById('role').textContent = profile.role;
+    }
+    
+    loadData();
+  </script>
 </body>
-
 </html>

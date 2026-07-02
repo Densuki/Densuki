@@ -1,0 +1,35 @@
+{
+  "name": "portfolio",
+  "version": "0.0.1",
+  "description": "Repositório + Site para servi de Currículo e Portifólio do meu perfil social",
+  "keywords": [
+    "portfolio",
+    "curriculo",
+    "social",
+    "perfil",
+    "virtual",
+    "trabalho"
+  ],
+  "homepage": "https://github.com/Densuki/Densuki#readme",
+  "bugs": {
+    "url": "https://github.com/Densuki/Densuki/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Densuki/Densuki.git"
+  },
+  "license": "ISC",
+  "author": "Densuki, YukiriDensuki, João Gabriel Sousa Santos",
+  "type": "commonjs",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "update-readme": "node scripts/update-readme.js",
+    "sync-pages": "node scripts/sync-pages.js",
+    "generate-all": "node generators/certificates.js && node generators/courses.js && node generators/current-book.js && node generators/current-game.js && node generators/custom-stats.js && node generators/weekly-song.js",
+    "build": "npm run generate-all && npm run sync-pages"
+  }
+}

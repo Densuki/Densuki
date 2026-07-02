@@ -1,0 +1,96 @@
+.
+├── README.md
+├── assets
+│   ├── books.json
+│   ├── cache.json
+│   ├── certificates.json
+│   ├── courses.json
+│   ├── games.json
+│   ├── music.json
+│   ├── png
+│   │   ├── blogs
+│   │   ├── dev
+│   │   ├── devices
+│   │   ├── pronouns
+│   │   ├── social
+│   │   └── streaming
+│   ├── statistics.json
+│   ├── svg
+│   │   ├── blogs
+│   │   ├── dev
+│   │   ├── devices
+│   │   ├── pronouns
+│   │   ├── social
+│   │   └── streaming
+│   └── web
+├── docs
+│   ├── about.html
+│   ├── assets
+│   │   ├── css
+│   │   ├── fonts
+│   │   ├── icons
+│   │   └── img
+│   ├── certificates.html
+│   ├── courses.html
+│   ├── curriculum.html
+│   ├── data
+│   │   ├── books.json
+│   │   ├── certificates.json
+│   │   ├── courses.json
+│   │   ├── games.json
+│   │   ├── music.json
+│   │   ├── profile.json
+│   │   └── statistics.json
+│   ├── index.html
+│   ├── js
+│   ├── portfolio.html
+│   ├── projects.html
+│   ├── readme.md
+│   └── templates
+│       ├── badge.html
+│       ├── card.html
+│       ├── footer.html
+│       └── navbar.html
+├── estrutura.txt
+├── generators
+│   ├── certificates.js
+│   ├── changelog.js
+│   ├── courses.js
+│   ├── current-book.js
+│   ├── current-game.js
+│   ├── custom-stats.js
+│   └── weekly-song.js
+├── notes
+│   └── thinkings.md
+├── others
+│   ├── backup
+│   │   └── README.md
+│   └── references.md
+├── scripts
+│   ├── config.js
+│   ├── data.js
+│   └── update-readme.js
+├── sections
+│   ├── badges.js
+│   ├── footer.js
+│   ├── profile.js
+│   ├── projects.js
+│   ├── skills.js
+│   ├── socials.js
+│   └── statistics.js
+├── templates
+│   ├── badge.md
+│   ├── card.md
+│   ├── section.md
+│   └── web
+│       └── readme.md
+└── utils
+    ├── age.js
+    ├── dates.js
+    ├── file.js
+    ├── github.js
+    ├── logger.js
+    ├── markdown.js
+    └── replace.js
+
+35 directories, 59 files
