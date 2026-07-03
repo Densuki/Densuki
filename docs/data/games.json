@@ -1,6 +1,29 @@
 [
-    {
-        "name": "Minecraft",
-        "status": "Jogando"
-    }
+  {
+    "id": 1,
+    "title": "Elden Ring",
+    "platform": "PC",
+    "status": "playing",
+    "genre": "RPG",
+    "hours": 120,
+    "image": "assets/img/games/elden-ring.jpg"
+  },
+  {
+    "id": 2,
+    "title": "Hollow Knight",
+    "platform": "PC",
+    "status": "completed",
+    "genre": "Metroidvania",
+    "hours": 80,
+    "image": "assets/img/games/hollow-knight.jpg"
+  },
+  {
+    "id": 3,
+    "title": "Persona 5 Royal",
+    "platform": "PC",
+    "status": "playing",
+    "genre": "JRPG",
+    "hours": 60,
+    "image": "assets/img/games/persona5.jpg"
+  }
 ]

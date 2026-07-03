@@ -6,10 +6,7 @@
   <!-- ============================================ -->
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>🌙 Densuki • Artista & Full Stack Dev</title>
   <meta name="description" content="Portfólio de João Gabriel - Artista, Desenvolvedor Full Stack e criador de mundos. Explore meus projetos, certificados e muito mais.">
@@ -18,7 +15,6 @@
   <meta name="robots" content="index, follow">
   <meta name="language" content="Portuguese">
   <meta name="revisit-after" content="7 days">
-  <meta name="color-scheme" content="dark light">
   
   <!-- ============================================ -->
   <!-- META TAGS OPEN GRAPH (Facebook, LinkedIn) -->
@@ -28,11 +24,8 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://densuki.github.io/Densuki/">
   <meta property="og:image" content="assets/img/og-image.jpg">
-  <meta property="og:image:type" content="image/jpeg">
-  <meta property="og:image:alt" content="João Gabriel - Densuki Portfolio">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:secure_url" content="https://densuki.github.io/Densuki/assets/img/og-image.jpg">
   <meta property="og:site_name" content="Densuki Portfolio">
   <meta property="og:locale" content="pt_BR">
   
@@ -66,6 +59,35 @@
   <meta name="MobileOptimized" content="320">
   
   <!-- ============================================ -->
+  <!-- META TAGS ADICIONAIS -->
+  <!-- ============================================ -->
+  <!-- Prevenir cache em desenvolvimento -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
+  <!-- Color scheme para navegadores -->
+  <meta name="color-scheme" content="dark light">
+
+  <!-- PWA / Web App -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <!-- Para navegadores antigos -->
+  <meta name="x-ua-compatible" content="IE=edge">
+
+  <!-- Para links de compartilhamento -->
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:alt" content="João Gabriel - Densuki Portfolio">
+
+  <!-- LinkedIn específico -->
+  <meta property="og:image:secure_url" content="https://densuki.github.io/Densuki/assets/img/og-image.jpg">
+
+  <!-- WhatsApp / Telegram -->
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- ============================================ -->
   <!-- META TAGS PARA RICH SNIPPETS -->
   <!-- ============================================ -->
   <script type="application/ld+json">
@@ -85,15 +107,23 @@
     ]
   }
   </script>
-  
+
   <!-- ============================================ -->
-  <!-- PRÉ-CONEXÕES (Performance) -->
+  <!-- JAVASCRIPT -->
   <!-- ============================================ -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-  <link rel="preconnect" href="https://github-readme-stats.vercel.app">
-  <link rel="preconnect" href="https://lanyard.kyrie25.me">
+    <script type="module">
+      // Fallback caso o main.js não carregue
+      console.log('🚀 Carregando Densuki Portfolio...');
+    </script>
+    <script src="js/main.js" type="module"></script>
+
+    <!-- Fallback para dados estáticos caso o JS falhe -->
+    <noscript>
+      <div style="text-align: center; padding: 2rem; background: #1a1a2e; color: white;">
+        <p>🔧 Seu navegador não suporta JavaScript. Ative para uma experiência completa!</p>
+        <p>Versão estática do portfólio disponível em <a href="https://github.com/Densuki" style="color: #8b5cf6;">GitHub</a></p>
+      </div>
+    </noscript>
   
   <!-- ============================================ -->
   <!-- LINKS E ICONS -->
@@ -110,6 +140,20 @@
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- ============================================ -->
+  <!-- PRELOAD FONTES (Performance) -->
+  <!-- ============================================ -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" as="style">
+
+  <!-- ============================================ -->
+  <!-- PRÉ-CONEXÕES (Performance) -->
+  <!-- ============================================ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://github-readme-stats.vercel.app">
+  <link rel="preconnect" href="https://lanyard.kyrie25.me">
 </head>
 <body>
   <!-- ============================================ -->
@@ -221,7 +265,7 @@
         <div class="about-content glass-card">
           <div class="about-text">
             <p>
-              Olá! 👋 Me chamo <strong>João Gabriel</strong>, tenho <span id="age">00</span> anos 
+              Olá! 👋 Me chamo <strong>João Gabriel</strong>, tenho <span id="age">26</span> anos 
               e sou <strong>Brasileiro</strong>. Sou uma pessoa animada, um pouco introvertida 😅, 
               mas muito comunicativa quando me acostumo com o ambiente.
             </p>
@@ -341,13 +385,13 @@
       </h2>
       <div class="stats-container glass-card">
         <div class="github-stats">
-          <a href="https://github.com/Densuki" target="_blank" rel="noopener noreferrer">
+          <a href="https://github.com/Densuki">
             <img src="https://github-readme-stats.vercel.app/api?username=Densuki&show_icons=true&locale=pt-br&show=discussions_started,discussions_answered&hide=prs,contribs&count_private=true&theme=aura&hide_border=true" alt="GitHub Stats">
           </a>
-          <a href="https://github.com/Densuki" target="_blank" rel="noopener noreferrer">
+          <a href="https://github.com/Densuki">
             <img src="https://github-readme-stats.vercel.app/api/top-langs?username=Densuki&layout=compact&langs_count=6&locale=pt-br&theme=aura&hide_border=true" alt="Top Languages">
           </a>
-          <a href="https://github.com/Densuki" target="_blank" rel="noopener noreferrer">
+          <a href="https://github.com/Densuki">
             <img src="https://github-readme-streak-stats.herokuapp.com?user=Densuki&locale=pt-br&theme=aura&hide_border=true" alt="Streak Stats">
           </a>
         </div>
@@ -366,7 +410,7 @@
         <span class="title-line"></span>
       </h2>
       <div class="discord-container glass-card">
-        <a href="https://discord.com/users/568923940768972808" target="_blank" rel="noopener noreferrer">
+        <a href="https://discord.com/users/568923940768972808" target="_blank">
           <img src="https://lanyard.kyrie25.me/api/568923940768972808?useDisplayName=true&imgStyle=square&imgBorderRadius=15px&waveColor=8b5cf6&waveSpotifyColor=6d28d9" alt="Discord Presence">
         </a>
       </div>
@@ -390,23 +434,23 @@
         </p>
         
         <div class="social-links">
-          <a href="https://github.com/Densuki" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <a href="https://github.com/Densuki" target="_blank" class="social-link" aria-label="GitHub">
             <i class="fab fa-github"></i>
           </a>
-          <a href="https://www.linkedin.com/in/joaogabriel/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <a href="https://www.linkedin.com/in/joaogabriel/" target="_blank" class="social-link" aria-label="LinkedIn">
             <i class="fab fa-linkedin-in"></i>
           </a>
-          <a href="https://www.instagram.com/yukiridensuki" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <a href="https://www.instagram.com/yukiridensuki" target="_blank" class="social-link" aria-label="Instagram">
             <i class="fab fa-instagram"></i>
           </a>
-          <a href="https://discord.com/users/568923940768972808" target="_blank" rel="noopener noreferrer" aria-label="Discord">
+          <a href="https://discord.com/users/568923940768972808" target="_blank" class="social-link" aria-label="Discord">
             <i class="fab fa-discord"></i>
           </a>
         </div>
         
         <div class="contact-email">
           <i class="fas fa-envelope"></i>
-          <a href="mailto:joaogabriel4175@gmail.com">joaogabriel4175@gmail.com</a>
+          <a href="mailto:joaogabriel@email.com">joaogabriel@email.com</a>
         </div>
       </div>
     </div>
@@ -439,16 +483,6 @@
   <audio id="bg-music" loop>
     <source src="assets/audio/background.mp3" type="audio/mpeg">
   </audio>
-
-  <!-- ============================================ -->
-  <!-- FALLBACK PARA NOSCRIPT -->
-  <!-- ============================================ -->
-  <noscript>
-    <div style="text-align: center; padding: 2rem; background: #1a1a2e; color: white; position: fixed; bottom: 0; width: 100%; z-index: 9999;">
-      <p>🔧 Seu navegador não suporta JavaScript. Ative para uma experiência completa!</p>
-      <p>Versão estática disponível em <a href="https://github.com/Densuki" style="color: #8b5cf6;">GitHub</a></p>
-    </div>
-  </noscript>
 
   <!-- ============================================ -->
   <!-- JAVASCRIPT -->

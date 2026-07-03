@@ -1,6 +1,29 @@
 [
-    {
-        "artist": "ZUTOMAYO",
-        "song": "Byoushin wo Kamu"
-    }
+  {
+    "id": 1,
+    "song": "KICK BACK",
+    "artist": "Kenshi Yonezu",
+    "album": "KICK BACK",
+    "genre": "J-Pop",
+    "year": 2022,
+    "image": "assets/img/music/kick-back.jpg"
+  },
+  {
+    "id": 2,
+    "song": "Bad Apple!!",
+    "artist": "Nomico",
+    "album": "Bad Apple!!",
+    "genre": "Electronic",
+    "year": 2009,
+    "image": "assets/img/music/bad-apple.jpg"
+  },
+  {
+    "id": 3,
+    "song": "ZUTOMAYO - Study Me",
+    "artist": "ZUTOMAYO",
+    "album": "Study Me",
+    "genre": "J-Pop",
+    "year": 2020,
+    "image": "assets/img/music/zutomayo.jpg"
+  }
 ]

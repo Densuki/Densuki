@@ -1,1 +1,38 @@
-[]
+{
+  "name": "João Gabriel Sousa Santos",
+  "nickname": "Densuki",
+  "age": 18,
+  "role": "Desenvolvedor Full Stack & Artista",
+  "location": "Brasil",
+  "languages": ["pt_BR"],
+  "education": "Ciência da Computação - Estácio",
+  "interests": [
+    "Desenvolvimento Web",
+    "Inteligência Artificial",
+    "Robótica",
+    "Desenvolvimento de Jogos",
+    "Arte Digital",
+    "Pixel Art",
+    "Modelagem 3D",
+    "Ilustração",
+    "Mangá",
+    "Animes",
+    "Games"
+  ],
+  "hobbies": [
+    "Escrever histórias",
+    "Desenhar",
+    "Criar mangás",
+    "Jogar videogame",
+    "Assistir animes"
+  ],
+  "quote": "É por isso que não sabem quem são. Nós sabemos quem somos e por isso não precisamos de nomes.",
+  "quoteAuthor": "gato, CORALINE",
+  "social": {
+    "github": "https://github.com/Densuki",
+    "linkedin": "https://www.linkedin.com/in/densuki/",
+    "instagram": "https://www.instagram.com/yukiridensuki",
+    "discord": "https://discord.com/users/568923940768972808"
+  },
+  "discordId": "568923940768972808"
+}

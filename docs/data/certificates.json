@@ -1,1 +1,52 @@
-[]
+[
+  {
+    "id": 1,
+    "name": "JavaScript - Curso em Vídeo",
+    "institution": "Curso em Vídeo - Gustavo Guanabara",
+    "date": "2024",
+    "description": "Curso completo de JavaScript do básico ao avançado.",
+    "link": "https://www.cursoemvideo.com/",
+    "category": "Programação",
+    "image": "assets/img/certificates/js.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Java - Digital Innovation One",
+    "institution": "DIO - Digital Innovation One",
+    "date": "2024",
+    "description": "Curso de Java com foco em desenvolvimento backend.",
+    "link": "https://www.dio.me/",
+    "category": "Programação",
+    "image": "assets/img/certificates/java.jpg"
+  },
+  {
+    "id": 3,
+    "name": "PHP - Curso em Vídeo",
+    "institution": "Curso em Vídeo - Gustavo Guanabara",
+    "date": "2024",
+    "description": "Curso de PHP para desenvolvimento web.",
+    "link": "https://www.cursoemvideo.com/",
+    "category": "Programação",
+    "image": "assets/img/certificates/php.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Python - Digital Innovation One",
+    "institution": "DIO - Digital Innovation One",
+    "date": "2024",
+    "description": "Curso de Python com foco em automação e análise de dados.",
+    "link": "https://www.dio.me/",
+    "category": "Programação",
+    "image": "assets/img/certificates/python.jpg"
+  },
+  {
+    "id": 5,
+    "name": "Ciência da Computação",
+    "institution": "Estácio de Sá",
+    "date": "2023 - 2027",
+    "description": "Graduação em Ciência da Computação.",
+    "link": "#",
+    "category": "Acadêmico",
+    "image": "assets/img/certificates/estacio.jpg"
+  }
+]

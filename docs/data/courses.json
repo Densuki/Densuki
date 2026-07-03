@@ -1,8 +1,80 @@
 [
-    {
-        "name": "Java",
-        "platform": "DIO",
-        "status": "Em andamento",
-        "hours": 58
-    }
+  {
+    "id": 1,
+    "name": "JavaScript Avançado",
+    "platform": "Curso em Vídeo",
+    "instructor": "Gustavo Guanabara",
+    "status": "in-progress",
+    "progress": 75,
+    "startDate": "2024-01-15",
+    "estimatedEnd": "2024-12-15",
+    "category": "Programação",
+    "description": "Aprofundando conhecimentos em JavaScript com projetos práticos.",
+    "url": "https://www.cursoemvideo.com/"
+  },
+  {
+    "id": 2,
+    "name": "Java Spring Boot",
+    "platform": "Digital Innovation One",
+    "instructor": "DIO",
+    "status": "in-progress",
+    "progress": 40,
+    "startDate": "2024-03-01",
+    "estimatedEnd": "2025-03-01",
+    "category": "Backend",
+    "description": "Desenvolvimento de APIs com Spring Boot.",
+    "url": "https://www.dio.me/"
+  },
+  {
+    "id": 3,
+    "name": "PHP com MySQL",
+    "platform": "Curso em Vídeo",
+    "instructor": "Gustavo Guanabara",
+    "status": "in-progress",
+    "progress": 60,
+    "startDate": "2024-02-01",
+    "estimatedEnd": "2024-11-01",
+    "category": "Web Development",
+    "description": "Desenvolvimento web com PHP e banco de dados MySQL.",
+    "url": "https://www.cursoemvideo.com/"
+  },
+  {
+    "id": 4,
+    "name": "Python para Data Science",
+    "platform": "Digital Innovation One",
+    "instructor": "DIO",
+    "status": "planned",
+    "progress": 0,
+    "startDate": "2024-07-01",
+    "estimatedEnd": "2025-01-01",
+    "category": "Data Science",
+    "description": "Análise de dados e machine learning com Python.",
+    "url": "https://www.dio.me/"
+  },
+  {
+    "id": 5,
+    "name": "Desenho e Ilustração Digital",
+    "platform": "Auto-didata",
+    "instructor": "Auto-didata",
+    "status": "in-progress",
+    "progress": 50,
+    "startDate": "2023-01-01",
+    "estimatedEnd": "2025-01-01",
+    "category": "Arte",
+    "description": "Desenvolvendo habilidades em desenho digital, pixel art e ilustração.",
+    "url": "#"
+  },
+  {
+    "id": 6,
+    "name": "Modelagem 3D",
+    "platform": "Auto-didata",
+    "instructor": "Auto-didata",
+    "status": "in-progress",
+    "progress": 30,
+    "startDate": "2023-06-01",
+    "estimatedEnd": "2025-06-01",
+    "category": "Arte",
+    "description": "Modelagem 3D para jogos e animações.",
+    "url": "#"
+  }
 ]

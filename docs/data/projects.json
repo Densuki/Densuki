@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "title": "Portfólio Pessoal",
+    "description": "Site de portfólio com design dinâmico, integração com GitHub Stats e Discord Presence.",
+    "image": "assets/img/projects/minecraft-forest-1.webp",
+    "technologies": ["HTML5", "CSS3", "JavaScript", "GitHub Actions"],
+    "category": "Web Development",
+    "status": "completed",
+    "url": "https://densuki.github.io/Densuki/",
+    "repo": "https://github.com/Densuki/Densuki"
+  },
+  {
+    "id": 2,
+    "title": "Sistema de Gerenciamento de Certificados",
+    "description": "Sistema automatizado para gerenciar certificados e cursos com geração dinâmica de dados.",
+    "image": "assets/img/projects/minecraft-forest-2.webp",
+    "technologies": ["Node.js", "JavaScript", "JSON", "GitHub Actions"],
+    "category": "Backend Development",
+    "status": "in-progress",
+    "url": "#",
+    "repo": "https://github.com/Densuki"
+  },
+  {
+    "id": 3,
+    "title": "Jogo em JavaScript",
+    "description": "Jogo desenvolvido com JavaScript puro, demonstrando habilidades em lógica e programação.",
+    "image": "assets/img/projects/minecraft-forest-3.webp",
+    "technologies": ["JavaScript", "HTML5 Canvas", "CSS3"],
+    "category": "Game Development",
+    "status": "planned",
+    "url": "#",
+    "repo": "https://github.com/Densuki"
+  },
+  {
+    "id": 4,
+    "title": "API de Dados para Portfólio",
+    "description": "API RESTful para servir dados dinâmicos para portfólios e sites pessoais.",
+    "image": "assets/img/projects/minecraft-forest-4.webp",
+    "technologies": ["Node.js", "Express", "JSON", "REST API"],
+    "category": "Backend Development",
+    "status": "in-progress",
+    "url": "#",
+    "repo": "https://github.com/Densuki"
+  }
+]

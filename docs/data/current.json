@@ -1,0 +1,23 @@
+{
+  "currentlyReading": {
+    "title": "O Alquimista",
+    "author": "Paulo Coelho",
+    "progress": 40
+  },
+  "currentlyPlaying": {
+    "game": "Elden Ring",
+    "platform": "PC",
+    "hours": 120
+  },
+  "currentlyWatching": {
+    "anime": "Jujutsu Kaisen",
+    "season": 2,
+    "status": "watching"
+  },
+  "currentlyWorkingOn": {
+    "project": "Portfólio Pessoal",
+    "description": "Desenvolvendo site de portfólio com GitHub Pages",
+    "stack": ["HTML", "CSS", "JavaScript", "Node.js"]
+  },
+  "status": "Disponível para projetos e colaborações"
+}

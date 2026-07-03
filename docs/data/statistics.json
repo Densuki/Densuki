@@ -1,7 +1,28 @@
-[    
-    {
-        "studyHours": 531,
-        "projects": 17,
-        "completedCourses": 9
-    }
-]
+{
+  "totalProjects": 4,
+  "totalCertificates": 5,
+  "totalCourses": 6,
+  "totalCompletedCourses": 2,
+  "totalInProgressCourses": 4,
+  "totalPlannedCourses": 1,
+  "githubStats": {
+    "repos": 12,
+    "followers": 0,
+    "following": 0,
+    "stars": 0,
+    "totalCommits": 0
+  },
+  "skills": {
+    "frontend": ["HTML5", "CSS3", "JavaScript", "React"],
+    "backend": ["Java", "PHP", "Python", "Node.js"],
+    "art": ["Pixel Art", "Ilustração", "Modelagem 3D", "Design"]
+  },
+  "languages": {
+    "javascript": 75,
+    "html": 80,
+    "css": 70,
+    "java": 60,
+    "php": 55,
+    "python": 50
+  }
+}
