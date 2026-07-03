@@ -2,7 +2,7 @@
 // CONFIGURAÇÃO
 // ============================================
 const CONFIG = {
-  dataPath: 'data/',
+  dataPath: '',
   terminalSpeed: 80,
   terminalDelay: 2000,
   scrollThreshold: 0.1,
@@ -10,6 +10,16 @@ const CONFIG = {
   discordId: '568923940768972808',
   defaultVolume: 0.5,
 };
+
+function resolveDataBaseUrl() {
+  const scriptTag = document.querySelector('script[src*="main.js"]');
+  if (scriptTag?.src) {
+    return new URL('.', scriptTag.src).href;
+  }
+  return new URL('./', window.location.href).href;
+}
+
+CONFIG.dataPath = new URL('./data/', resolveDataBaseUrl()).href;
 
 // ============================================
 // UTILITÁRIOS
@@ -35,19 +45,19 @@ function safeGet(profile, key) {
 async function loadData() {
   try {
     const [books, cache, certificates, courses, current, games, music, profile, projects, statistics] = await Promise.all([
-      fetch(`${CONFIG.dataPath}books.json`).then(r => r.json()),
-      fetch(`${CONFIG.dataPath}cache.json`).then(r => r.json()),
-      fetch(`${CONFIG.dataPath}certificates.json`).then(r => r.json()),
-      fetch(`${CONFIG.dataPath}courses.json`).then(r => r.json()),
-      fetch(`${CONFIG.dataPath}current.json`).then(r => r.json()).catch(() => null),
-      fetch(`${CONFIG.dataPath}games.json`).then(r => r.json()),
-      fetch(`${CONFIG.dataPath}music.json`).then(r => r.json()),
-      fetch(`${CONFIG.dataPath}profile.json`).then(r => r.json()),
-      fetch(`${CONFIG.dataPath}projects.json`).then(r => r.json()),
-      fetch(`${CONFIG.dataPath}statistics.json`).then(r => r.json()),      
+      fetchJSON('books.json'),
+      fetchJSON('cache.json'),
+      fetchJSON('certificates.json'),
+      fetchJSON('courses.json'),
+      fetchJSON('current.json').catch(() => null),
+      fetchJSON('games.json'),
+      fetchJSON('music.json'),
+      fetchJSON('profile.json'),
+      fetchJSON('projects.json'),
+      fetchJSON('statistics.json'),
     ]);
 
-    return { books, cache, certificates, courses, current, games, music, profile, projects, statistics};
+    return { books, cache, certificates, courses, current, games, music, profile, projects, statistics };
   } catch (error) {
     console.error('❌ Erro ao carregar dados:', error);
     return null;
@@ -55,14 +65,28 @@ async function loadData() {
 }
 
 async function fetchJSON(path) {
-  try {
-    const res = await fetch(path);
-    if (!res.ok) throw new Error('Failed to load ' + path);
-    return await res.json();
-  } catch (err) {
-    console.error(err);
-    return null;
+  const resource = path.replace(/^\.?\//, '');
+  const candidates = [];
+
+  if (CONFIG.dataPath) {
+    candidates.push(new URL(resource, CONFIG.dataPath).toString());
   }
+
+  candidates.push(new URL(`./data/${resource}`, window.location.href).toString());
+  candidates.push(new URL(`../data/${resource}`, window.location.href).toString());
+
+  for (const url of candidates) {
+    try {
+      const res = await fetch(url, { cache: 'no-store' });
+      if (!res.ok) continue;
+      return await res.json();
+    } catch (err) {
+      console.warn(`⚠️ Falha ao carregar ${url}:`, err.message);
+    }
+  }
+
+  console.error(`❌ Não foi possível carregar ${resource}`);
+  return null;
 }
 
 // ============================================

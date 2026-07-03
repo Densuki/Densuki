@@ -58,7 +58,13 @@ jobs:
 
       - name: Sincronizar JSONs para docs/data
         run: |
-          cp assets/*.json docs/data/ 2>/dev/null || echo "⚠️ Nenhum JSON encontrado em assets/"
+          mkdir -p docs/data
+          for file in assets/*.json; do
+            if [ -f "$file" ]; then
+              cp "$file" "docs/data/$(basename "$file")"
+              echo "✅ Copiado: $(basename "$file")"
+            fi
+          done
           echo "📁 Conteúdo de docs/data/:"
           ls -la docs/data/ || echo "⚠️ docs/data/ está vazio"
 
