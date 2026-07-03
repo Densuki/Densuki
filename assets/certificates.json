@@ -1,1 +1,52 @@
-[]
+[
+  {
+    "id": 1,
+    "name": "JavaScript - Curso em Vídeo",
+    "institution": "Curso em Vídeo - Gustavo Guanabara",
+    "date": "2024",
+    "description": "Curso completo de JavaScript do básico ao avançado.",
+    "link": "https://www.cursoemvideo.com/",
+    "category": "Programação",
+    "image": "assets/img/certificates/js.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Certificado #2",
+    "institution": "Instituição #2",
+    "date": "2026",
+    "description": "Descrição do Certificado #2.",
+    "link": "https://www.google.com/",
+    "category": "Programação",
+    "image": "assets/img/certificates/java.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Certificado #3",
+    "institution": "Instituição #3",
+    "date": "2026",
+    "description": "Descrição do Certificado #3.",
+    "link": "https://www.google.com/",
+    "category": "Programação",
+    "image": "assets/img/certificates/java.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Certificado #4",
+    "institution": "Instituição #4",
+    "date": "2026",
+    "description": "Descrição do Certificado #4.",
+    "link": "https://www.google.com/",
+    "category": "Programação",
+    "image": "assets/img/certificates/java.jpg"
+  },
+  {
+    "id": 5,
+    "name": "Certificado #5",
+    "institution": "Instituição #5",
+    "date": "2026",
+    "description": "Descrição do Certificado #5.",
+    "link": "https://www.google.com/",
+    "category": "Programação",
+    "image": "assets/img/certificates/java.jpg"
+  }
+]
