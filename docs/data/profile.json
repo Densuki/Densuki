@@ -2,37 +2,26 @@
   "name": "João Gabriel Sousa Santos",
   "nickname": "Densuki",
   "age": 18,
-  "role": "Desenvolvedor Full Stack & Artista",
   "location": "Brasil",
-  "languages": ["pt_BR"],
-  "education": "Ciência da Computação - Estácio",
-  "interests": [
-    "Desenvolvimento Web",
-    "Inteligência Artificial",
-    "Robótica",
-    "Desenvolvimento de Jogos",
-    "Arte Digital",
-    "Pixel Art",
-    "Modelagem 3D",
-    "Ilustração",
-    "Mangá",
-    "Animes",
-    "Games"
-  ],
-  "hobbies": [
-    "Escrever histórias",
-    "Desenhar",
-    "Criar mangás",
-    "Jogar videogame",
-    "Assistir animes"
-  ],
+  "role": "Desenvolvedor Full Stack & Artista",
+  "email": "joaogabriel4175@gmail.com",
+  "bio": "Sou uma pessoa animada, um pouco introvertida 😅, mas muito comunicativa quando me acostumo com o ambiente.",
+  "contactMessage": "Gosta de código, arte ou histórias? Vamos trocar uma ideia!",
   "quote": "É por isso que não sabem quem são. Nós sabemos quem somos e por isso não precisamos de nomes.",
   "quoteAuthor": "gato, CORALINE",
+  "hobbies": ["costumo escrever e desenhar", "me auto intitulo de 'Mangaká'"],
+  "interests": ["Games", "Animes", "I.A.", "Robótica", "Jogos"],
+  "skills": {
+    "frontend": ["HTML5", "CSS3", "JavaScript", "React"],
+    "backend": ["Java", "PHP", "Python", "Node.js"],
+    "arte": ["Pixel Art", "Ilustração", "Modelagem 3D", "Design"]
+  },
   "social": {
     "github": "https://github.com/Densuki",
-    "linkedin": "https://www.linkedin.com/in/densuki/",
+    "linkedin": "https://www.linkedin.com/in/joaogabriel/",
     "instagram": "https://www.instagram.com/yukiridensuki",
     "discord": "https://discord.com/users/568923940768972808"
   },
-  "discordId": "568923940768972808"
+  "discordId": "568923940768972808",
+  "githubUsername": "Densuki"
 }

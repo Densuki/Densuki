@@ -59,48 +59,65 @@ jobs:
       - name: Sincronizar JSONs para docs/data
         run: |
           cp assets/*.json docs/data/ 2>/dev/null || echo "⚠️ Nenhum JSON encontrado em assets/"
+          echo "📁 Conteúdo de docs/data/:"
           ls -la docs/data/ || echo "⚠️ docs/data/ está vazio"
 
-      - name: Verificar se existe index.html
-        run: |
-          if [ ! -f docs/index.html ]; then
-            echo "⚠️ docs/index.html não encontrado!"
-            echo "Criando index.html padrão..."
-            echo '<!DOCTYPE html>
-          <html lang="pt-BR">
-          <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Densuki</title>
-            <style>
-              body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
-              h1 { color: #2c3e50; }
-              ul { list-style: none; padding: 0; }
-              li { margin: 10px 0; }
-              a { color: #3498db; text-decoration: none; }
-            </style>
-          </head>
-          <body>
-            <h1>🚀 Densuki</h1>
-            <p>Bem-vindo ao meu portfólio!</p>
-            <ul>
-              <li><a href="about.html">📖 Sobre</a></li>
-              <li><a href="portfolio.html">💼 Portfólio</a></li>
-              <li><a href="projects.html">📁 Projetos</a></li>
-              <li><a href="certificates.html">🏆 Certificados</a></li>
-              <li><a href="courses.html">📚 Cursos</a></li>
-            </ul>
-          </body>
-          </html>' > docs/index.html
-          fi
-
-      - name: Listar conteúdo de docs
+      - name: Validar estrutura do docs
         run: |
           echo "📁 Conteúdo de docs/:"
           ls -la docs/
           echo ""
           echo "📄 Arquivos HTML:"
-          find docs/ -name "*.html" -type f
+          find docs/ -name "*.html" -type f || echo "⚠️ Nenhum HTML encontrado"
+
+      - name: Validar e criar index.html
+        run: |
+          if [ -f docs/index.html ]; then
+            echo "✅ index.html encontrado"
+            echo "Primeiras 5 linhas:"
+            head -n 5 docs/index.html
+          else
+            echo "❌ index.html NÃO encontrado!"
+            echo "Criando index.html básico..."
+            printf '%s\n' \
+              '<!DOCTYPE html>' \
+              '<html lang="pt-BR">' \
+              '<head>' \
+              '  <meta charset="UTF-8">' \
+              '  <meta name="viewport" content="width=device-width, initial-scale=1.0">' \
+              '  <title>Densuki</title>' \
+              '  <style>' \
+              '    body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; background: #0a0a0f; color: #f0f0ff; }' \
+              '    h1 { color: #8b5cf6; }' \
+              '    a { color: #a78bfa; }' \
+              '  </style>' \
+              '</head>' \
+              '<body>' \
+              '  <h1>🌙 Densuki</h1>' \
+              '  <p>Bem-vindo ao meu portfólio!</p>' \
+              '  <p>Site em construção... 🚀</p>' \
+              '  <ul>' \
+              '    <li><a href="https://github.com/Densuki">GitHub</a></li>' \
+              '  </ul>' \
+              '</body>' \
+              '</html>' > docs/index.html
+            echo "✅ index.html criado com sucesso!"
+          fi
+
+      - name: Verificar arquivos essenciais
+        run: |
+          echo "=== VERIFICANDO ARQUIVOS ESSENCIAIS ==="
+          [ -f docs/index.html ] && echo "✅ index.html" || echo "❌ index.html FALTANDO"
+          [ -d docs/assets ] && echo "✅ assets/" || echo "❌ assets/ FALTANDO"
+          [ -d docs/data ] && echo "✅ data/" || echo "❌ data/ FALTANDO"
+          [ -d docs/js ] && echo "✅ js/" || echo "❌ js/ FALTANDO"
+          [ -f docs/assets/css/style.css ] && echo "✅ style.css" || echo "❌ style.css FALTANDO"
+          [ -f docs/js/main.js ] && echo "✅ main.js" || echo "❌ main.js FALTANDO"
+
+      - name: Debug - Verificar estrutura completa
+        run: |
+          echo "=== ESTRUTURA COMPLETA DE docs/ ==="
+          find docs/ -type f | sort || echo "⚠️ docs/ vazio"
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -109,14 +126,6 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: './docs'
-
-      - name: Debug - Verificar estrutura
-        run: |
-          echo "=== Estrutura de docs/ ==="
-          tree docs/ || find docs/ -type f
-          echo ""
-          echo "=== Conteúdo de docs/data/ ==="
-          cat docs/data/*.json 2>/dev/null || echo "Sem JSONs"
 
       - name: Deploy to GitHub Pages
         id: deployment

@@ -6,6 +6,8 @@ const CONFIG = {
   terminalSpeed: 80,
   terminalDelay: 2000,
   scrollThreshold: 0.1,
+  githubUsername: 'Densuki',
+  discordId: '568923940768972808',
 };
 
 // ============================================
@@ -36,88 +38,151 @@ async function loadData() {
 }
 
 // ============================================
-// 2. PREENCHER HERO SECTION
+// 2. RENDERIZAR FOOTER
 // ============================================
-function renderHero(profile, current) {
-  // Nome
-  $('#name').textContent = profile.name || 'João Gabriel';
-  
-  // Role (descrição)
-  $('#role').textContent = profile.role || 'Desenvolvedor Full Stack & Artista';
-  
-  // Status Badge
-  if (current?.currentlyWorkingOn) {
-    $('#status-text').textContent = `🚀 Trabalhando em: ${current.currentlyWorkingOn.project}`;
+function renderFooter(profile) {
+  const container = $('#footer-content');
+  if (!container) return;
+
+  const year = new Date().getFullYear();
+  const name = profile?.name || 'João Gabriel';
+  const quote = profile?.quote || '"É por isso que não sabem quem são. Nós sabemos quem somos e por isso não precisamos de nomes."';
+  const quoteAuthor = profile?.quoteAuthor || 'gato, CORALINE';
+
+  container.innerHTML = `
+    <p>
+      <i class="fas fa-crown"></i>
+      Feito com <i class="fas fa-heart" style="color: #8b5cf6;"></i> 
+      por <strong>${name}</strong> — ${year}
+    </p>
+    <p class="footer-quote">
+      <em>"${quote}"</em> — ${quoteAuthor}
+    </p>
+    <div class="footer-links">
+      <a href="#hero"><i class="fas fa-arrow-up"></i> Voltar ao topo</a>
+    </div>
+  `;
+}
+
+// ============================================
+// 3. RENDERIZAR SOBRE (About)
+// ============================================
+function renderAbout(profile) {
+  // Texto do About
+  const aboutText = $('#about-text');
+  if (aboutText && profile) {
+    aboutText.innerHTML = `
+      <p>
+        Olá! 👋 Me chamo <strong>${profile.name || 'João Gabriel'}</strong>, 
+        tenho <span id="age">${profile.age || '26'}</span> anos 
+        e sou <strong>${profile.location || 'Brasileiro'}</strong>. 
+        ${profile.bio || 'Sou uma pessoa animada, um pouco introvertida 😅, mas muito comunicativa quando me acostumo com o ambiente.'}
+      </p>
+      <p>
+        ${profile.hobbies ? `Por hobby, ${profile.hobbies.join(' e ')}.` : 'Por hobby, costumo escrever e desenhar.'}
+      </p>
+      <p>
+        ${profile.interests ? `Amante de ${profile.interests.slice(0, 3).join(', ')} e também tenho grande interesse em mais áreas.` : 'Amante de Games e Animes, também tenho grande interesse em I.A. e tecnologias.'}
+      </p>
+    `;
   }
-  
-  // Idade (se tiver no profile)
-  if (profile.age) {
-    const ageElements = document.querySelectorAll('#age');
-    ageElements.forEach(el => el.textContent = profile.age);
+
+  // Skills
+  const skillsContainer = $('#skills-container');
+  if (skillsContainer && profile?.skills) {
+    skillsContainer.innerHTML = `
+      <h3>⚡ Habilidades</h3>
+      <div class="skills-grid">
+        ${Object.entries(profile.skills).map(([category, items]) => `
+          <div class="skill-category">
+            <h4>${category.charAt(0).toUpperCase() + category.slice(1)}</h4>
+            <div class="skill-tags">
+              ${items.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
   }
 }
 
 // ============================================
-// 3. TERMINAL TYPEWRITER EFFECT
+// 4. RENDERIZAR CONTATO (Contact)
 // ============================================
-function typewriterEffect() {
-  const terminalTexts = [
-    'Full Stack Developer',
-    'Artista & Mangaká',
-    'Criador de Mundos',
-    'Amante de Games',
-    'Frontend & Backend'
-  ];
-  
-  const terminalElement = $('#terminal-text');
-  let textIndex = 0;
-  let charIndex = 0;
-  let isDeleting = false;
-  let currentText = '';
-  
-  function type() {
-    const fullText = terminalTexts[textIndex];
-    
-    if (!isDeleting) {
-      currentText = fullText.substring(0, charIndex + 1);
-      charIndex++;
-      
-      if (charIndex === fullText.length) {
-        isDeleting = true;
-        setTimeout(type, CONFIG.terminalDelay);
-        return;
-      }
-    } else {
-      currentText = fullText.substring(0, charIndex - 1);
-      charIndex--;
-      
-      if (charIndex === 0) {
-        isDeleting = false;
-        textIndex = (textIndex + 1) % terminalTexts.length;
-        setTimeout(type, 500);
-        return;
-      }
-    }
-    
-    terminalElement.textContent = currentText;
-    setTimeout(type, CONFIG.terminalSpeed);
-  }
-  
-  type();
+function renderContact(profile) {
+  const container = $('#contact-content');
+  if (!container || !profile) return;
+
+  const social = profile.social || {};
+  const email = profile.email || 'joaogabriel4175@gmail.com';
+
+  container.innerHTML = `
+    <p class="contact-message">
+      ✨ ${profile.contactMessage || 'Gosta de código, arte ou histórias? Vamos trocar uma ideia!'}
+    </p>
+    <div class="social-links">
+      ${social.github ? `<a href="${social.github}" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub"><i class="fab fa-github"></i></a>` : ''}
+      ${social.linkedin ? `<a href="${social.linkedin}" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>` : ''}
+      ${social.instagram ? `<a href="${social.instagram}" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>` : ''}
+      ${social.discord ? `<a href="${social.discord}" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Discord"><i class="fab fa-discord"></i></a>` : ''}
+    </div>
+    <div class="contact-email">
+      <i class="fas fa-envelope"></i>
+      <a href="mailto:${email}">${email}</a>
+    </div>
+  `;
 }
 
 // ============================================
-// 4. RENDERIZAR PROJETOS
+// 5. RENDERIZAR GITHUB STATS
+// ============================================
+function renderGitHubStats() {
+  const container = $('#github-stats');
+  if (!container) return;
+
+  const username = CONFIG.githubUsername;
+
+  container.innerHTML = `
+    <a href="https://github.com/${username}" target="_blank" rel="noopener noreferrer">
+      <img src="https://github-readme-stats.vercel.app/api?username=${username}&show_icons=true&locale=pt-br&show=discussions_started,discussions_answered&hide=prs,contribs&count_private=true&theme=aura&hide_border=true" alt="GitHub Stats">
+    </a>
+    <a href="https://github.com/${username}" target="_blank" rel="noopener noreferrer">
+      <img src="https://github-readme-stats.vercel.app/api/top-langs?username=${username}&layout=compact&langs_count=6&locale=pt-br&theme=aura&hide_border=true" alt="Top Languages">
+    </a>
+    <a href="https://github.com/${username}" target="_blank" rel="noopener noreferrer">
+      <img src="https://github-readme-streak-stats.herokuapp.com?user=${username}&locale=pt-br&theme=aura&hide_border=true" alt="Streak Stats">
+    </a>
+  `;
+}
+
+// ============================================
+// 6. RENDERIZAR DISCORD PRESENCE
+// ============================================
+function renderDiscord() {
+  const container = $('#discord-container');
+  if (!container) return;
+
+  const discordId = CONFIG.discordId;
+
+  container.innerHTML = `
+    <a href="https://discord.com/users/${discordId}" target="_blank" rel="noopener noreferrer">
+      <img src="https://lanyard.kyrie25.me/api/${discordId}?useDisplayName=true&imgStyle=square&imgBorderRadius=15px&waveColor=8b5cf6&waveSpotifyColor=6d28d9" alt="Discord Presence">
+    </a>
+  `;
+}
+
+// ============================================
+// 7. RENDERIZAR PROJETOS
 // ============================================
 function renderProjects(projects) {
   const container = $('#project-list');
   if (!container) return;
-  
+
   if (!projects || projects.length === 0) {
     container.innerHTML = `<p class="empty-message">📭 Nenhum projeto cadastrado ainda.</p>`;
     return;
   }
-  
+
   container.innerHTML = projects.map(project => `
     <div class="project-card glass-card">
       <div class="project-image">
@@ -140,17 +205,17 @@ function renderProjects(projects) {
 }
 
 // ============================================
-// 5. RENDERIZAR CERTIFICADOS
+// 8. RENDERIZAR CERTIFICADOS
 // ============================================
 function renderCertificates(certificates) {
   const container = $('#certificates-list');
   if (!container) return;
-  
+
   if (!certificates || certificates.length === 0) {
     container.innerHTML = `<p class="empty-message">📭 Nenhum certificado cadastrado ainda.</p>`;
     return;
   }
-  
+
   container.innerHTML = certificates.map(cert => `
     <div class="certificate-card glass-card">
       <div class="certificate-icon">🏆</div>
@@ -166,17 +231,17 @@ function renderCertificates(certificates) {
 }
 
 // ============================================
-// 6. RENDERIZAR CURSOS
+// 9. RENDERIZAR CURSOS
 // ============================================
 function renderCourses(courses) {
   const container = $('#courses-list');
   if (!container) return;
-  
+
   if (!courses || courses.length === 0) {
     container.innerHTML = `<p class="empty-message">📭 Nenhum curso cadastrado ainda.</p>`;
     return;
   }
-  
+
   container.innerHTML = courses.map(course => `
     <div class="course-card glass-card">
       <div class="course-header">
@@ -202,20 +267,20 @@ function renderCourses(courses) {
 }
 
 // ============================================
-// 7. ATUALIZAR ESTATÍSTICAS (About Section)
+// 10. ATUALIZAR ESTATÍSTICAS
 // ============================================
 function updateStats(projects, certificates, courses) {
   const projectsCount = $('#projects-count');
   const certificatesCount = $('#certificates-count');
   const coursesCount = $('#courses-count');
-  
+
   if (projectsCount) projectsCount.textContent = projects?.length || 0;
   if (certificatesCount) certificatesCount.textContent = certificates?.length || 0;
   if (coursesCount) coursesCount.textContent = courses?.length || 0;
 }
 
 // ============================================
-// 8. HELPER - Status Labels
+// 11. HELPERS
 // ============================================
 function getStatusLabel(status) {
   const labels = {
@@ -230,16 +295,64 @@ function getStatusLabel(status) {
 }
 
 // ============================================
-// 9. THEME TOGGLE (Dark/Light)
+// 12. TERMINAL TYPEWRITER
+// ============================================
+function typewriterEffect() {
+  const terminalTexts = [
+    'Full Stack Developer',
+    'Artista & Mangaká',
+    'Criador de Mundos',
+    'Amante de Games',
+    'Frontend & Backend'
+  ];
+
+  const terminalElement = $('#terminal-text');
+  let textIndex = 0;
+  let charIndex = 0;
+  let isDeleting = false;
+  let currentText = '';
+
+  function type() {
+    const fullText = terminalTexts[textIndex];
+
+    if (!isDeleting) {
+      currentText = fullText.substring(0, charIndex + 1);
+      charIndex++;
+
+      if (charIndex === fullText.length) {
+        isDeleting = true;
+        setTimeout(type, CONFIG.terminalDelay);
+        return;
+      }
+    } else {
+      currentText = fullText.substring(0, charIndex - 1);
+      charIndex--;
+
+      if (charIndex === 0) {
+        isDeleting = false;
+        textIndex = (textIndex + 1) % terminalTexts.length;
+        setTimeout(type, 500);
+        return;
+      }
+    }
+
+    terminalElement.textContent = currentText;
+    setTimeout(type, CONFIG.terminalSpeed);
+  }
+
+  type();
+}
+
+// ============================================
+// 13. THEME TOGGLE
 // ============================================
 function initThemeToggle() {
   const toggle = $('#theme-toggle');
   if (!toggle) return;
-  
-  // Verifica preferência salva
+
   const savedTheme = localStorage.getItem('theme');
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  
+
   if (savedTheme === 'light') {
     document.body.classList.add('light-mode');
     toggle.innerHTML = '<i class="fas fa-sun"></i>';
@@ -247,7 +360,7 @@ function initThemeToggle() {
     document.body.classList.remove('light-mode');
     toggle.innerHTML = '<i class="fas fa-moon"></i>';
   }
-  
+
   toggle.addEventListener('click', () => {
     document.body.classList.toggle('light-mode');
     const isLight = document.body.classList.contains('light-mode');
@@ -257,27 +370,30 @@ function initThemeToggle() {
 }
 
 // ============================================
-// 10. MUSIC TOGGLE
+// 14. MUSIC TOGGLE
 // ============================================
 function initMusicToggle() {
   const toggle = $('#music-toggle');
   const audio = $('#bg-music');
   if (!toggle || !audio) return;
-  
+
   let isPlaying = false;
-  
+
   // Verifica se o áudio existe
-  fetch(audio.querySelector('source').src)
-    .then(res => {
-      if (!res.ok) {
+  const source = audio.querySelector('source');
+  if (source && source.src) {
+    fetch(source.src)
+      .then(res => {
+        if (!res.ok) {
+          toggle.style.display = 'none';
+          console.log('ℹ️ Áudio não encontrado, botão oculto');
+        }
+      })
+      .catch(() => {
         toggle.style.display = 'none';
-        console.log('ℹ️ Áudio não encontrado, botão oculto');
-      }
-    })
-    .catch(() => {
-      toggle.style.display = 'none';
-    });
-  
+      });
+  }
+
   toggle.addEventListener('click', () => {
     if (isPlaying) {
       audio.pause();
@@ -294,7 +410,7 @@ function initMusicToggle() {
 }
 
 // ============================================
-// 11. SCROLL ANIMATIONS (Intersection Observer)
+// 15. SCROLL ANIMATIONS
 // ============================================
 function initScrollAnimations() {
   const observer = new IntersectionObserver((entries) => {
@@ -308,8 +424,7 @@ function initScrollAnimations() {
     threshold: CONFIG.scrollThreshold,
     rootMargin: '0px 0px -50px 0px',
   });
-  
-  // Observa todos os cards e seções
+
   const elements = $$('.glass-card, .project-card, .certificate-card, .course-card, .section');
   elements.forEach(el => {
     el.classList.add('fade-hidden');
@@ -318,19 +433,18 @@ function initScrollAnimations() {
 }
 
 // ============================================
-// 12. MOBILE NAVBAR (Hamburger)
+// 16. MOBILE NAVBAR
 // ============================================
 function initMobileNav() {
   const hamburger = $('#hamburger');
   const navLinks = $('.nav-links');
   if (!hamburger || !navLinks) return;
-  
+
   hamburger.addEventListener('click', () => {
     navLinks.classList.toggle('active');
     hamburger.classList.toggle('active');
   });
-  
-  // Fecha menu ao clicar em um link
+
   navLinks.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
       navLinks.classList.remove('active');
@@ -340,7 +454,7 @@ function initMobileNav() {
 }
 
 // ============================================
-// 13. SMOOTH SCROLL
+// 17. SMOOTH SCROLL
 // ============================================
 function initSmoothScroll() {
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -358,12 +472,12 @@ function initSmoothScroll() {
 }
 
 // ============================================
-// 14. SCROLL INDICATOR
+// 18. SCROLL INDICATOR
 // ============================================
 function initScrollIndicator() {
   const indicator = document.querySelector('.scroll-indicator');
   if (!indicator) return;
-  
+
   window.addEventListener('scroll', () => {
     if (window.scrollY > 100) {
       indicator.classList.add('hidden');
@@ -374,27 +488,50 @@ function initScrollIndicator() {
 }
 
 // ============================================
-// 15. INICIALIZAÇÃO PRINCIPAL
+// 19. HERO - Status e Dados
+// ============================================
+function renderHero(profile, current) {
+  const nameEl = $('#name');
+  const roleEl = $('#role');
+  const statusEl = $('#status-text');
+
+  if (nameEl) nameEl.textContent = profile?.name || 'João Gabriel';
+  if (roleEl) roleEl.textContent = profile?.role || 'Desenvolvedor Full Stack & Artista';
+
+  if (statusEl && current?.currentlyWorkingOn) {
+    statusEl.textContent = `🚀 Trabalhando em: ${current.currentlyWorkingOn.project}`;
+  } else if (statusEl) {
+    statusEl.textContent = '✨ Disponível para novos projetos';
+  }
+}
+
+// ============================================
+// 20. INICIALIZAÇÃO PRINCIPAL
 // ============================================
 async function init() {
   console.log('🚀 Inicializando Densuki Portfolio...');
-  
+
   // Carrega dados
   const data = await loadData();
   if (!data) {
     console.error('❌ Falha ao carregar dados');
     return;
   }
-  
+
   const { profile, projects, certificates, courses, statistics, current } = data;
-  
+
   // Renderiza tudo
   renderHero(profile, current);
+  renderAbout(profile);
+  renderFooter(profile);
+  renderContact(profile);
+  renderGitHubStats();
+  renderDiscord();
   renderProjects(projects);
   renderCertificates(certificates);
   renderCourses(courses);
   updateStats(projects, certificates, courses);
-  
+
   // Inicia efeitos
   typewriterEffect();
   initThemeToggle();
@@ -403,16 +540,15 @@ async function init() {
   initMobileNav();
   initSmoothScroll();
   initScrollIndicator();
-  
+
   console.log('✅ Portfolio carregado com sucesso!');
 }
 
 // ============================================
-// START - Executa quando o DOM estiver pronto
+// START
 // ============================================
 document.addEventListener('DOMContentLoaded', init);
 
-// Fallback se algo der errado
 window.addEventListener('error', (e) => {
   console.error('❌ Erro no portfolio:', e.message);
 });
