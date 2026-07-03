@@ -8,6 +8,7 @@ const CONFIG = {
   scrollThreshold: 0.1,
   githubUsername: 'Densuki',
   discordId: '568923940768972808',
+  defaultVolume: 0.5,
 };
 
 // ============================================
@@ -16,23 +17,50 @@ const CONFIG = {
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => document.querySelectorAll(selector);
 
+// helper: verifica flag de exibição no profile.show (default true)
+function isShown(profile, key) {
+  if (!profile || !profile.show) return true;
+  return !(profile.show[key] === false);
+}
+
+// helper: retorna campo seguro ou ''
+function safeGet(profile, key) {
+  if (!profile) return '';
+  return profile[key] || '';
+}
+
 // ============================================
 // 1. CARREGAR DADOS DOS JSONS
 // ============================================
 async function loadData() {
   try {
-    const [profile, projects, certificates, courses, statistics, current] = await Promise.all([
-      fetch(`${CONFIG.dataPath}profile.json`).then(r => r.json()),
-      fetch(`${CONFIG.dataPath}projects.json`).then(r => r.json()),
+    const [books, cache, certificates, courses, current, games, music, profile, projects, statistics] = await Promise.all([
+      fetch(`${CONFIG.dataPath}books.json`).then(r => r.json()),
+      fetch(`${CONFIG.dataPath}cache.json`).then(r => r.json()),
       fetch(`${CONFIG.dataPath}certificates.json`).then(r => r.json()),
       fetch(`${CONFIG.dataPath}courses.json`).then(r => r.json()),
-      fetch(`${CONFIG.dataPath}statistics.json`).then(r => r.json()),
       fetch(`${CONFIG.dataPath}current.json`).then(r => r.json()).catch(() => null),
+      fetch(`${CONFIG.dataPath}games.json`).then(r => r.json()),
+      fetch(`${CONFIG.dataPath}music.json`).then(r => r.json()),
+      fetch(`${CONFIG.dataPath}profile.json`).then(r => r.json()),
+      fetch(`${CONFIG.dataPath}projects.json`).then(r => r.json()),
+      fetch(`${CONFIG.dataPath}statistics.json`).then(r => r.json()),      
     ]);
 
-    return { profile, projects, certificates, courses, statistics, current };
+    return { books, cache, certificates, courses, current, games, music, profile, projects, statistics};
   } catch (error) {
     console.error('❌ Erro ao carregar dados:', error);
+    return null;
+  }
+}
+
+async function fetchJSON(path) {
+  try {
+    const res = await fetch(path);
+    if (!res.ok) throw new Error('Failed to load ' + path);
+    return await res.json();
+  } catch (err) {
+    console.error(err);
     return null;
   }
 }
@@ -53,7 +81,7 @@ function renderFooter(profile) {
     <p>
       <i class="fas fa-crown"></i>
       Feito com <i class="fas fa-heart" style="color: #8b5cf6;"></i> 
-      por <strong>${name}</strong> — ${year}
+      por <strong><em>${name}</em></strong> — ${year}
     </p>
     <p class="footer-quote">
       <em>"${quote}"</em> — ${quoteAuthor}
@@ -68,24 +96,57 @@ function renderFooter(profile) {
 // 3. RENDERIZAR SOBRE (About)
 // ============================================
 function renderAbout(profile) {
-  // Texto do About
+  // Texto do About (construído de forma declarativa, sem sobrescrita)
   const aboutText = $('#about-text');
-  if (aboutText && profile) {
-    aboutText.innerHTML = `
-      <p>
-        Olá! 👋 Me chamo <strong>${profile.name || 'João Gabriel'}</strong>, 
-        tenho <span id="age">${profile.age || '26'}</span> anos 
-        e sou <strong>${profile.location || 'Brasileiro'}</strong>. 
-        ${profile.bio || 'Sou uma pessoa animada, um pouco introvertida 😅, mas muito comunicativa quando me acostumo com o ambiente.'}
-      </p>
-      <p>
-        ${profile.hobbies ? `Por hobby, ${profile.hobbies.join(' e ')}.` : 'Por hobby, costumo escrever e desenhar.'}
-      </p>
-      <p>
-        ${profile.interests ? `Amante de ${profile.interests.slice(0, 3).join(', ')} e também tenho grande interesse em mais áreas.` : 'Amante de Games e Animes, também tenho grande interesse em I.A. e tecnologias.'}
-      </p>
-    `;
+  if (!aboutText) return;
+
+  function flag(key) {
+    // se não definido, assume true para compatibilidade
+    return !(profile && profile.show && profile.show[key] === false);
   }
+
+  function safeField(key) {
+    if (!profile) return '';
+    return profile[key] || '';
+  }
+
+  // montar conteúdo principal de forma única
+  let aboutHtml = '';
+
+  // se houver bio como array e flag habilitada, mostrar lista bonita
+  if (flag('bio') && Array.isArray(profile?.bio) && profile.bio.length > 0) {
+    aboutHtml = profile.bio.map(line => `<p>${interpolate(line, profile)}</p>`).join('');
+  } else {
+    // fallback: parágrafo condensado com campos disponíveis e respeitando flags
+    const parts = [];
+    const name = safeField('name') || 'João Gabriel';
+    parts.push(`Olá! 👋 Me chamo <strong>${name}</strong>`);
+
+    if (flag('birthday') && safeField('birthday')) {
+      parts.push(`nascido em ${safeField('birthday')}`);
+    } else if (flag('age') && safeField('age')) {
+      parts.push(`tenho <span id="age">${safeField('age')}</span> anos`);
+    }
+
+    if (flag('location') && safeField('location')) {
+      parts.push(`e sou <strong>${safeField('location')}</strong>`);
+    }
+
+    const bioText = (typeof profile?.bio === 'string' && profile.bio) ? interpolate(profile.bio, profile) : '';
+    if (bioText) parts.push(bioText);
+
+    // hobbies/interests (opcionais)
+    if (flag('hobbies') && Array.isArray(profile?.hobbies) && profile.hobbies.length > 0) {
+      parts.push(`Por hobby, ${profile.hobbies.join(' e ')}.`);
+    }
+    if (flag('interests') && Array.isArray(profile?.interests) && profile.interests.length > 0) {
+      parts.push(`Interesses: ${profile.interests.slice(0, 5).join(', ')}.`);
+    }
+
+    aboutHtml = `<p>${parts.join(' • ')}</p>`;
+  }
+
+  aboutText.innerHTML = aboutHtml;
 
   // Skills
   const skillsContainer = $('#skills-container');
@@ -104,6 +165,11 @@ function renderAbout(profile) {
       </div>
     `;
   }
+
+  // esconder skills se flag desabilitada
+  if (skillsContainer) {
+    skillsContainer.style.display = flag('skills') ? '' : 'none';
+  }
 }
 
 // ============================================
@@ -121,14 +187,14 @@ function renderContact(profile) {
       ✨ ${profile.contactMessage || 'Gosta de código, arte ou histórias? Vamos trocar uma ideia!'}
     </p>
     <div class="social-links">
-      ${social.github ? `<a href="${social.github}" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub"><i class="fab fa-github"></i></a>` : ''}
-      ${social.linkedin ? `<a href="${social.linkedin}" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>` : ''}
-      ${social.instagram ? `<a href="${social.instagram}" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>` : ''}
-      ${social.discord ? `<a href="${social.discord}" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Discord"><i class="fab fa-discord"></i></a>` : ''}
+      ${profile.show && profile.show.social === false ? '' : (social.github ? `<a href="${social.github}" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub"><i class="fab fa-github"></i></a>` : '')}
+      ${profile.show && profile.show.social === false ? '' : (social.linkedin ? `<a href="${social.linkedin}" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>` : '')}
+      ${profile.show && profile.show.social === false ? '' : (social.instagram ? `<a href="${social.instagram}" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>` : '')}
+      ${profile.show && profile.show.social === false ? '' : (social.discord ? `<a href="${social.discord}" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Discord"><i class="fab fa-discord"></i></a>` : '')}
     </div>
     <div class="contact-email">
       <i class="fas fa-envelope"></i>
-      <a href="mailto:${email}">${email}</a>
+      ${profile.show && profile.show.email === false ? '' : `<a href="mailto:${email}">${email}</a>`}
     </div>
   `;
 }
@@ -144,10 +210,10 @@ function renderGitHubStats() {
 
   container.innerHTML = `
     <a href="https://github.com/${username}" target="_blank" rel="noopener noreferrer">
-      <img src="https://github-readme-stats.vercel.app/api?username=${username}&show_icons=true&locale=pt-br&show=discussions_started,discussions_answered&hide=prs,contribs&count_private=true&theme=aura&hide_border=true" alt="GitHub Stats">
+      <img src="https://github-stats-extended.vercel.app/api?username=${username}&show_icons=true&locale=pt-br&show=discussions_started,discussions_answered&hide=prs,contribs&count_private=true&theme=aura&hide_border=true" alt="GitHub Stats">
     </a>
     <a href="https://github.com/${username}" target="_blank" rel="noopener noreferrer">
-      <img src="https://github-readme-stats.vercel.app/api/top-langs?username=${username}&layout=compact&langs_count=6&locale=pt-br&theme=aura&hide_border=true" alt="Top Languages">
+      <img src="https://github-stats-extended.vercel.app/api/top-langs?username=${username}&layout=compact&langs_count=6&locale=pt-br&theme=aura&hide_border=true" alt="Top Languages">
     </a>
     <a href="https://github.com/${username}" target="_blank" rel="noopener noreferrer">
       <img src="https://github-readme-streak-stats.herokuapp.com?user=${username}&locale=pt-br&theme=aura&hide_border=true" alt="Streak Stats">
@@ -165,9 +231,7 @@ function renderDiscord() {
   const discordId = CONFIG.discordId;
 
   container.innerHTML = `
-    <a href="https://discord.com/users/${discordId}" target="_blank" rel="noopener noreferrer">
-      <img src="https://lanyard.kyrie25.me/api/${discordId}?useDisplayName=true&imgStyle=square&imgBorderRadius=15px&waveColor=8b5cf6&waveSpotifyColor=6d28d9" alt="Discord Presence">
-    </a>
+<a href="https://discord.com/users/${discordId}"><img src="https://lanyard.kyrie25.dev/api/${discordId}?animatedDecoration=true&showDisplayName=true&forceGradient=false&showBanner=animated&imgStyle=circle&theme=dark&idleMessage=%F0%9F%8C%8C%20Nem%20toda%20aus%C3%AAncia%20%C3%A9%20dist%C3%A2ncia%3B%20%C3%A0s%20vezes%20%C3%A9%20apenas%20um%20momento%20de%20reflex%C3%A3o." /></a>
   `;
 }
 
@@ -294,16 +358,73 @@ function getStatusLabel(status) {
   return labels[status] || status;
 }
 
+// helper: interpolates {{key}} placeholders using profile fields
+function interpolate(template, profile) {
+  if (!template || typeof template !== 'string') return template;
+  // supports nested paths like locations.city and optional modifier: {{path|escape}}
+  function getByPath(obj, path) {
+    return path.split('.').reduce((acc, p) => (acc && acc[p] !== undefined ? acc[p] : undefined), obj);
+  }
+
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  return template.replace(/{{\s*([^}|]+?)\s*(?:\|\s*([^}]+?)\s*)?}}/g, (match, path, modifier) => {
+    const keyPath = path.trim();
+    if (!profile) return '';
+    const val = getByPath(profile, keyPath);
+    if (val === undefined || val === null) return '';
+    const out = Array.isArray(val) ? val.join(', ') : String(val);
+    if (modifier && modifier.trim() === 'escape') return escapeHtml(out);
+    return out; // default: raw (preserve HTML)
+  });
+}
+
 // ============================================
 // 12. TERMINAL TYPEWRITER
 // ============================================
 function typewriterEffect() {
   const terminalTexts = [
-    'Full Stack Developer',
-    'Artista & Mangaká',
-    'Criador de Mundos',
-    'Amante de Games',
-    'Frontend & Backend'
+    '💻 Desenvolvedor Web ',
+    '🎨 Artista Digital ',
+    '🎨 Artista & Mangaká ',
+    '🌍 Criador de Mundos ',
+    '📖 Escritor de histórias ',
+    '🎮 Amante de Games ',
+    '💜 Amante da Cultura Japonesa',
+    '💜 Amante de Animes',
+    '📖 Seguidor da Palavra de Jeová',
+    '💻 Frontend & Backend ',
+    '🌿 Prefiro perder pela verdade do que vencer pela mentira ',
+    '🌟 Minha maior qualidade não é o que faço, mas como escolho agir ',
+    '📖 A verdade guia minhas palavras; o caráter guia minhas escolhas ',
+    '🌟 Que minhas atitudes falem tão alto quanto minhas palavras ',
+    '🌟 Leal aos meus princípios. Verdadeiro com as pessoas ',
+    '💜 A verdade guia minhas palavras; o caráter e a fé em Jeová guiam minhas escolhas ',
+    '🌿 Lealdade começa onde a honestidade nunca termina ',
+    '🌟 Transformando curiosidade em conhecimento ',
+    '🎨 Expressando o que palavras não dizem ',
+    '📖 Registrando mundos que só existem na imaginação ',
+    '💻 Encontrando lógica no caos ',
+    '🎹 Descobrindo emoções em cada nota ',
+    '🌿 Prefiro perder pela verdade do que vencer pela mentira. Minha fé em Jeová vale mais que qualquer vitória ',
+    '🌿 Lealdade começa onde a honestidade nunca termina — e minha fé em Jeová fortalece ambas ',
+    '🌟 Minha maior qualidade não é o que faço, mas como escolho agir diante de Jeová e das pessoas ',
+    '📖 A verdade guia minhas palavras; Jeová guia meu coração ',
+    '📖 A verdade guia minhas palavras; o caráter e a fé em Jeová guiam minhas escolhas ',
+    '📖 Que minhas atitudes honrem minha palavra e a Jeová ',
+    '💜 Leal aos meus princípios, fiel a Jeová e verdadeiro com as pessoas ',
+    '💜 Minha palavra é um compromisso; minha fé em Jeová, meu alicerce ',
+    '💜 A verdade fortalece minha palavra; Jeová fortalece meu caráter ',
+    '💜 Lealdade, honestidade e fé: valores que escolho viver diante de Jeová e das pessoas ',
+    '💜 Que minha vida reflita a verdade que aprendo com Jeová ',
+    '💜 Fiel à minha palavra, aos meus princípios e a Jeová ',
   ];
 
   const terminalElement = $('#terminal-text');
@@ -330,7 +451,7 @@ function typewriterEffect() {
 
       if (charIndex === 0) {
         isDeleting = false;
-        textIndex = (textIndex + 1) % terminalTexts.length;
+        textIndex = Math.floor(Math.random() * terminalTexts.length);
         setTimeout(type, 500);
         return;
       }
@@ -532,16 +653,123 @@ async function init() {
   renderCourses(courses);
   updateStats(projects, certificates, courses);
 
+  // aplica visibilidade das seções com base no profile.show
+  applyVisibility(profile);
+
   // Inicia efeitos
   typewriterEffect();
   initThemeToggle();
   initMusicToggle();
+  initMusicPlayer(profile);
   initScrollAnimations();
   initMobileNav();
   initSmoothScroll();
   initScrollIndicator();
 
   console.log('✅ Portfolio carregado com sucesso!');
+}
+
+// ============================================
+// MUSIC PLAYER HANDLING
+// ============================================
+function initMusicPlayer(profile) {
+  const audio = $('#bg-music');
+  const volRange = $('#volume-range');
+  const volDown = $('#vol-down');
+  const volUp = $('#vol-up');
+  const musicSelect = $('#music-select');
+  const musicControls = $('#music-controls');
+  const playerUI = $('#music-player-ui');
+  const currentTrack = $('#current-track');
+  const panelToggle = $('#music-panel-toggle');
+
+  if (!audio || !musicControls || !volRange || !musicSelect) return;
+
+  // populate playlist
+  const playlist = (profile && Array.isArray(profile.music)) ? profile.music : [];
+  musicSelect.innerHTML = playlist.map((t, i) => `<option value="${i}">${t.title || t.src}</option>`).join('');
+
+  // set initial volume
+  const savedVol = parseFloat(localStorage.getItem('volume'));
+  const initialVol = !Number.isNaN(savedVol) ? savedVol : CONFIG.defaultVolume;
+  audio.volume = initialVol;
+  volRange.value = initialVol;
+
+  function loadTrack(index) {
+    const track = playlist[index];
+    if (!track) return;
+    if (track.type === 'file' || !track.type) {
+      audio.querySelector('source').src = track.src;
+    } else if (track.type === 'link') {
+      audio.querySelector('source').src = track.src;
+    }
+    audio.load();
+    currentTrack.textContent = track.title || track.src.split('/').pop();
+  }
+
+  musicSelect.addEventListener('change', (e) => {
+    const idx = parseInt(e.target.value, 10);
+    loadTrack(idx);
+    audio.play().catch(() => {});
+  });
+
+  volRange.addEventListener('input', (e) => {
+    const v = parseFloat(e.target.value);
+    audio.volume = v;
+    localStorage.setItem('volume', String(v));
+  });
+
+  volDown.addEventListener('click', () => {
+    let v = Math.max(0, audio.volume - 0.1);
+    audio.volume = v;
+    volRange.value = v;
+    localStorage.setItem('volume', String(v));
+  });
+
+  volUp.addEventListener('click', () => {
+    let v = Math.min(1, audio.volume + 0.1);
+    audio.volume = v;
+    volRange.value = v;
+    localStorage.setItem('volume', String(v));
+  });
+
+  // controls panel visibility behaviour (discreto)
+  if (profile && profile.show && profile.show.music === false) {
+    if (musicControls) musicControls.style.display = 'none';
+    if (panelToggle) panelToggle.style.display = 'none';
+  } else {
+    // keep panel closed by default; allow toggle to open
+    if (panelToggle) {
+      panelToggle.addEventListener('click', () => {
+        const opened = musicControls.classList.toggle('open');
+        musicControls.setAttribute('aria-hidden', (!opened).toString());
+        panelToggle.setAttribute('aria-pressed', opened.toString());
+      });
+    }
+  }
+
+  // load initial track if any
+  if (playlist.length > 0) {
+    const first = 0;
+    musicSelect.value = String(first);
+    loadTrack(first);
+  }
+}
+
+function applyVisibility(profile) {
+  if (!profile || !profile.show) return;
+  if (profile.show.projects === false) {
+    const sec = document.getElementById('projects');
+    if (sec) sec.style.display = 'none';
+  }
+  if (profile.show.certificates === false) {
+    const sec = document.getElementById('certificates');
+    if (sec) sec.style.display = 'none';
+  }
+  if (profile.show.courses === false) {
+    const sec = document.getElementById('courses');
+    if (sec) sec.style.display = 'none';
+  }
 }
 
 // ============================================

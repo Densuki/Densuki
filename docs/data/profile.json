@@ -1,27 +1,126 @@
 {
   "name": "João Gabriel Sousa Santos",
-  "nickname": "Densuki",
+  "pronouns": "ele/dele",
+  "avatar": "/web/img/profile.png",
+  "banner": "/web/img/banner.png",
+  "badges": [
+    "INFJ",
+    "Cristão",
+    "Testemunha de Jeová",
+    "Estudante",
+    "Programador",
+    "Artista Digital",    
+    "Desenvolvedor",
+    "Mangaká"
+  ],
+  "nickname": "YukiriDensuki",
+  "displayname": "Yukiri Densuki",
+  "birthday": "2000-03-03",
   "age": 18,
   "location": "Brasil",
-  "role": "Desenvolvedor Full Stack & Artista",
+  "emoji": "https://flagcdn.com/w20/br.png",
+  "objective": "Aprender continuamente, compartilhar conhecimento e desenvolver soluções úteis",
+  "role": "Desenvolvedor Web & Artista Digital",
+  "status": {
+    "working": "WeckTech • Lan House",
+    "studying": "Concurso Público",
+    "availableForWork": true
+  },
   "email": "joaogabriel4175@gmail.com",
-  "bio": "Sou uma pessoa animada, um pouco introvertida 😅, mas muito comunicativa quando me acostumo com o ambiente.",
-  "contactMessage": "Gosta de código, arte ou histórias? Vamos trocar uma ideia!",
-  "quote": "É por isso que não sabem quem são. Nós sabemos quem somos e por isso não precisamos de nomes.",
-  "quoteAuthor": "gato, CORALINE",
+  "bio": [
+    "<h1> • INFJ • ♾️ • 🌘</br><small><img src={{emoji}}></small></h1>",
+    "• <small>{{nationality}} • {{locations.city}}/{{locations.state}}</small> •",
+    "<blockquote>Olá! 👋 Me chamo <strong>{{name}}</strong>, tenho <strong>{{age}}</strong> anos.</br>Embora na internet eu seja mais conhecido como <strong>{{displayname}}</strong>.</blockquote>",
+    "Sou apaixonado por aprender e por transformar curiosidade em conhecimento. Costumo ser uma pessoa calma e reservada em um primeiro momento, mas bastante comunicativa quando me sinto à vontade no ambiente.</blockquote>",
+    "<em>💜 A verdade guia minhas palavras;</br>o caráter e a fé em Jeová guiam minhas escolhas.</em>",
+    "<em>🌿 Acredito que a lealdade começa onde a honestidade nunca termina.</em>",
+    "Nas horas livres, gosto de escrever histórias, desenhar e dar vida a novas ideias, motivo pelo qual costumo me autointitular um Mangaká.</br>Vejo a criatividade como uma forma de expressar aquilo que nem sempre pode ser dito apenas com palavras.",
+    "<em>🎨 Expressando o que palavras não dizem.</em>",
+    "<em>📖 Registrando mundos que só existem na imaginação.</em>",
+    "Além da arte, sou fascinado por tecnologia.</br>Tenho grande interesse por programação, Inteligência Artificial, robótica e desenvolvimento de jogos, buscando sempre compreender a lógica por trás das coisas e construir soluções úteis.",
+    "<em>💻 Encontrando lógica no caos.</em>",
+    "Também sou apaixonado por games, animes e música, acreditando que cada experiência pode ensinar algo novo.",
+    "<em>🎹 Descobrindo emoções em cada nota.</em>",
+    "<em>🌟 Afinal, aprender, criar e compartilhar conhecimento sempre fizeram parte de quem eu sou.</em></br></br>",
+    "<strong>Objetivo:</strong> <small>{{objective}}.</small>",
+    "<strong>Interesses:</strong> <small>{{interests}}.</small>",
+    "</br></br>",
+    "<strong>Status:</strong></br>Emprego: <small>{{status.working}}</small></br>Estudando: <small>{{status.studying}}</small>",
+    "<strong>Disponível para trabalho:</strong>"
+  ],
+  "contactMessage": "Gosta de código, arte ou histórias?</br>Vamos trocar uma ideia!",
+  "quote": "<em>É por isso que não sabem quem são. Nós sabemos quem somos e por isso não precisamos de nomes.</em>",
+  "quoteAuthor": "<strong>gato, CORALINE</strong>",
   "hobbies": ["costumo escrever e desenhar", "me auto intitulo de 'Mangaká'"],
   "interests": ["Games", "Animes", "I.A.", "Robótica", "Jogos"],
   "skills": {
     "frontend": ["HTML5", "CSS3", "JavaScript", "React"],
-    "backend": ["Java", "PHP", "Python", "Node.js"],
-    "arte": ["Pixel Art", "Ilustração", "Modelagem 3D", "Design"]
-  },
+    "backend": ["Java", "PHP", "Python", "Node.js", "Lua"],
+    "frameworks": ["Express.js", "Spring Boot", "Laravel", "Django", "Vue.js", "Pandas"],
+    "database": ["MySQL", "PostgreSQL", "MongoDB"],
+    "tools": ["Git", "GitHub", "VS Code", "IntelliJ IDEA", "Eclipse", "ATOM"],
+    "office": ["Microsoft Office", "LibreOffice", "Google Workspace"],
+    "design": ["Photoshop", "ClipSTUDIO Paint", "Figma", "Blender"],
+    "art": ["Pixel Art", "Ilustração", "Modelagem 3D", "Design"],
+    "languages": ["Português", "Inglês (Intermediário)"],
+    "gameDev": ["RPG Maker MV", "RPG Maker MZ"],
+    "robotics": []
+},
+  "tags": [
+    "Java",
+    "Node.js",
+    "IA",
+    "Open Source",
+    "GitHub"
+  ],
   "social": {
     "github": "https://github.com/Densuki",
-    "linkedin": "https://www.linkedin.com/in/joaogabriel/",
-    "instagram": "https://www.instagram.com/yukiridensuki",
+    "linkedin": "https://www.linkedin.com/in/",
+    "instagram": ["https://www.instagram.com/yukiridensuki"],
     "discord": "https://discord.com/users/568923940768972808"
   },
+  "nationality": "Brasileiro",
+  "locations": {
+    "country": "Brasil",
+    "state": "Ceará",
+    "city": "Fortaleza"
+  },
+  "languages": [
+    {
+        "name": "Português",
+        "level": "Nativo"
+    },
+    {
+        "name": "Inglês",
+        "level": "Intermediário"
+    }
+  ],
   "discordId": "568923940768972808",
-  "githubUsername": "Densuki"
+  "githubUsername": "Densuki",
+  "links": {
+  }
+  ,
+  "show": {
+    "bio": true,
+    "birthday": false,
+    "age": true,
+    "location": true,
+    "objective": true,
+    "role": true,
+    "status": true,
+    "skills": true,
+    "social": true,
+    "email": true,
+    "projects": true,
+    "certificates": true,
+    "courses": true,
+    "music": true
+  },
+  "music": [
+    {
+      "title": "Background",
+      "src": "assets/audio/background.mp3",
+      "type": "file"
+    }
+  ]
 }

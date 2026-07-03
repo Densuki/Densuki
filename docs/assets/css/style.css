@@ -222,6 +222,57 @@ img {
   transform: scale(1.05);
 }
 
+/* Music controls in navbar */
+.music-controls {
+  display: none;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.music-controls.open {
+  display: flex;
+}
+
+.music-controls button {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.06);
+  color: var(--text-primary);
+  padding: 0.4rem 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.music-controls input[type="range"] {
+  width: 110px;
+}
+
+@media (max-width: 768px) {
+  .music-controls input[type="range"] { width: 80px; }
+  .music-controls select { display: none; }
+}
+
+#music-player-ui {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  background: rgba(10,10,15,0.6);
+  color: var(--text-primary);
+  padding: 0.5rem 0.8rem;
+  border-radius: 10px;
+  border: 1px solid rgba(139,92,246,0.12);
+  backdrop-filter: blur(6px);
+}
+
+#music-player-ui .player-info {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+#current-track {
+  font-weight: 600;
+}
+
 /* ============================================ */
 /* HAMBURGER MENU */
 /* ============================================ */

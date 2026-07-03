@@ -11,42 +11,42 @@
   },
   {
     "id": 2,
-    "name": "Java - Digital Innovation One",
-    "institution": "DIO - Digital Innovation One",
-    "date": "2024",
-    "description": "Curso de Java com foco em desenvolvimento backend.",
-    "link": "https://www.dio.me/",
+    "name": "Certificado #2",
+    "institution": "Instituição #2",
+    "date": "2026",
+    "description": "Descrição do Certificado #2.",
+    "link": "https://www.google.com/",
     "category": "Programação",
     "image": "assets/img/certificates/java.jpg"
   },
   {
     "id": 3,
-    "name": "PHP - Curso em Vídeo",
-    "institution": "Curso em Vídeo - Gustavo Guanabara",
-    "date": "2024",
-    "description": "Curso de PHP para desenvolvimento web.",
-    "link": "https://www.cursoemvideo.com/",
+    "name": "Certificado #3",
+    "institution": "Instituição #3",
+    "date": "2026",
+    "description": "Descrição do Certificado #3.",
+    "link": "https://www.google.com/",
     "category": "Programação",
-    "image": "assets/img/certificates/php.jpg"
+    "image": "assets/img/certificates/java.jpg"
   },
   {
     "id": 4,
-    "name": "Python - Digital Innovation One",
-    "institution": "DIO - Digital Innovation One",
-    "date": "2024",
-    "description": "Curso de Python com foco em automação e análise de dados.",
-    "link": "https://www.dio.me/",
+    "name": "Certificado #4",
+    "institution": "Instituição #4",
+    "date": "2026",
+    "description": "Descrição do Certificado #4.",
+    "link": "https://www.google.com/",
     "category": "Programação",
-    "image": "assets/img/certificates/python.jpg"
+    "image": "assets/img/certificates/java.jpg"
   },
   {
     "id": 5,
-    "name": "Ciência da Computação",
-    "institution": "Estácio de Sá",
-    "date": "2023 - 2027",
-    "description": "Graduação em Ciência da Computação.",
-    "link": "#",
-    "category": "Acadêmico",
-    "image": "assets/img/certificates/estacio.jpg"
+    "name": "Certificado #5",
+    "institution": "Instituição #5",
+    "date": "2026",
+    "description": "Descrição do Certificado #5.",
+    "link": "https://www.google.com/",
+    "category": "Programação",
+    "image": "assets/img/certificates/java.jpg"
   }
 ]
