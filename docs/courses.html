@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  
+  <title>📚 Cursos - João Gabriel</title>
+  <meta name="description" content="Conheça todos os cursos e certificações de João Gabriel - Desenvolvimento, Design e mais.">
+  <meta name="keywords" content="cursos, certificações, desenvolvimento, programação, design, javascript, python">
+  <meta name="author" content="João Gabriel Sousa Santos">
+  
+  <link rel="icon" type="image/x-icon" href="assets/icons/favicon.ico">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    .courses-filters {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 0.75rem 1.5rem;
+      border: 2px solid var(--color-primary);
+      background: transparent;
+      color: var(--color-text);
+      border-radius: 2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--color-primary);
+      color: var(--color-bg);
+      transform: translateY(-2px);
+    }
+
+    .course-detail-card {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: 1rem;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+
+    .course-detail-card:hover {
+      border-color: var(--color-primary);
+      box-shadow: 0 8px 32px rgba(139, 92, 246, 0.2);
+      transform: translateY(-4px);
+    }
+
+    .course-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .course-title {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .course-title h3 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.5rem;
+      color: var(--color-text);
+    }
+
+    .course-platform {
+      color: var(--color-accent);
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .course-instructor {
+      color: var(--color-secondary-text);
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .course-badges {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .course-badge {
+      padding: 0.5rem 1rem;
+      background: rgba(139, 92, 246, 0.2);
+      border: 1px solid var(--color-primary);
+      border-radius: 2rem;
+      font-size: 0.85rem;
+      color: var(--color-text);
+    }
+
+    .course-badge.status-completed {
+      background: rgba(34, 197, 94, 0.2);
+      border-color: #22c55e;
+      color: #22c55e;
+    }
+
+    .course-badge.status-in-progress {
+      background: rgba(59, 130, 246, 0.2);
+      border-color: #3b82f6;
+      color: #3b82f6;
+    }
+
+    .course-badge.status-planned {
+      background: rgba(168, 85, 247, 0.2);
+      border-color: #a855f7;
+      color: #a855f7;
+    }
+
+    .course-content {
+      margin: 1.5rem 0;
+    }
+
+    .course-description {
+      color: var(--color-secondary-text);
+      line-height: 1.6;
+      margin: 1rem 0;
+    }
+
+    .course-dates {
+      display: flex;
+      gap: 2rem;
+      margin: 1.5rem 0;
+      flex-wrap: wrap;
+    }
+
+    .date-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--color-secondary-text);
+    }
+
+    .date-item i {
+      color: var(--color-primary);
+      width: 1.2rem;
+    }
+
+    .course-progress-section {
+      margin: 2rem 0;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+      font-size: 0.95rem;
+    }
+
+    .progress-bar-container {
+      width: 100%;
+      height: 8px;
+      background: rgba(139, 92, 246, 0.1);
+      border-radius: 1rem;
+      overflow: hidden;
+      border: 1px solid rgba(139, 92, 246, 0.3);
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #8b5cf6, #a78bfa);
+      border-radius: 1rem;
+      transition: width 0.5s ease;
+    }
+
+    .course-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-course {
+      padding: 0.75rem 1.5rem;
+      border: 2px solid var(--color-primary);
+      background: transparent;
+      color: var(--color-text);
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+    }
+
+    .btn-course:hover {
+      background: var(--color-primary);
+      color: var(--color-bg);
+      transform: translateY(-2px);
+    }
+
+    .btn-course.primary {
+      background: var(--color-primary);
+      color: var(--color-bg);
+    }
+
+    .btn-course.primary:hover {
+      background: transparent;
+      color: var(--color-text);
+    }
+
+    .courses-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .stat-box {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      text-align: center;
+      backdrop-filter: blur(10px);
+    }
+
+    .stat-box h4 {
+      margin: 0 0 0.5rem 0;
+      color: var(--color-primary);
+      font-size: 2rem;
+    }
+
+    .stat-box p {
+      margin: 0;
+      color: var(--color-secondary-text);
+      font-size: 0.9rem;
+    }
+
+    .empty-message {
+      text-align: center;
+      padding: 3rem;
+      color: var(--color-secondary-text);
+      font-size: 1.1rem;
+    }
+
+    @media (max-width: 768px) {
+      .course-header {
+        flex-direction: column;
+      }
+
+      .course-dates {
+        gap: 1rem;
+        flex-direction: column;
+      }
+
+      .courses-filters {
+        justify-content: center;
+      }
+
+      .courses-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav id="navbar" role="navigation" aria-label="Menu principal">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <a href="./">🌙 YukiriDensuki</a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="./">🏠 Início</a></li>
+        <li><a href="./#about">📖 Sobre</a></li>
+        <li><a href="./#projects">📁 Projetos</a></li>
+        <li><a href="./#certificates">🏆 Certificados</a></li>
+        <li><a href="./courses.html" class="active">📚 Cursos</a></li>
+        <li><a href="./curriculum.html">📜 Currículo</a></li>
+        <li><a href="./#contact">💬 Contato</a></li>
+      </ul>
+      <div class="nav-controls">
+        <button id="theme-toggle" aria-label="Alternar tema">
+          <i class="fas fa-moon"></i>
+        </button>
+        <button id="music-toggle" aria-label="Alternar música">
+          <i class="fas fa-music"></i>
+        </button>
+        <button id="music-panel-toggle" aria-label="Abrir painel de música">
+          <i class="fas fa-sliders-h"></i>
+        </button>
+        <div class="music-controls" id="music-controls" aria-hidden="true">
+          <button id="vol-down" aria-label="Diminuir volume"><i class="fas fa-volume-down"></i></button>
+          <input id="volume-range" type="range" min="0" max="1" step="0.01" value="0.5" aria-label="Volume">
+          <button id="vol-up" aria-label="Aumentar volume"><i class="fas fa-volume-up"></i></button>
+          <select id="music-select" aria-label="Escolher música"></select>
+        </div>
+        <div class="hamburger" id="hamburger" aria-label="Menu mobile">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main style="padding-top: 2rem;">
+    <section class="section" style="margin-top: 2rem;">
+      <div class="container">
+        <h1 class="section-title" style="margin-bottom: 0.5rem;">
+          <span class="title-icon">📚</span>
+          Meus Cursos e Formações
+          <span class="title-line"></span>
+        </h1>
+        <p style="text-align: center; color: var(--color-secondary-text); margin-bottom: 3rem;">
+          Explore todos os cursos que realizo e meus certificados de aprendizado.
+        </p>
+
+        <!-- ESTATÍSTICAS -->
+        <div class="courses-stats">
+          <div class="stat-box">
+            <h4 id="total-courses">0</h4>
+            <p>Cursos Total</p>
+          </div>
+          <div class="stat-box">
+            <h4 id="courses-completed">0</h4>
+            <p>Concluídos</p>
+          </div>
+          <div class="stat-box">
+            <h4 id="courses-in-progress">0</h4>
+            <p>Em Andamento</p>
+          </div>
+          <div class="stat-box">
+            <h4 id="courses-planned">0</h4>
+            <p>Planejados</p>
+          </div>
+        </div>
+
+        <!-- FILTROS -->
+        <div class="courses-filters">
+          <button class="filter-btn active" data-filter="all">Todos</button>
+          <button class="filter-btn" data-filter="completed">✅ Concluído</button>
+          <button class="filter-btn" data-filter="in-progress">🔄 Em Andamento</button>
+          <button class="filter-btn" data-filter="planned">📋 Planejado</button>
+        </div>
+
+        <!-- LISTA DE CURSOS -->
+        <div id="courses-container">
+          <p class="empty-message">📭 Carregando cursos...</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="footer">
+    <div class="container">
+      <div id="footer-content">
+        <!-- Preenchido via JS -->
+      </div>
+    </div>
+  </footer>
+
+  <!-- AUDIO -->
+  <audio id="bg-music" loop>
+    <source src="assets/audio/background.mp3" type="audio/mpeg">
+  </audio>
+
+  <div id="music-player-ui" class="music-player-ui">
+    <div class="player-info">
+      <span id="current-track">🎵 Música</span>
+    </div>
+  </div>
+
+  <script src="js/main.js" type="module"></script>
+  <script>
+    // Função para renderizar cursos na página dedicada
+    async function renderCoursesPage() {
+      const container = document.getElementById('courses-container');
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      let allCourses = [];
+      let currentFilter = 'all';
+
+      try {
+        // Carregar dados
+        const response = await fetch('./data/courses.json');
+        if (!response.ok) throw new Error('Failed to load courses');
+        allCourses = await response.json();
+
+        // Atualizar estatísticas
+        updateCourseStats(allCourses);
+
+        // Renderizar cursos inicialmente
+        renderCourses(allCourses, 'all');
+
+        // Configurar filtros
+        filterBtns.forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            currentFilter = e.target.dataset.filter;
+            renderCourses(allCourses, currentFilter);
+          });
+        });
+      } catch (error) {
+        console.error('❌ Erro ao carregar cursos:', error);
+        container.innerHTML = '<p class="empty-message">❌ Erro ao carregar os cursos. Tente recarregar a página.</p>';
+      }
+    }
+
+    function updateCourseStats(courses) {
+      const completed = courses.filter(c => c.status === 'completed').length;
+      const inProgress = courses.filter(c => c.status === 'in-progress').length;
+      const planned = courses.filter(c => c.status === 'planned').length;
+
+      document.getElementById('total-courses').textContent = courses.length;
+      document.getElementById('courses-completed').textContent = completed;
+      document.getElementById('courses-in-progress').textContent = inProgress;
+      document.getElementById('courses-planned').textContent = planned;
+    }
+
+    function renderCourses(courses, filter) {
+      const container = document.getElementById('courses-container');
+      
+      const filtered = filter === 'all' 
+        ? courses 
+        : courses.filter(c => c.status === filter);
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<p class="empty-message">📭 Nenhum curso encontrado nesta categoria.</p>';
+        return;
+      }
+
+      container.innerHTML = filtered.map(course => `
+        <div class="course-detail-card">
+          <div class="course-header">
+            <div class="course-title">
+              <h3>${course.name || 'Curso sem nome'}</h3>
+              <div class="course-platform">
+                📚 ${course.platform || 'Plataforma desconhecida'}
+                ${course.instructor ? ` • ${course.instructor}` : ''}
+              </div>
+            </div>
+            <div class="course-badges">
+              <span class="course-badge status-${course.status || 'planned'}">
+                ${getStatusLabel(course.status)}
+              </span>
+              <span class="course-badge">${course.category || 'Geral'}</span>
+            </div>
+          </div>
+
+          <div class="course-content">
+            ${course.description ? `<p class="course-description">${course.description}</p>` : ''}
+
+            <div class="course-dates">
+              ${course.startDate ? `
+                <div class="date-item">
+                  <i class="fas fa-calendar-check"></i>
+                  <span>Início: <strong>${formatDate(course.startDate)}</strong></span>
+                </div>
+              ` : ''}
+              ${course.estimatedEnd ? `
+                <div class="date-item">
+                  <i class="fas fa-calendar-times"></i>
+                  <span>Término: <strong>${formatDate(course.estimatedEnd)}</strong></span>
+                </div>
+              ` : ''}
+            </div>
+
+            ${course.progress !== undefined ? `
+              <div class="course-progress-section">
+                <div class="progress-label">
+                  <span>Progresso</span>
+                  <strong>${course.progress}%</strong>
+                </div>
+                <div class="progress-bar-container">
+                  <div class="progress-fill" style="width: ${course.progress}%"></div>
+                </div>
+              </div>
+            ` : ''}
+          </div>
+
+          <div class="course-actions">
+            ${course.url && course.url !== '#' ? `
+              <a href="${course.url}" target="_blank" rel="noopener noreferrer" class="btn-course primary">
+                <i class="fas fa-external-link-alt"></i> Ver Curso
+              </a>
+            ` : ''}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function getStatusLabel(status) {
+      const labels = {
+        'completed': '✅ Concluído',
+        'in-progress': '🔄 Em andamento',
+        'planned': '📋 Planejado',
+      };
+      return labels[status] || status;
+    }
+
+    function formatDate(dateStr) {
+      const date = new Date(dateStr);
+      return date.toLocaleDateString('pt-BR', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      });
+    }
+
+    // Inicializar quando o DOM estiver pronto
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCoursesPage();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  
+  <title>📁 Projetos - João Gabriel</title>
+  <meta name="description" content="Confira os projetos e trabalhos de João Gabriel - Desenvolvimento Web, Design e mais.">
+  <meta name="keywords" content="projetos, portfólio, desenvolvimento, web, design, programação">
+  <meta name="author" content="João Gabriel Sousa Santos">
+  
+  <link rel="icon" type="image/x-icon" href="assets/icons/favicon.ico">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    .projects-container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .projects-filters {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .filter-btn {
+      padding: 0.75rem 1.5rem;
+      border: 2px solid #8b5cf6;
+      background: transparent;
+      color: var(--color-text);
+      border-radius: 2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: #8b5cf6;
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .project-card {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+      border: 2px solid rgba(139, 92, 246, 0.3);
+      border-radius: 1rem;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-card:hover {
+      border-color: #8b5cf6;
+      box-shadow: 0 12px 40px rgba(139, 92, 246, 0.2);
+      transform: translateY(-8px);
+    }
+
+    .project-image {
+      width: 100%;
+      height: 180px;
+      background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-image.placeholder {
+      background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%);
+      font-size: 4rem;
+      opacity: 0.8;
+    }
+
+    .project-status {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      padding: 0.5rem 1rem;
+      border-radius: 2rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+    }
+
+    .project-status.completed {
+      background: rgba(34, 197, 94, 0.9);
+    }
+
+    .project-status.in-progress {
+      background: rgba(59, 130, 246, 0.9);
+    }
+
+    .project-status.planned {
+      background: rgba(168, 85, 247, 0.9);
+    }
+
+    .project-content {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: 0.5rem;
+    }
+
+    .project-category {
+      color: #a78bfa;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+    }
+
+    .project-description {
+      color: var(--color-secondary-text);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+      flex: 1;
+    }
+
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .tech-tag {
+      background: rgba(139, 92, 246, 0.2);
+      color: #a78bfa;
+      padding: 0.35rem 0.75rem;
+      border-radius: 0.5rem;
+      font-size: 0.8rem;
+      border: 1px solid #8b5cf6;
+    }
+
+    .project-links {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-project {
+      padding: 0.6rem 1.2rem;
+      border: 1px solid #8b5cf6;
+      background: transparent;
+      color: var(--color-text);
+      border-radius: 0.5rem;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .btn-project:hover {
+      background: #8b5cf6;
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .btn-project.primary {
+      background: #8b5cf6;
+      border-color: #8b5cf6;
+      color: white;
+    }
+
+    .btn-project.primary:hover {
+      background: transparent;
+      color: #8b5cf6;
+    }
+
+    .projects-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .stat-box {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+      border: 2px solid rgba(139, 92, 246, 0.3);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .stat-box h4 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #a78bfa;
+      margin: 0.5rem 0;
+    }
+
+    .stat-box p {
+      color: var(--color-secondary-text);
+      font-size: 0.9rem;
+    }
+
+    .empty-message {
+      text-align: center;
+      padding: 3rem;
+      color: var(--color-secondary-text);
+    }
+
+    @media (max-width: 768px) {
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .projects-filters {
+        justify-content: center;
+      }
+
+      .projects-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav id="navbar" role="navigation" aria-label="Menu principal">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <a href="./">🌙 YukiriDensuki</a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="./">🏠 Início</a></li>
+        <li><a href="./about.html">📖 Sobre</a></li>
+        <li><a href="./projects.html" class="active">📁 Projetos</a></li>
+        <li><a href="./certificates.html">🏆 Certificados</a></li>
+        <li><a href="./courses.html">📚 Cursos</a></li>
+        <li><a href="./curriculum.html">📜 Currículo</a></li>
+        <li><a href="./#contact">💬 Contato</a></li>
+      </ul>
+      <div class="nav-controls">
+        <button id="theme-toggle" aria-label="Alternar tema">
+          <i class="fas fa-moon"></i>
+        </button>
+        <button id="music-toggle" aria-label="Alternar música">
+          <i class="fas fa-music"></i>
+        </button>
+        <button id="music-panel-toggle" aria-label="Abrir painel de música">
+          <i class="fas fa-sliders-h"></i>
+        </button>
+        <div class="music-controls" id="music-controls" aria-hidden="true">
+          <button id="vol-down" aria-label="Diminuir volume"><i class="fas fa-volume-down"></i></button>
+          <input id="volume-range" type="range" min="0" max="1" step="0.01" value="0.5" aria-label="Volume">
+          <button id="vol-up" aria-label="Aumentar volume"><i class="fas fa-volume-up"></i></button>
+          <select id="music-select" aria-label="Escolher música"></select>
+        </div>
+        <div class="hamburger" id="hamburger" aria-label="Menu mobile">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main style="padding-top: 2rem;">
+    <section class="section projects-container" style="margin-top: 2rem;">
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">
+          <i class="fas fa-folder-open"></i> Meus Projetos
+        </h1>
+        <p style="color: var(--color-secondary-text); margin-top: 1rem;">
+          Conheça os projetos em que venho trabalhando e meus trabalhos em destaque.
+        </p>
+      </div>
+
+      <!-- ESTATÍSTICAS -->
+      <div class="projects-stats">
+        <div class="stat-box">
+          <h4 id="total-projects">0</h4>
+          <p>Projetos Total</p>
+        </div>
+        <div class="stat-box">
+          <h4 id="projects-completed">0</h4>
+          <p>Concluídos</p>
+        </div>
+        <div class="stat-box">
+          <h4 id="projects-in-progress">0</h4>
+          <p>Em Andamento</p>
+        </div>
+        <div class="stat-box">
+          <h4 id="projects-planned">0</h4>
+          <p>Planejados</p>
+        </div>
+      </div>
+
+      <!-- FILTROS -->
+      <div class="projects-filters">
+        <button class="filter-btn active" data-filter="all">Todos</button>
+        <button class="filter-btn" data-filter="completed">✅ Concluído</button>
+        <button class="filter-btn" data-filter="in-progress">🔄 Em Andamento</button>
+        <button class="filter-btn" data-filter="planned">📋 Planejado</button>
+      </div>
+
+      <!-- GRID DE PROJETOS -->
+      <div class="projects-grid" id="projects-grid">
+        <p class="empty-message">📭 Carregando projetos...</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="footer">
+    <div class="container">
+      <div id="footer-content">
+        <!-- Preenchido via JS -->
+      </div>
+    </div>
+  </footer>
+
+  <!-- AUDIO -->
+  <audio id="bg-music" loop>
+    <source src="assets/audio/background.mp3" type="audio/mpeg">
+  </audio>
+
+  <div id="music-player-ui" class="music-player-ui">
+    <div class="player-info">
+      <span id="current-track">🎵 Música</span>
+    </div>
+  </div>
+
+  <script src="js/main.js" type="module"></script>
+  <script>
+    async function renderProjectsPage() {
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      let allProjects = [];
+      let currentFilter = 'all';
+
+      try {
+        const response = await fetch('./data/projects.json');
+        if (!response.ok) throw new Error('Failed to load projects');
+        allProjects = await response.json();
+
+        updateStats(allProjects);
+        renderProjects(allProjects, 'all');
+
+        filterBtns.forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            currentFilter = e.target.dataset.filter;
+            renderProjects(allProjects, currentFilter);
+          });
+        });
+      } catch (error) {
+        console.error('❌ Erro ao carregar projetos:', error);
+        document.getElementById('projects-grid').innerHTML = '<p class="empty-message">❌ Erro ao carregar projetos.</p>';
+      }
+    }
+
+    function updateStats(projects) {
+      const completed = projects.filter(p => p.status === 'completed').length;
+      const inProgress = projects.filter(p => p.status === 'in-progress').length;
+      const planned = projects.filter(p => p.status === 'planned').length;
+
+      document.getElementById('total-projects').textContent = projects.length;
+      document.getElementById('projects-completed').textContent = completed;
+      document.getElementById('projects-in-progress').textContent = inProgress;
+      document.getElementById('projects-planned').textContent = planned;
+    }
+
+    function renderProjects(projects, filter) {
+      const grid = document.getElementById('projects-grid');
+      const filtered = filter === 'all' ? projects : projects.filter(p => p.status === filter);
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '<p class="empty-message" style="grid-column: 1/-1;">📭 Nenhum projeto encontrado.</p>';
+        return;
+      }
+
+      grid.innerHTML = filtered.map(project => `
+        <div class="project-card">
+          <div class="project-image placeholder">
+            <i class="fas fa-code"></i>
+            <span class="project-status ${project.status}">
+              ${getStatusLabel(project.status)}
+            </span>
+          </div>
+          <div class="project-content">
+            <h3 class="project-title">${project.title}</h3>
+            <div class="project-category">${project.category || 'Desenvolvimento'}</div>
+            <p class="project-description">${project.description}</p>
+            <div class="project-tech">
+              ${project.technologies.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
+            </div>
+            <div class="project-links">
+              ${project.url && project.url !== '#' ? `
+                <a href="${project.url}" target="_blank" rel="noopener noreferrer" class="btn-project primary">
+                  <i class="fas fa-external-link-alt"></i> Demo
+                </a>
+              ` : ''}
+              ${project.repo && project.repo !== '#' ? `
+                <a href="${project.repo}" target="_blank" rel="noopener noreferrer" class="btn-project">
+                  <i class="fab fa-github"></i> GitHub
+                </a>
+              ` : ''}
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function getStatusLabel(status) {
+      const labels = {
+        'completed': '✅ Concluído',
+        'in-progress': '🔄 Em andamento',
+        'planned': '📋 Planejado',
+      };
+      return labels[status] || status;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderProjectsPage();
+    });
+  </script>
+</body>
+</html>

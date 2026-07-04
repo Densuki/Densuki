@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  
+  <title>📜 Currículo - João Gabriel</title>
+  <meta name="description" content="Currículo profissional de João Gabriel - Desenvolvedor Web e Artista Digital.">
+  <meta name="keywords" content="currículo, cv, desenvolvedor, web, artista, programação">
+  <meta name="author" content="João Gabriel Sousa Santos">
+  
+  <link rel="icon" type="image/x-icon" href="assets/icons/favicon.ico">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    .curriculum-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .curriculum-header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 2px solid rgba(139, 92, 246, 0.3);
+    }
+
+    .curriculum-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .download-btn {
+      padding: 0.75rem 1.5rem;
+      border: 2px solid var(--color-primary);
+      background: var(--color-primary);
+      color: var(--color-bg);
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .download-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(139, 92, 246, 0.4);
+    }
+
+    .download-btn.outline {
+      background: transparent;
+      color: var(--color-text);
+    }
+
+    .download-btn.outline:hover {
+      background: var(--color-primary);
+      color: var(--color-bg);
+    }
+
+    .curriculum-content {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      border-radius: 1rem;
+      padding: 2.5rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .curriculum-name {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin: 0 0 0.5rem 0;
+      color: var(--color-text);
+    }
+
+    .curriculum-contact {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      color: var(--color-secondary-text);
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+    }
+
+    .curriculum-contact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .curriculum-contact-item i {
+      color: var(--color-primary);
+      width: 1rem;
+    }
+
+    .curriculum-contact-item a {
+      color: var(--color-primary);
+      text-decoration: none;
+    }
+
+    .curriculum-contact-item a:hover {
+      text-decoration: underline;
+    }
+
+    .curriculum-section {
+      margin-bottom: 2.5rem;
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+    }
+
+    .curriculum-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin: 0 0 1.5rem 0;
+      color: var(--color-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .objective-text {
+      color: var(--color-secondary-text);
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    .resume-text {
+      color: var(--color-secondary-text);
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+
+    .education-item,
+    .experience-item,
+    .course-item {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px dotted rgba(139, 92, 246, 0.2);
+    }
+
+    .education-item:last-child,
+    .experience-item:last-child,
+    .course-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .item-title {
+      font-weight: 700;
+      color: var(--color-text);
+      font-size: 1.05rem;
+    }
+
+    .item-subtitle {
+      color: var(--color-primary);
+      font-weight: 600;
+    }
+
+    .item-period {
+      color: var(--color-secondary-text);
+      font-size: 0.9rem;
+      font-style: italic;
+    }
+
+    .item-description {
+      color: var(--color-secondary-text);
+      line-height: 1.6;
+      margin-top: 0.75rem;
+    }
+
+    .item-description ul {
+      margin: 0.75rem 0 0 1.5rem;
+      padding: 0;
+    }
+
+    .item-description li {
+      margin-bottom: 0.5rem;
+      color: var(--color-secondary-text);
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .skill-category {
+      background: rgba(139, 92, 246, 0.1);
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      border-radius: 0.5rem;
+      padding: 1rem;
+    }
+
+    .skill-category h4 {
+      margin: 0 0 0.75rem 0;
+      color: var(--color-primary);
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .skill-tag {
+      background: rgba(139, 92, 246, 0.2);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      padding: 0.35rem 0.75rem;
+      border-radius: 1rem;
+      font-size: 0.85rem;
+      color: var(--color-text);
+    }
+
+    #curriculum-print {
+      display: none;
+    }
+
+    @media print {
+      body {
+        background: white;
+        color: black;
+      }
+
+      #navbar,
+      .curriculum-actions,
+      #footer {
+        display: none;
+      }
+
+      .curriculum-content {
+        background: white;
+        border: none;
+        padding: 0;
+        box-shadow: none;
+      }
+
+      .curriculum-section {
+        page-break-inside: avoid;
+      }
+
+      a {
+        color: black;
+        text-decoration: underline;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .curriculum-content {
+        padding: 1.5rem;
+      }
+
+      .curriculum-name {
+        font-size: 1.8rem;
+      }
+
+      .curriculum-contact {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .item-header {
+        flex-direction: column;
+      }
+
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav id="navbar" role="navigation" aria-label="Menu principal">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <a href="./">🌙 YukiriDensuki</a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="./">🏠 Início</a></li>
+        <li><a href="./#about">📖 Sobre</a></li>
+        <li><a href="./#projects">📁 Projetos</a></li>
+        <li><a href="./#certificates">🏆 Certificados</a></li>
+        <li><a href="./courses.html">📚 Cursos</a></li>
+        <li><a href="./curriculum.html" class="active">📜 Currículo</a></li>
+        <li><a href="./#contact">💬 Contato</a></li>
+      </ul>
+      <div class="nav-controls">
+        <button id="theme-toggle" aria-label="Alternar tema">
+          <i class="fas fa-moon"></i>
+        </button>
+        <button id="music-toggle" aria-label="Alternar música">
+          <i class="fas fa-music"></i>
+        </button>
+        <button id="music-panel-toggle" aria-label="Abrir painel de música">
+          <i class="fas fa-sliders-h"></i>
+        </button>
+        <div class="music-controls" id="music-controls" aria-hidden="true">
+          <button id="vol-down" aria-label="Diminuir volume"><i class="fas fa-volume-down"></i></button>
+          <input id="volume-range" type="range" min="0" max="1" step="0.01" value="0.5" aria-label="Volume">
+          <button id="vol-up" aria-label="Aumentar volume"><i class="fas fa-volume-up"></i></button>
+          <select id="music-select" aria-label="Escolher música"></select>
+        </div>
+        <div class="hamburger" id="hamburger" aria-label="Menu mobile">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main style="padding-top: 2rem;">
+    <section class="section curriculum-container" style="margin-top: 2rem;">
+      <div class="curriculum-header">
+        <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">
+          <i class="fas fa-file-pdf"></i> Meu Currículo
+        </h1>
+        <p style="color: var(--color-secondary-text); margin-top: 1rem;">
+          Confira minhas informações profissionais e baixe em seu formato preferido.
+        </p>
+      </div>
+
+      <div class="curriculum-actions">
+        <button class="download-btn" id="download-pdf">
+          <i class="fas fa-file-pdf"></i> Baixar PDF
+        </button>
+        <button class="download-btn outline" id="download-docx">
+          <i class="fas fa-file-word"></i> Baixar DOCX
+        </button>
+        <button class="download-btn outline" id="print-btn">
+          <i class="fas fa-print"></i> Imprimir
+        </button>
+      </div>
+
+      <!-- CONTEÚDO DO CURRÍCULO -->
+      <div class="curriculum-content" id="curriculum-print">
+        <!-- HEADER -->
+        <div class="curriculum-header">
+          <h1 class="curriculum-name">João Gabriel Sousa Santos</h1>
+          <div class="curriculum-contact">
+            <div class="curriculum-contact-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>Fortaleza - CE</span>
+            </div>
+            <div class="curriculum-contact-item">
+              <i class="fas fa-phone"></i>
+              <span>(85) 9 9217-1191</span>
+            </div>
+            <div class="curriculum-contact-item">
+              <i class="fas fa-envelope"></i>
+              <a href="mailto:joaogabriel4175@gmail.com">joaogabriel4175@gmail.com</a>
+            </div>
+            <div class="curriculum-contact-item">
+              <i class="fas fa-linkedin"></i>
+              <a href="https://linkedin.com/in/densuki/" target="_blank">linkedin.com/in/densuki</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- OBJETIVO PROFISSIONAL -->
+        <div class="curriculum-section">
+          <h2 class="section-title"><i class="fas fa-bullseye"></i> Objetivo Profissional</h2>
+          <p class="objective-text">
+            Atuar nas áreas de atendimento ao cliente, rotinas administrativas e suporte operacional, 
+            contribuindo com organização, resolução de problemas e qualidade no atendimento.
+          </p>
+        </div>
+
+        <!-- RESUMO PROFISSIONAL -->
+        <div class="curriculum-section">
+          <h2 class="section-title"><i class="fas fa-user-tie"></i> Resumo Profissional</h2>
+          <p class="resume-text">
+            Profissional com experiência em atendimento ao público e suporte em Lan House, além de atuação 
+            voluntária em ambiente escolar com apoio administrativo e organizacional. Possuo conhecimentos 
+            em informática, Pacote Office e organização documental, buscando oportunidade para desenvolver 
+            carreira na área administrativa e tecnológica.
+          </p>
+        </div>
+
+        <!-- FORMAÇÃO ACADÊMICA -->
+        <div class="curriculum-section">
+          <h2 class="section-title"><i class="fas fa-graduation-cap"></i> Formação Acadêmica</h2>
+          <div class="education-item">
+            <div class="item-header">
+              <div>
+                <div class="item-title">Bacharelado em Ciência da Computação</div>
+                <div class="item-subtitle">Estácio</div>
+              </div>
+              <div class="item-period">2024 - 2025 (em andamento)</div>
+            </div>
+          </div>
+          <div class="education-item">
+            <div class="item-header">
+              <div>
+                <div class="item-title">Ensino Médio Completo</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CURSOS E CERTIFICAÇÕES -->
+        <div class="curriculum-section">
+          <h2 class="section-title"><i class="fas fa-certificate"></i> Cursos e Certificações</h2>
+          <div class="course-item">
+            <div class="item-header">
+              <div class="item-title">Curso de Multidisciplinar</div>
+              <span style="color: var(--color-secondary-text);">60h</span>
+            </div>
+            <div class="item-subtitle">IJCPM</div>
+          </div>
+          <div class="course-item">
+            <div class="item-header">
+              <div class="item-title">Informática Básica</div>
+              <span style="color: var(--color-secondary-text);">60h</span>
+            </div>
+            <div class="item-subtitle">EEFM Waldemar Falcão</div>
+          </div>
+          <div class="course-item">
+            <div class="item-header">
+              <div class="item-title">JavaScript Avançado</div>
+            </div>
+            <div class="item-subtitle">Curso em Vídeo - Gustavo Guanabara</div>
+            <div class="item-description">Curso completo de JavaScript do básico ao avançado com projetos práticos.</div>
+          </div>
+        </div>
+
+        <!-- COMPETÊNCIAS -->
+        <div class="curriculum-section">
+          <h2 class="section-title"><i class="fas fa-lightbulb"></i> Competências</h2>
+          <div class="skills-grid">
+            <div class="skill-category">
+              <h4>Gerenciamento</h4>
+              <div class="skill-tags">
+                <span class="skill-tag">Atendimento</span>
+                <span class="skill-tag">Comunicação</span>
+                <span class="skill-tag">Organização</span>
+              </div>
+            </div>
+            <div class="skill-category">
+              <h4>Técnicas</h4>
+              <div class="skill-tags">
+                <span class="skill-tag">Informática</span>
+                <span class="skill-tag">MS Office</span>
+                <span class="skill-tag">Suporte</span>
+              </div>
+            </div>
+            <div class="skill-category">
+              <h4>Desenvolvimento</h4>
+              <div class="skill-tags">
+                <span class="skill-tag">HTML5</span>
+                <span class="skill-tag">CSS3</span>
+                <span class="skill-tag">JavaScript</span>
+                <span class="skill-tag">Node.js</span>
+              </div>
+            </div>
+            <div class="skill-category">
+              <h4>Outras</h4>
+              <div class="skill-tags">
+                <span class="skill-tag">Trabalho em Equipe</span>
+                <span class="skill-tag">Resolução de Problemas</span>
+                <span class="skill-tag">Proatividade</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- EXPERIÊNCIAS PROFISSIONAIS -->
+        <div class="curriculum-section">
+          <h2 class="section-title"><i class="fas fa-briefcase"></i> Experiências Profissionais</h2>
+          
+          <div class="experience-item">
+            <div class="item-header">
+              <div>
+                <div class="item-title">Atendente</div>
+                <div class="item-subtitle">WeckTech - Lan House</div>
+              </div>
+              <div class="item-period">Abril/2026 - Atual</div>
+            </div>
+            <div class="item-description">
+              <ul>
+                <li>Atendimento ao público e operação de caixa</li>
+                <li>Suporte básico em computadores, impressoras e serviços de impressão</li>
+                <li>Organização do ambiente e controle de pagamentos</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="experience-item">
+            <div class="item-header">
+              <div>
+                <div class="item-title">Assistente Pedagógico - Sala de Inovação Digital</div>
+                <div class="item-subtitle">EMTI Nossa Senhora de Fátima (Voluntário)</div>
+              </div>
+              <div class="item-period">Agosto/2022 - Dezembro/2023</div>
+            </div>
+            <div class="item-description">
+              <ul>
+                <li>Apoio administrativo à secretaria escolar, incluindo matrículas e organização documental</li>
+                <li>Suporte à coordenação e diretoria em controles administrativos, materiais e equipamentos</li>
+                <li>Organização de agendamentos, impressão de documentos e apoio às atividades pedagógicas</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="footer">
+    <div class="container">
+      <div id="footer-content">
+        <!-- Preenchido via JS -->
+      </div>
+    </div>
+  </footer>
+
+  <!-- AUDIO -->
+  <audio id="bg-music" loop>
+    <source src="assets/audio/background.mp3" type="audio/mpeg">
+  </audio>
+
+  <div id="music-player-ui" class="music-player-ui">
+    <div class="player-info">
+      <span id="current-track">🎵 Música</span>
+    </div>
+  </div>
+
+  <!-- SCRIPTS PARA DOWNLOAD -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.js"></script>
+  <script src="js/main.js" type="module"></script>
+
+  <script>
+    // Download PDF
+    document.getElementById('download-pdf').addEventListener('click', () => {
+      const element = document.getElementById('curriculum-print');
+      const opt = {
+        margin: 10,
+        filename: 'Curriculo_JoaoGabriel.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
+      };
+      html2pdf().set(opt).from(element).save();
+    });
+
+    // Download DOCX
+    document.getElementById('download-docx').addEventListener('click', () => {
+      const { Document, Packer, Paragraph, TextRun, HeadingLevel, Table, TableCell, TableRow, WidthType, BorderStyle, AlignmentType, UnderlineType } = window.docx;
+
+      const doc = new Document({
+        sections: [{
+          properties: {},
+          children: [
+            // Cabeçalho
+            new Paragraph({
+              text: 'JOÃO GABRIEL SOUSA SANTOS',
+              bold: true,
+              size: 28,
+              alignment: AlignmentType.CENTER,
+              spacing: { after: 100 }
+            }),
+            new Paragraph({
+              text: 'Fortaleza - CE • (85) 9 9217-1191 • joaogabriel4175@gmail.com',
+              size: 20,
+              alignment: AlignmentType.CENTER,
+              spacing: { after: 200 }
+            }),
+
+            // Objetivo
+            new Paragraph({
+              text: 'OBJETIVO PROFISSIONAL',
+              bold: true,
+              size: 24,
+              spacing: { after: 100 }
+            }),
+            new Paragraph({
+              text: 'Atuar nas áreas de atendimento ao cliente, rotinas administrativas e suporte operacional, contribuindo com organização, resolução de problemas e qualidade no atendimento.',
+              size: 20,
+              spacing: { after: 200 }
+            }),
+
+            // Resumo
+            new Paragraph({
+              text: 'RESUMO PROFISSIONAL',
+              bold: true,
+              size: 24,
+              spacing: { after: 100 }
+            }),
+            new Paragraph({
+              text: 'Profissional com experiência em atendimento ao público e suporte em Lan House, além de atuação voluntária em ambiente escolar com apoio administrativo e organizacional. Possuo conhecimentos em informática, Pacote Office e organização documental, buscando oportunidade para desenvolver carreira na área administrativa.',
+              size: 20,
+              spacing: { after: 200 }
+            }),
+
+            // Formação
+            new Paragraph({
+              text: 'FORMAÇÃO ACADÊMICA',
+              bold: true,
+              size: 24,
+              spacing: { after: 100 }
+            }),
+            new Paragraph({
+              text: '• Bacharelado em Ciência da Computação – 2024/2025 (incompleto)',
+              size: 20
+            }),
+            new Paragraph({
+              text: '• Ensino Médio Completo',
+              size: 20,
+              spacing: { after: 200 }
+            }),
+
+            // Cursos
+            new Paragraph({
+              text: 'CURSOS E CERTIFICAÇÕES',
+              bold: true,
+              size: 24,
+              spacing: { after: 100 }
+            }),
+            new Paragraph({
+              text: '• Curso de Multidisciplinar (60h) – IJCPM',
+              size: 20
+            }),
+            new Paragraph({
+              text: '• Informática Básica (60h) – EEFM Waldemar Falcão',
+              size: 20,
+              spacing: { after: 200 }
+            }),
+
+            // Competências
+            new Paragraph({
+              text: 'COMPETÊNCIAS',
+              bold: true,
+              size: 24,
+              spacing: { after: 100 }
+            }),
+            new Paragraph({
+              text: 'Atendimento ao Cliente • Comunicação • Organização de Documentos • Trabalho em Equipe • Resolução de Problemas • Rotinas Administrativas • Microsoft Word e Excel',
+              size: 20,
+              spacing: { after: 200 }
+            }),
+
+            // Experiências
+            new Paragraph({
+              text: 'EXPERIÊNCIAS PROFISSIONAIS',
+              bold: true,
+              size: 24,
+              spacing: { after: 100 }
+            }),
+            new Paragraph({
+              text: 'Empresa: WeckTech - Lan House',
+              bold: true,
+              size: 20
+            }),
+            new Paragraph({
+              text: 'Cargo: Atendente',
+              size: 20
+            }),
+            new Paragraph({
+              text: 'Período: Abril/2026 – Atual',
+              size: 20,
+              spacing: { after: 100 }
+            }),
+            new Paragraph({
+              text: '• Atendimento ao público e operação de caixa',
+              size: 20
+            }),
+            new Paragraph({
+              text: '• Suporte básico em computadores, impressoras e serviços de impressão',
+              size: 20
+            }),
+            new Paragraph({
+              text: '• Organização do ambiente e controle de pagamentos',
+              size: 20,
+              spacing: { after: 200 }
+            }),
+
+            new Paragraph({
+              text: 'Empresa: EMTI Nossa Senhora de Fátima',
+              bold: true,
+              size: 20
+            }),
+            new Paragraph({
+              text: 'Cargo: Assistente Pedagógico – Sala de Inovação Digital (Voluntário)',
+              size: 20
+            }),
+            new Paragraph({
+              text: 'Período: Agosto/2022 - Dezembro/2023',
+              size: 20,
+              spacing: { after: 100 }
+            }),
+            new Paragraph({
+              text: '• Apoio administrativo à secretaria escolar, incluindo matrículas, organização documental e lançamento de informações acadêmicas',
+              size: 20
+            }),
+            new Paragraph({
+              text: '• Suporte à coordenação e diretoria em controles administrativos, materiais e equipamentos',
+              size: 20
+            }),
+            new Paragraph({
+              text: '• Organização de agendamentos, impressão de documentos e apoio às atividades pedagógicas',
+              size: 20
+            })
+          ]
+        }]
+      });
+
+      Packer.toBlob(doc).then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'Curriculo_JoaoGabriel.docx';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+      });
+    });
+
+    // Imprimir
+    document.getElementById('print-btn').addEventListener('click', () => {
+      window.print();
+    });
+
+  </script>
+</body>
+</html>

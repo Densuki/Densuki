@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  
+  <title>📖 Sobre - João Gabriel</title>
+  <meta name="description" content="Conheça mais sobre João Gabriel - História, interesses e objetivos profissionais.">
+  <meta name="keywords" content="sobre, biografia, desenvolvedor, artista, história">
+  <meta name="author" content="João Gabriel Sousa Santos">
+  
+  <link rel="icon" type="image/x-icon" href="assets/icons/favicon.ico">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    .about-container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .about-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .about-card {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+      border: 2px solid rgba(139, 92, 246, 0.3);
+      border-radius: 1rem;
+      padding: 2rem;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+
+    .about-card:hover {
+      border-color: #8b5cf6;
+      box-shadow: 0 8px 32px rgba(139, 92, 246, 0.2);
+      transform: translateY(-4px);
+    }
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #a78bfa;
+    }
+
+    .card-title i {
+      font-size: 1.5rem;
+    }
+
+    .card-content {
+      color: var(--color-secondary-text);
+      line-height: 1.7;
+    }
+
+    .card-content p {
+      margin-bottom: 1rem;
+    }
+
+    .card-content strong {
+      color: #8b5cf6;
+    }
+
+    .badge-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .badge {
+      background: rgba(139, 92, 246, 0.2);
+      border: 1px solid #8b5cf6;
+      padding: 0.5rem 1rem;
+      border-radius: 2rem;
+      font-size: 0.85rem;
+      color: #a78bfa;
+      font-weight: 600;
+    }
+
+    .skills-section {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+      border: 2px solid rgba(139, 92, 246, 0.3);
+      border-radius: 1rem;
+      padding: 2.5rem;
+      margin-bottom: 3rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .skills-title {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      color: #a78bfa;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .skill-category {
+      background: rgba(139, 92, 246, 0.1);
+      border: 1px solid #8b5cf6;
+      border-radius: 0.75rem;
+      padding: 1.25rem;
+    }
+
+    .skill-category h4 {
+      color: #8b5cf6;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.75rem;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .skill-tag {
+      background: rgba(196, 181, 212, 0.2);
+      color: #a78bfa;
+      padding: 0.35rem 0.75rem;
+      border-radius: 1rem;
+      font-size: 0.8rem;
+      border: 1px solid #a78bfa;
+    }
+
+    .interests-section {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+      border: 2px solid rgba(59, 130, 246, 0.3);
+      border-radius: 1rem;
+      padding: 2.5rem;
+      text-align: center;
+      backdrop-filter: blur(10px);
+    }
+
+    .interests-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #8b5cf6;
+      margin-bottom: 1.5rem;
+    }
+
+    .interests-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+    }
+
+    .interest-item {
+      background: rgba(139, 92, 246, 0.2);
+      border: 1px solid #8b5cf6;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--color-text);
+      transition: all 0.3s ease;
+    }
+
+    .interest-item:hover {
+      background: #8b5cf6;
+      color: white;
+      transform: scale(1.05);
+    }
+
+    .status-box {
+      background: rgba(139, 92, 246, 0.15);
+      border: 2px solid #8b5cf6;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    .status-box h4 {
+      color: #8b5cf6;
+      margin-bottom: 0.75rem;
+    }
+
+    .status-item {
+      color: var(--color-secondary-text);
+      margin: 0.5rem 0;
+      font-size: 0.95rem;
+    }
+
+    .status-item strong {
+      color: #8b5cf6;
+    }
+
+    @media (max-width: 768px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .interests-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav id="navbar" role="navigation" aria-label="Menu principal">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <a href="./">🌙 YukiriDensuki</a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="./">🏠 Início</a></li>
+        <li><a href="./about.html" class="active">📖 Sobre</a></li>
+        <li><a href="./projects.html">📁 Projetos</a></li>
+        <li><a href="./certificates.html">🏆 Certificados</a></li>
+        <li><a href="./courses.html">📚 Cursos</a></li>
+        <li><a href="./curriculum.html">📜 Currículo</a></li>
+        <li><a href="./#contact">💬 Contato</a></li>
+      </ul>
+      <div class="nav-controls">
+        <button id="theme-toggle" aria-label="Alternar tema">
+          <i class="fas fa-moon"></i>
+        </button>
+        <button id="music-toggle" aria-label="Alternar música">
+          <i class="fas fa-music"></i>
+        </button>
+        <button id="music-panel-toggle" aria-label="Abrir painel de música">
+          <i class="fas fa-sliders-h"></i>
+        </button>
+        <div class="music-controls" id="music-controls" aria-hidden="true">
+          <button id="vol-down" aria-label="Diminuir volume"><i class="fas fa-volume-down"></i></button>
+          <input id="volume-range" type="range" min="0" max="1" step="0.01" value="0.5" aria-label="Volume">
+          <button id="vol-up" aria-label="Aumentar volume"><i class="fas fa-volume-up"></i></button>
+          <select id="music-select" aria-label="Escolher música"></select>
+        </div>
+        <div class="hamburger" id="hamburger" aria-label="Menu mobile">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main style="padding-top: 2rem;">
+    <section class="section about-container" style="margin-top: 2rem;">
+      <div class="about-header">
+        <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">
+          <i class="fas fa-user-circle"></i> Quem Sou Eu
+        </h1>
+        <p style="color: var(--color-secondary-text); margin-top: 1rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+          Conhece mais sobre minha jornada, interesses e o que me motiva a criar código e arte.
+        </p>
+      </div>
+
+      <!-- PRINCIPAIS INFORMAÇÕES -->
+      <div class="about-grid">
+        <!-- SOBRE MIM -->
+        <div class="about-card">
+          <div class="card-title">
+            <i class="fas fa-heart"></i>
+            Sobre Mim
+          </div>
+          <div class="card-content" id="profile-bio">
+            <p>Carregando...</p>
+          </div>
+        </div>
+
+        <!-- OBJETIVO E STATUS -->
+        <div class="about-card">
+          <div class="card-title">
+            <i class="fas fa-target"></i>
+            Objetivo & Status
+          </div>
+          <div class="card-content">
+            <p><strong>🎯 Objetivo:</strong></p>
+            <p id="profile-objective">Carregando...</p>
+            <div class="status-box">
+              <h4>Status Atual</h4>
+              <div class="status-item">
+                💼 <strong id="profile-working">Carregando...</strong>
+              </div>
+              <div class="status-item">
+                📚 <strong id="profile-studying">Carregando...</strong>
+              </div>
+              <div class="status-item">
+                ✅ Disponível para <strong>Trabalho</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HABILIDADES -->
+      <div class="skills-section">
+        <div class="skills-title">
+          <i class="fas fa-bolt"></i>
+          Habilidades & Competências
+        </div>
+        <div class="skills-grid" id="skills-grid">
+          <p style="grid-column: 1/-1; text-align: center;">Carregando habilidades...</p>
+        </div>
+      </div>
+
+      <!-- INTERESSES -->
+      <div class="interests-section">
+        <div class="interests-title">
+          <i class="fas fa-sparkles"></i> Meus Interesses
+        </div>
+        <div class="interests-grid" id="interests-grid">
+          <p style="grid-column: 1/-1; text-align: center;">Carregando interesses...</p>
+        </div>
+      </div>
+
+      <!-- BADGES -->
+      <div style="text-align: center; margin-top: 3rem;">
+        <h3 style="color: #8b5cf6; margin-bottom: 1.5rem;">Badges & Identificação</h3>
+        <div class="badge-list" id="badges-list">
+          <p>Carregando badges...</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="footer">
+    <div class="container">
+      <div id="footer-content">
+        <!-- Preenchido via JS -->
+      </div>
+    </div>
+  </footer>
+
+  <!-- AUDIO -->
+  <audio id="bg-music" loop>
+    <source src="assets/audio/background.mp3" type="audio/mpeg">
+  </audio>
+
+  <div id="music-player-ui" class="music-player-ui">
+    <div class="player-info">
+      <span id="current-track">🎵 Música</span>
+    </div>
+  </div>
+
+  <script src="js/main.js" type="module"></script>
+  <script>
+    async function loadProfileData() {
+      try {
+        const response = await fetch('./data/profile.json');
+        if (!response.ok) throw new Error('Failed to load profile');
+        const profile = await response.json();
+
+        // Bio
+        const bioContainer = document.getElementById('profile-bio');
+        if (profile.bio && Array.isArray(profile.bio)) {
+          bioContainer.innerHTML = profile.bio.slice(0, 4).map(line => `<p>${line}</p>`).join('');
+        } else {
+          bioContainer.innerHTML = `<p>${profile.bio || 'Profissional apaixonado por tecnologia e criatividade.'}</p>`;
+        }
+
+        // Objetivo
+        document.getElementById('profile-objective').textContent = profile.objective || 'Desenvolver soluções úteis e criativas';
+
+        // Status
+        document.getElementById('profile-working').textContent = profile.status?.working || 'Em procura de oportunidades';
+        document.getElementById('profile-studying').textContent = profile.status?.studying || 'Aprendizado contínuo';
+
+        // Skills
+        const skillsGrid = document.getElementById('skills-grid');
+        if (profile.skills && Object.keys(profile.skills).length > 0) {
+          skillsGrid.innerHTML = Object.entries(profile.skills)
+            .map(([category, items]) => `
+              <div class="skill-category">
+                <h4>${category.charAt(0).toUpperCase() + category.slice(1)}</h4>
+                <div class="skill-tags">
+                  ${items.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+                </div>
+              </div>
+            `).join('');
+        }
+
+        // Interesses
+        const interestsGrid = document.getElementById('interests-grid');
+        if (profile.interests && Array.isArray(profile.interests)) {
+          interestsGrid.innerHTML = profile.interests.map(interest => 
+            `<div class="interest-item">${interest}</div>`
+          ).join('');
+        }
+
+        // Badges
+        const badgesList = document.getElementById('badges-list');
+        if (profile.badges && Array.isArray(profile.badges)) {
+          badgesList.innerHTML = profile.badges.map(badge => 
+            `<span class="badge">${badge}</span>`
+          ).join('');
+        }
+      } catch (error) {
+        console.error('❌ Erro ao carregar perfil:', error);
+      }
+    }
+
+    // Carregar dados específicos da página
+    document.addEventListener('DOMContentLoaded', loadProfileData);
+  </script>
+</body>
+</html>

@@ -797,9 +797,39 @@ function applyVisibility(profile) {
 }
 
 // ============================================
+// INICIALIZAR FOOTER EM PÁGINAS SECUNDÁRIAS
+// ============================================
+async function initPageFooter() {
+  try {
+    const data = await loadData();
+    if (data?.profile) {
+      renderFooter(data.profile);
+      // Inicializar music player em páginas secundárias
+      initMusicPlayer(data.profile);
+    }
+    
+    // Inicializar funções globais em páginas secundárias
+    initThemeToggle();
+    initMusicToggle();
+    initMobileNav();
+    initSmoothScroll();
+  } catch (error) {
+    console.error('❌ Erro ao carregar footer:', error);
+  }
+}
+
+// ============================================
 // START
 // ============================================
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('DOMContentLoaded', () => {
+  // Se está na página principal, usar init() normal
+  if (document.getElementById('about-text')) {
+    init();
+  } else {
+    // Caso contrário, apenas inicializar footer e funções globais
+    initPageFooter();
+  }
+});
 
 window.addEventListener('error', (e) => {
   console.error('❌ Erro no portfolio:', e.message);
