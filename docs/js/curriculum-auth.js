@@ -4,8 +4,8 @@
 
 // Credenciais simples (em produção, usar backend seguro)
 const CREDENTIALS = {
-  username: 'admin',
-  password: 'densuki123',
+  username: 'yukiridensuki',
+  password: 'yukiridensuki4175',
   email: 'joaogabriel4175@gmail.com'
 };
 

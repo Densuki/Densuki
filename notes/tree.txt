@@ -1,0 +1,117 @@
+.
+├── README.md
+├── assets
+│   ├── books.json
+│   ├── cache.json
+│   ├── certificates.json
+│   ├── courses.json
+│   ├── curriculo_pessoal.docx
+│   ├── curriculo_pessoal.md
+│   ├── curriculo_pessoal.pdf
+│   ├── games.json
+│   ├── music.json
+│   ├── statistics.json
+│   └── web
+├── docs
+│   ├── about.html
+│   ├── assets
+│   │   ├── audio
+│   │   │   └── background.mp3
+│   │   ├── css
+│   │   │   └── style.css
+│   │   ├── fonts
+│   │   ├── icons
+│   │   │   ├── apple-touch-icon.png
+│   │   │   ├── favicon-16x16.png
+│   │   │   ├── favicon-32x32.png
+│   │   │   ├── favicon.ico
+│   │   │   └── star.png
+│   │   └── img
+│   │       ├── certificates
+│   │       ├── default-project.jpg
+│   │       ├── games
+│   │       ├── music
+│   │       ├── og-image.jpg
+│   │       ├── profile.png
+│   │       └── projects
+│   │           ├── minecraft-forest-1.webp
+│   │           ├── minecraft-forest-2.webp
+│   │           ├── minecraft-forest-3.webp
+│   │           ├── minecraft-forest-4.webp
+│   │           ├── minecraft-forest-5.webp
+│   │           └── minecraft-forest-6.webp
+│   ├── certificates.html
+│   ├── courses.html
+│   ├── curriculum.html
+│   ├── data
+│   │   ├── books.json
+│   │   ├── cache.json
+│   │   ├── certificates.json
+│   │   ├── courses.json
+│   │   ├── current.json
+│   │   ├── curriculum.json
+│   │   ├── games.json
+│   │   ├── music.json
+│   │   ├── profile.json
+│   │   ├── projects.json
+│   │   └── statistics.json
+│   ├── index.html
+│   ├── js
+│   │   ├── build.js
+│   │   ├── curriculum-auth.js
+│   │   └── main.js
+│   ├── projects.html
+│   ├── readme.md
+│   └── templates
+│       ├── badge.html
+│       ├── card.html
+│       ├── footer.html
+│       └── navbar.html
+├── estrutura.txt
+├── generators
+│   ├── certificates.js
+│   ├── changelog.js
+│   ├── courses.js
+│   ├── current-book.js
+│   ├── current-game.js
+│   ├── custom-stats.js
+│   └── weekly-song.js
+├── notes
+│   └── thinkings.md
+├── others
+│   ├── backup
+│   │   ├── README.md
+│   │   └── index.html
+│   └── references.md
+├── package.json
+├── scripts
+│   ├── config.js
+│   ├── data.js
+│   ├── sync-data.js
+│   ├── sync-pages.js
+│   └── update-readme.js
+├── sections
+│   ├── badges.js
+│   ├── footer.js
+│   ├── profile.js
+│   ├── projects.js
+│   ├── skills.js
+│   ├── socials.js
+│   └── statistics.js
+├── templates
+│   ├── badge.md
+│   ├── card.md
+│   ├── section.md
+│   └── web
+│       └── readme.md
+├── tree.txt
+└── utils
+    ├── age.js
+    ├── dates.js
+    ├── file.js
+    ├── github.js
+    ├── logger.js
+    ├── markdown.js
+    └── replace.js
+
+26 directories, 89 files

@@ -13,6 +13,7 @@
   
   <link rel="icon" type="image/x-icon" href="assets/icons/favicon.ico">
   <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/curriculum_style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   
@@ -50,6 +51,7 @@
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
+      font-size: 0.9rem;
     }
 
     .download-btn:hover {
@@ -60,11 +62,36 @@
     .download-btn.outline {
       background: transparent;
       color: var(--color-text);
+      border-color: var(--color-primary);
     }
 
     .download-btn.outline:hover {
       background: var(--color-primary);
       color: var(--color-bg);
+    }
+
+    .download-btn.edit-btn {
+      background: #22c55e;
+      border-color: #22c55e;
+      color: white;
+    }
+
+    .download-btn.edit-btn:hover {
+      background: #16a34a;
+      border-color: #16a34a;
+      box-shadow: 0 8px 16px rgba(34, 197, 94, 0.4);
+    }
+
+    .download-btn.repo-btn {
+      background: #6b7280;
+      border-color: #6b7280;
+      color: white;
+    }
+
+    .download-btn.repo-btn:hover {
+      background: #4b5563;
+      border-color: #4b5563;
+      box-shadow: 0 8px 16px rgba(107, 114, 128, 0.4);
     }
 
     .curriculum-content {
@@ -244,6 +271,339 @@
       display: none;
     }
 
+    /* Modal de Login */
+    .login-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .login-modal {
+      background: var(--color-bg);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: 1rem;
+      padding: 2.5rem;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .login-modal h2 {
+      text-align: center;
+      margin-bottom: 0.5rem;
+      color: var(--color-text);
+    }
+
+    .login-modal p {
+      text-align: center;
+      color: var(--color-secondary-text);
+      margin-bottom: 1.5rem;
+    }
+
+    .login-modal .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .login-modal .form-group label {
+      display: block;
+      margin-bottom: 0.3rem;
+      color: var(--color-text);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .login-modal .form-group input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: 0.5rem;
+      background: var(--color-bg-secondary);
+      color: var(--color-text);
+      font-size: 1rem;
+    }
+
+    .login-modal .form-group input:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+    }
+
+    .login-modal .form-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .login-modal .btn-login {
+      flex: 1;
+      padding: 0.75rem;
+      background: var(--color-primary);
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .login-modal .btn-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(139, 92, 246, 0.4);
+    }
+
+    .login-modal .btn-cancel {
+      padding: 0.75rem 1.5rem;
+      background: transparent;
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: 0.5rem;
+      color: var(--color-text);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .login-modal .btn-cancel:hover {
+      background: rgba(139, 92, 246, 0.1);
+    }
+
+    .login-error {
+      color: #ef4444;
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .login-success {
+      color: #22c55e;
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+
+    /* Edit Modal */
+    .edit-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9998;
+      overflow-y: auto;
+      padding: 2rem 0;
+    }
+
+    .edit-modal {
+      background: var(--color-bg);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: 1rem;
+      padding: 2.5rem;
+      max-width: 700px;
+      width: 95%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .edit-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+    }
+
+    .edit-modal-header h2 {
+      margin: 0;
+      color: var(--color-text);
+    }
+
+    .edit-modal-header .close-btn {
+      background: none;
+      border: none;
+      font-size: 2rem;
+      cursor: pointer;
+      color: var(--color-secondary-text);
+      transition: color 0.3s ease;
+    }
+
+    .edit-modal-header .close-btn:hover {
+      color: var(--color-text);
+    }
+
+    .edit-section {
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+    }
+
+    .edit-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .edit-section h3 {
+      margin: 0 0 1rem 0;
+      color: var(--color-primary);
+      font-size: 1.1rem;
+    }
+
+    .edit-field {
+      margin-bottom: 1rem;
+    }
+
+    .edit-field label {
+      display: block;
+      margin-bottom: 0.3rem;
+      color: var(--color-text);
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+
+    .edit-field input,
+    .edit-field textarea,
+    .edit-field select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: 0.5rem;
+      background: var(--color-bg-secondary);
+      color: var(--color-text);
+      font-size: 0.95rem;
+      font-family: inherit;
+    }
+
+    .edit-field textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .edit-field input:focus,
+    .edit-field textarea:focus,
+    .edit-field select:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+    }
+
+    .edit-item {
+      background: rgba(139, 92, 246, 0.05);
+      border-radius: 0.5rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .edit-item h4 {
+      margin: 0 0 1rem 0;
+      color: var(--color-text);
+      font-size: 1rem;
+    }
+
+    .edit-item .btn-remove-item {
+      padding: 0.4rem 1rem;
+      background: #ef4444;
+      color: white;
+      border: none;
+      border-radius: 0.3rem;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.3s ease;
+      margin-top: 0.5rem;
+    }
+
+    .edit-item .btn-remove-item:hover {
+      background: #dc2626;
+    }
+
+    .btn-add-item {
+      padding: 0.5rem 1rem;
+      background: var(--color-primary);
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .btn-add-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(139, 92, 246, 0.3);
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(139, 92, 246, 0.2);
+    }
+
+    .btn-save {
+      flex: 1;
+      padding: 0.75rem;
+      background: #22c55e;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-save:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(34, 197, 94, 0.4);
+    }
+
+    .btn-cancel-edit {
+      padding: 0.75rem 1.5rem;
+      background: transparent;
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: 0.5rem;
+      color: var(--color-text);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-cancel-edit:hover {
+      background: rgba(139, 92, 246, 0.1);
+    }
+
+    .edit-status {
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      margin-top: 1rem;
+      display: none;
+    }
+
+    .edit-status.success {
+      display: block;
+      background: rgba(34, 197, 94, 0.1);
+      border: 1px solid #22c55e;
+      color: #22c55e;
+    }
+
+    .edit-status.error {
+      display: block;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid #ef4444;
+      color: #ef4444;
+    }
+
     @media print {
       body {
         background: white;
@@ -253,14 +613,15 @@
       #navbar,
       .curriculum-actions,
       #footer {
-        display: none;
+        display: none !important;
       }
 
       .curriculum-content {
-        background: white;
-        border: none;
-        padding: 0;
-        box-shadow: none;
+        background: white !important;
+        border: none !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
       }
 
       .curriculum-section {
@@ -294,8 +655,25 @@
       .skills-grid {
         grid-template-columns: 1fr;
       }
+
+      .curriculum-actions {
+        gap: 0.5rem;
+      }
+
+      .download-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+      }
+
+      .edit-modal {
+        padding: 1.5rem;
+        margin: 1rem;
+      }
     }
   </style>
+
+    <!-- Módulo de API do Currículo -->
+  <script src="js/curriculum-api.js"></script>
 </head>
 <body>
   <!-- NAVBAR -->
@@ -360,177 +738,25 @@
         <button class="download-btn outline" id="print-btn">
           <i class="fas fa-print"></i> Imprimir
         </button>
+        <button class="download-btn edit-btn" id="edit-btn">
+          <i class="fas fa-edit"></i> Editar Currículo
+        </button>
+        <br>
+        <div class="curriculum-actions">
+          <button class="download-btn repo-btn" id="download-repo-pdf">
+            <i class="fas fa-file-pdf"></i> PDF do Repositório
+          </button>
+          <button class="download-btn repo-btn" id="download-repo-docx">
+            <i class="fas fa-file-word"></i> DOCX do Repositório
+          </button>
+        </div>
       </div>
 
-      <!-- CONTEÚDO DO CURRÍCULO -->
-      <div class="curriculum-content" id="curriculum-print">
-        <!-- HEADER -->
-        <div class="curriculum-header">
-          <h1 class="curriculum-name">João Gabriel Sousa Santos</h1>
-          <div class="curriculum-contact">
-            <div class="curriculum-contact-item">
-              <i class="fas fa-map-marker-alt"></i>
-              <span>Fortaleza - CE</span>
-            </div>
-            <div class="curriculum-contact-item">
-              <i class="fas fa-phone"></i>
-              <span>(85) 9 9217-1191</span>
-            </div>
-            <div class="curriculum-contact-item">
-              <i class="fas fa-envelope"></i>
-              <a href="mailto:joaogabriel4175@gmail.com">joaogabriel4175@gmail.com</a>
-            </div>
-            <div class="curriculum-contact-item">
-              <i class="fas fa-linkedin"></i>
-              <a href="https://linkedin.com/in/densuki/" target="_blank">linkedin.com/in/densuki</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- OBJETIVO PROFISSIONAL -->
-        <div class="curriculum-section">
-          <h2 class="section-title"><i class="fas fa-bullseye"></i> Objetivo Profissional</h2>
-          <p class="objective-text">
-            Atuar nas áreas de atendimento ao cliente, rotinas administrativas e suporte operacional, 
-            contribuindo com organização, resolução de problemas e qualidade no atendimento.
-          </p>
-        </div>
-
-        <!-- RESUMO PROFISSIONAL -->
-        <div class="curriculum-section">
-          <h2 class="section-title"><i class="fas fa-user-tie"></i> Resumo Profissional</h2>
-          <p class="resume-text">
-            Profissional com experiência em atendimento ao público e suporte em Lan House, além de atuação 
-            voluntária em ambiente escolar com apoio administrativo e organizacional. Possuo conhecimentos 
-            em informática, Pacote Office e organização documental, buscando oportunidade para desenvolver 
-            carreira na área administrativa e tecnológica.
-          </p>
-        </div>
-
-        <!-- FORMAÇÃO ACADÊMICA -->
-        <div class="curriculum-section">
-          <h2 class="section-title"><i class="fas fa-graduation-cap"></i> Formação Acadêmica</h2>
-          <div class="education-item">
-            <div class="item-header">
-              <div>
-                <div class="item-title">Bacharelado em Ciência da Computação</div>
-                <div class="item-subtitle">Estácio</div>
-              </div>
-              <div class="item-period">2024 - 2025 (em andamento)</div>
-            </div>
-          </div>
-          <div class="education-item">
-            <div class="item-header">
-              <div>
-                <div class="item-title">Ensino Médio Completo</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- CURSOS E CERTIFICAÇÕES -->
-        <div class="curriculum-section">
-          <h2 class="section-title"><i class="fas fa-certificate"></i> Cursos e Certificações</h2>
-          <div class="course-item">
-            <div class="item-header">
-              <div class="item-title">Curso de Multidisciplinar</div>
-              <span style="color: var(--color-secondary-text);">60h</span>
-            </div>
-            <div class="item-subtitle">IJCPM</div>
-          </div>
-          <div class="course-item">
-            <div class="item-header">
-              <div class="item-title">Informática Básica</div>
-              <span style="color: var(--color-secondary-text);">60h</span>
-            </div>
-            <div class="item-subtitle">EEFM Waldemar Falcão</div>
-          </div>
-          <div class="course-item">
-            <div class="item-header">
-              <div class="item-title">JavaScript Avançado</div>
-            </div>
-            <div class="item-subtitle">Curso em Vídeo - Gustavo Guanabara</div>
-            <div class="item-description">Curso completo de JavaScript do básico ao avançado com projetos práticos.</div>
-          </div>
-        </div>
-
-        <!-- COMPETÊNCIAS -->
-        <div class="curriculum-section">
-          <h2 class="section-title"><i class="fas fa-lightbulb"></i> Competências</h2>
-          <div class="skills-grid">
-            <div class="skill-category">
-              <h4>Gerenciamento</h4>
-              <div class="skill-tags">
-                <span class="skill-tag">Atendimento</span>
-                <span class="skill-tag">Comunicação</span>
-                <span class="skill-tag">Organização</span>
-              </div>
-            </div>
-            <div class="skill-category">
-              <h4>Técnicas</h4>
-              <div class="skill-tags">
-                <span class="skill-tag">Informática</span>
-                <span class="skill-tag">MS Office</span>
-                <span class="skill-tag">Suporte</span>
-              </div>
-            </div>
-            <div class="skill-category">
-              <h4>Desenvolvimento</h4>
-              <div class="skill-tags">
-                <span class="skill-tag">HTML5</span>
-                <span class="skill-tag">CSS3</span>
-                <span class="skill-tag">JavaScript</span>
-                <span class="skill-tag">Node.js</span>
-              </div>
-            </div>
-            <div class="skill-category">
-              <h4>Outras</h4>
-              <div class="skill-tags">
-                <span class="skill-tag">Trabalho em Equipe</span>
-                <span class="skill-tag">Resolução de Problemas</span>
-                <span class="skill-tag">Proatividade</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- EXPERIÊNCIAS PROFISSIONAIS -->
-        <div class="curriculum-section">
-          <h2 class="section-title"><i class="fas fa-briefcase"></i> Experiências Profissionais</h2>
-          
-          <div class="experience-item">
-            <div class="item-header">
-              <div>
-                <div class="item-title">Atendente</div>
-                <div class="item-subtitle">WeckTech - Lan House</div>
-              </div>
-              <div class="item-period">Abril/2026 - Atual</div>
-            </div>
-            <div class="item-description">
-              <ul>
-                <li>Atendimento ao público e operação de caixa</li>
-                <li>Suporte básico em computadores, impressoras e serviços de impressão</li>
-                <li>Organização do ambiente e controle de pagamentos</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="experience-item">
-            <div class="item-header">
-              <div>
-                <div class="item-title">Assistente Pedagógico - Sala de Inovação Digital</div>
-                <div class="item-subtitle">EMTI Nossa Senhora de Fátima (Voluntário)</div>
-              </div>
-              <div class="item-period">Agosto/2022 - Dezembro/2023</div>
-            </div>
-            <div class="item-description">
-              <ul>
-                <li>Apoio administrativo à secretaria escolar, incluindo matrículas e organização documental</li>
-                <li>Suporte à coordenação e diretoria em controles administrativos, materiais e equipamentos</li>
-                <li>Organização de agendamentos, impressão de documentos e apoio às atividades pedagógicas</li>
-              </ul>
-            </div>
-          </div>
+      <!-- CONTEÚDO DO CURRÍCULO (renderizado via JS) -->
+      <div class="curriculum-content" id="curriculum-content">
+        <div style="text-align: center; padding: 2rem;">
+          <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--color-primary);"></i>
+          <p style="color: var(--color-secondary-text); margin-top: 1rem;">Carregando currículo...</p>
         </div>
       </div>
     </section>
@@ -556,203 +782,989 @@
     </div>
   </div>
 
-  <!-- SCRIPTS PARA DOWNLOAD -->
+  <!-- SCRIPTS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.js"></script>
   <script src="js/main.js" type="module"></script>
 
   <script>
-    // Download PDF
-    document.getElementById('download-pdf').addEventListener('click', () => {
-      const element = document.getElementById('curriculum-print');
-      const opt = {
-        margin: 10,
-        filename: 'Curriculo_JoaoGabriel.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
-      };
-      html2pdf().set(opt).from(element).save();
+    // ============================================
+    // CONFIGURAÇÃO DA API
+    // ============================================
+    const API_BASE = window.location.hostname.includes('github.dev')
+        ? 'https://' + window.location.hostname.replace('-5000', '') + '-5000.app.github.dev/api'
+        : 'http://localhost:5000/api';
+    // ============================================
+    // ESTADO GLOBAL
+    // ============================================
+    let currentUser = null;
+    let currentToken = null;
+    let curriculumData = null;
+
+    // ============================================
+    // FUNÇÕES DE AUTENTICAÇÃO
+    // ============================================
+    async function checkAuth() {
+        const token = localStorage.getItem('curriculumToken');
+        if (!token) return false;
+        
+        try {
+            const response = await fetch(`${API_BASE}/auth/verify`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                currentUser = data.user;
+                currentToken = token;
+                return true;
+            }
+        } catch (error) {
+            console.error('Erro ao verificar autenticação:', error);
+        }
+        
+        localStorage.removeItem('curriculumToken');
+        return false;
+    }
+
+    async function login(username, password) {
+        try {
+            const response = await fetch(`${API_BASE}/auth/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                localStorage.setItem('curriculumToken', data.token);
+                currentUser = data.user;
+                currentToken = data.token;
+                return { success: true, user: data.user };
+            } else {
+                const error = await response.json();
+                return { success: false, message: error.message };
+            }
+        } catch (error) {
+            console.error('Erro no login:', error);
+            return { success: false, message: 'Erro de conexão com o servidor' };
+        }
+    }
+
+    function logout() {
+        localStorage.removeItem('curriculumToken');
+        currentUser = null;
+        currentToken = null;
+        location.reload();
+    }
+
+    // ============================================
+    // FUNÇÕES DE CURRÍCULO
+    // ============================================
+    async function loadCurriculum() {
+        try {
+            const response = await fetch(`${API_BASE}/curriculum`);
+            if (response.ok) {
+                curriculumData = await response.json();
+                renderCurriculum(curriculumData);
+                return true;
+            }
+            return false;
+        } catch (error) {
+            console.error('Erro ao carregar currículo:', error);
+            return false;
+        }
+    }
+
+    async function saveCurriculum(data) {
+        if (!currentToken) {
+            showLoginModal();
+            return false;
+        }
+        
+        try {
+            const response = await fetch(`${API_BASE}/curriculum`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${currentToken}`
+                },
+                body: JSON.stringify(data)
+            });
+            
+            if (response.ok) {
+                const result = await response.json();
+                showEditStatus('✅ ' + result.message, 'success');
+                await loadCurriculum();
+                return true;
+            } else if (response.status === 401) {
+                localStorage.removeItem('curriculumToken');
+                showLoginModal();
+                return false;
+            } else {
+                const error = await response.json();
+                showEditStatus('❌ ' + (error.message || 'Erro ao salvar'), 'error');
+                return false;
+            }
+        } catch (error) {
+            console.error('Erro ao salvar currículo:', error);
+            showEditStatus('❌ Erro de conexão com o servidor', 'error');
+            return false;
+        }
+    }
+
+    // ============================================
+    // RENDERIZAÇÃO DO CURRÍCULO
+    // ============================================
+    function renderCurriculum(data) {
+        const container = document.getElementById('curriculum-content');
+        if (!container) return;
+        
+        container.innerHTML = `
+            <!-- HEADER -->
+            <div class="curriculum-header">
+                <h1 class="curriculum-name">${data.contact?.name || 'João Gabriel Sousa Santos'}</h1>
+                <div class="curriculum-contact">
+                    ${data.contact?.location ? `<div class="curriculum-contact-item"><i class="fas fa-map-marker-alt"></i><span>${data.contact.location}</span></div>` : ''}
+                    ${data.contact?.phone ? `<div class="curriculum-contact-item"><i class="fas fa-phone"></i><span>${data.contact.phone}</span></div>` : ''}
+                    ${data.contact?.email ? `<div class="curriculum-contact-item"><i class="fas fa-envelope"></i><a href="mailto:${data.contact.email}">${data.contact.email}</a></div>` : ''}
+                    ${data.contact?.linkedin ? `<div class="curriculum-contact-item"><i class="fab fa-linkedin"></i><a href="https://${data.contact.linkedin}" target="_blank">${data.contact.linkedin}</a></div>` : ''}
+                    ${data.contact?.github ? `<div class="curriculum-contact-item"><i class="fab fa-github"></i><a href="https://${data.contact.github}" target="_blank">${data.contact.github}</a></div>` : ''}
+                </div>
+            </div>
+
+            <!-- OBJETIVO -->
+            ${data.objective ? `
+            <div class="curriculum-section">
+                <h2 class="section-title"><i class="fas fa-bullseye"></i> Objetivo Profissional</h2>
+                <p class="objective-text">${data.objective}</p>
+            </div>` : ''}
+
+            <!-- RESUMO -->
+            ${data.summary ? `
+            <div class="curriculum-section">
+                <h2 class="section-title"><i class="fas fa-user-tie"></i> Resumo Profissional</h2>
+                <p class="resume-text">${data.summary}</p>
+            </div>` : ''}
+
+            <!-- FORMAÇÃO ACADÊMICA -->
+            ${data.education?.length ? `
+            <div class="curriculum-section">
+                <h2 class="section-title"><i class="fas fa-graduation-cap"></i> Formação Acadêmica</h2>
+                ${data.education.map(edu => `
+                    <div class="education-item">
+                        <div class="item-header">
+                            <div>
+                                <div class="item-title">${edu.degree}</div>
+                                ${edu.institution ? `<div class="item-subtitle">${edu.institution}</div>` : ''}
+                            </div>
+                            ${edu.period ? `<div class="item-period">${edu.period} ${edu.status === 'incompleto' ? '(em andamento)' : ''}</div>` : ''}
+                        </div>
+                    </div>
+                `).join('')}
+            </div>` : ''}
+
+            <!-- CURSOS -->
+            ${data.courses?.length ? `
+            <div class="curriculum-section">
+                <h2 class="section-title"><i class="fas fa-certificate"></i> Cursos e Certificações</h2>
+                ${data.courses.map(course => `
+                    <div class="course-item">
+                        <div class="item-header">
+                            <div>
+                                <div class="item-title">${course.title}</div>
+                                ${course.institution ? `<div class="item-subtitle">${course.institution}</div>` : ''}
+                            </div>
+                            ${course.duration ? `<span style="color: var(--color-secondary-text);">${course.duration}</span>` : ''}
+                        </div>
+                        ${course.description ? `<div class="item-description">${course.description}</div>` : ''}
+                    </div>
+                `).join('')}
+            </div>` : ''}
+
+            <!-- COMPETÊNCIAS -->
+            ${data.skills && Object.keys(data.skills).length ? `
+            <div class="curriculum-section">
+                <h2 class="section-title"><i class="fas fa-lightbulb"></i> Competências</h2>
+                <div class="skills-grid">
+                    ${Object.entries(data.skills).map(([category, items]) => `
+                        <div class="skill-category">
+                            <h4>${category.charAt(0).toUpperCase() + category.slice(1)}</h4>
+                            <div class="skill-tags">
+                                ${items.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>` : ''}
+
+            <!-- EXPERIÊNCIAS -->
+            ${data.experience?.length ? `
+            <div class="curriculum-section">
+                <h2 class="section-title"><i class="fas fa-briefcase"></i> Experiências Profissionais</h2>
+                ${data.experience.map(exp => `
+                    <div class="experience-item">
+                        <div class="item-header">
+                            <div>
+                                <div class="item-title">${exp.position}</div>
+                                <div class="item-subtitle">${exp.company}</div>
+                                ${exp.location ? `<div style="color: var(--color-secondary-text); font-size: 0.85rem;">${exp.location}</div>` : ''}
+                            </div>
+                            <div class="item-period">${exp.startDate} - ${exp.endDate}</div>
+                        </div>
+                        ${exp.responsibilities?.length ? `
+                            <div class="item-description">
+                                <ul>
+                                    ${exp.responsibilities.map(resp => `<li>${resp}</li>`).join('')}
+                                </ul>
+                            </div>
+                        ` : ''}
+                    </div>
+                `).join('')}
+            </div>` : ''}
+
+            <!-- IDIOMAS -->
+            ${data.languages?.length ? `
+            <div class="curriculum-section">
+                <h2 class="section-title"><i class="fas fa-language"></i> Idiomas</h2>
+                <div class="skills-grid">
+                    ${data.languages.map(lang => `
+                        <div class="skill-category">
+                            <h4>${lang.language}</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag">${lang.proficiency}</span>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>` : ''}
+        `;
+    }
+
+    // ============================================
+    // MODAL DE LOGIN
+    // ============================================
+    function showLoginModal() {
+        // Remove modal existente
+        const existing = document.querySelector('.login-modal-overlay');
+        if (existing) existing.remove();
+
+        const modal = document.createElement('div');
+        modal.className = 'login-modal-overlay';
+        modal.innerHTML = `
+            <div class="login-modal">
+                <h2>🔐 Acesso ao Currículo</h2>
+                <p>Faça login para editar o currículo</p>
+                
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-username">Usuário</label>
+                        <input type="text" id="login-username" placeholder="Usuário" required autocomplete="username">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="login-password">Senha</label>
+                        <input type="password" id="login-password" placeholder="Senha" required autocomplete="current-password">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn-login">Entrar</button>
+                        <button type="button" class="btn-cancel" onclick="this.closest('.login-modal-overlay').remove()">Cancelar</button>
+                    </div>
+                    
+                    <div id="login-error" class="login-error"></div>
+                    <div id="login-success" class="login-success"></div>
+                </form>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+            
+            const result = await login(username, password);
+            if (result.success) {
+                document.getElementById('login-success').textContent = '✅ Login realizado com sucesso!';
+                document.getElementById('login-error').textContent = '';
+                setTimeout(() => {
+                    modal.remove();
+                    document.getElementById('edit-btn').style.display = 'inline-flex';
+                    loadCurriculum();
+                }, 1000);
+            } else {
+                document.getElementById('login-error').textContent = '❌ ' + (result.message || 'Usuário ou senha incorretos');
+                document.getElementById('login-success').textContent = '';
+            }
+        });
+    }
+
+    // ============================================
+    // MODAL DE EDIÇÃO
+    // ============================================
+    function showEditModal() {
+        if (!currentToken) {
+            showLoginModal();
+            return;
+        }
+
+        const overlay = document.getElementById('edit-modal-overlay');
+        const container = document.getElementById('edit-fields-container');
+        
+        container.innerHTML = generateEditFields(curriculumData);
+        overlay.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function generateEditFields(data) {
+        let html = '';
+        
+        // Contato
+        if (data.contact) {
+            html += `<div class="edit-section"><h3>📋 Contato</h3>`;
+            Object.entries(data.contact).forEach(([key, value]) => {
+                html += `
+                    <div class="edit-field">
+                        <label for="contact_${key}">${key.charAt(0).toUpperCase() + key.slice(1)}</label>
+                        <input type="text" id="contact_${key}" value="${value || ''}" data-path="contact.${key}">
+                    </div>
+                `;
+            });
+            html += `</div>`;
+        }
+        
+        // Objetivo
+        html += `
+            <div class="edit-section">
+                <h3>🎯 Objetivo Profissional</h3>
+                <div class="edit-field">
+                    <textarea id="objective" data-path="objective" rows="3">${data.objective || ''}</textarea>
+                </div>
+            </div>
+        `;
+        
+        // Resumo
+        html += `
+            <div class="edit-section">
+                <h3>📝 Resumo Profissional</h3>
+                <div class="edit-field">
+                    <textarea id="summary" data-path="summary" rows="4">${data.summary || ''}</textarea>
+                </div>
+            </div>
+        `;
+        
+        // Formação
+        html += `
+            <div class="edit-section">
+                <h3>🎓 Formação Acadêmica</h3>
+                <div id="education-fields">
+                    ${data.education?.map((edu, index) => `
+                        <div class="edit-item" data-index="${index}">
+                            <h4>Formação ${index + 1}</h4>
+                            <div class="edit-field">
+                                <label>Curso</label>
+                                <input type="text" value="${edu.degree || ''}" data-path="education.${index}.degree">
+                            </div>
+                            <div class="edit-field">
+                                <label>Instituição</label>
+                                <input type="text" value="${edu.institution || ''}" data-path="education.${index}.institution">
+                            </div>
+                            <div class="edit-field">
+                                <label>Período</label>
+                                <input type="text" value="${edu.period || ''}" data-path="education.${index}.period">
+                            </div>
+                            <div class="edit-field">
+                                <label>Status</label>
+                                <select data-path="education.${index}.status">
+                                    <option value="completo" ${edu.status === 'completo' ? 'selected' : ''}>Completo</option>
+                                    <option value="incompleto" ${edu.status === 'incompleto' ? 'selected' : ''}>Em andamento</option>
+                                </select>
+                            </div>
+                            <button type="button" class="btn-remove-item" onclick="removeEducationItem(${index})">Remover</button>
+                        </div>
+                    `).join('')}
+                </div>
+                <button type="button" class="btn-add-item" onclick="addEducationItem()">+ Adicionar Formação</button>
+            </div>
+        `;
+        
+        // Cursos
+        html += `
+            <div class="edit-section">
+                <h3>📚 Cursos</h3>
+                <div id="courses-fields">
+                    ${data.courses?.map((course, index) => `
+                        <div class="edit-item" data-index="${index}">
+                            <h4>Curso ${index + 1}</h4>
+                            <div class="edit-field">
+                                <label>Título</label>
+                                <input type="text" value="${course.title || ''}" data-path="courses.${index}.title">
+                            </div>
+                            <div class="edit-field">
+                                <label>Instituição</label>
+                                <input type="text" value="${course.institution || ''}" data-path="courses.${index}.institution">
+                            </div>
+                            <div class="edit-field">
+                                <label>Duração</label>
+                                <input type="text" value="${course.duration || ''}" data-path="courses.${index}.duration">
+                            </div>
+                            <button type="button" class="btn-remove-item" onclick="removeCourseItem(${index})">Remover</button>
+                        </div>
+                    `).join('')}
+                </div>
+                <button type="button" class="btn-add-item" onclick="addCourseItem()">+ Adicionar Curso</button>
+            </div>
+        `;
+        
+        // Competências
+        html += `
+            <div class="edit-section">
+                <h3>💡 Competências</h3>
+                <div class="edit-field">
+                    <label>Core Skills (separadas por vírgula)</label>
+                    <input type="text" id="skills-core" value="${data.skills?.core?.join(', ') || ''}" data-path="skills.core" data-type="array">
+                </div>
+                <div class="edit-field">
+                    <label>Technical Skills (separadas por vírgula)</label>
+                    <input type="text" id="skills-technical" value="${data.skills?.technical?.join(', ') || ''}" data-path="skills.technical" data-type="array">
+                </div>
+            </div>
+        `;
+        
+        // Experiências
+        html += `
+            <div class="edit-section">
+                <h3>💼 Experiências Profissionais</h3>
+                <div id="experience-fields">
+                    ${data.experience?.map((exp, index) => `
+                        <div class="edit-item" data-index="${index}">
+                            <h4>Experiência ${index + 1}</h4>
+                            <div class="edit-field">
+                                <label>Empresa</label>
+                                <input type="text" value="${exp.company || ''}" data-path="experience.${index}.company">
+                            </div>
+                            <div class="edit-field">
+                                <label>Cargo</label>
+                                <input type="text" value="${exp.position || ''}" data-path="experience.${index}.position">
+                            </div>
+                            <div class="edit-field">
+                                <label>Localização</label>
+                                <input type="text" value="${exp.location || ''}" data-path="experience.${index}.location">
+                            </div>
+                            <div class="edit-field">
+                                <label>Data Início</label>
+                                <input type="text" value="${exp.startDate || ''}" data-path="experience.${index}.startDate" placeholder="YYYY-MM">
+                            </div>
+                            <div class="edit-field">
+                                <label>Data Fim</label>
+                                <input type="text" value="${exp.endDate || ''}" data-path="experience.${index}.endDate" placeholder="YYYY-MM ou 'atual'">
+                            </div>
+                            <div class="edit-field">
+                                <label>Responsabilidades (uma por linha)</label>
+                                <textarea data-path="experience.${index}.responsibilities" data-type="array-lines" rows="3">${exp.responsibilities?.join('\n') || ''}</textarea>
+                            </div>
+                            <button type="button" class="btn-remove-item" onclick="removeExperienceItem(${index})">Remover</button>
+                        </div>
+                    `).join('')}
+                </div>
+                <button type="button" class="btn-add-item" onclick="addExperienceItem()">+ Adicionar Experiência</button>
+            </div>
+        `;
+        
+        // Idiomas
+        html += `
+            <div class="edit-section">
+                <h3>🌐 Idiomas</h3>
+                <div id="languages-fields">
+                    ${data.languages?.map((lang, index) => `
+                        <div class="edit-item" data-index="${index}">
+                            <h4>Idioma ${index + 1}</h4>
+                            <div class="edit-field">
+                                <label>Idioma</label>
+                                <input type="text" value="${lang.language || ''}" data-path="languages.${index}.language">
+                            </div>
+                            <div class="edit-field">
+                                <label>Proficiência</label>
+                                <select data-path="languages.${index}.proficiency">
+                                    <option value="Básico" ${lang.proficiency === 'Básico' ? 'selected' : ''}>Básico</option>
+                                    <option value="Intermediário" ${lang.proficiency === 'Intermediário' ? 'selected' : ''}>Intermediário</option>
+                                    <option value="Avançado" ${lang.proficiency === 'Avançado' ? 'selected' : ''}>Avançado</option>
+                                    <option value="Fluente" ${lang.proficiency === 'Fluente' ? 'selected' : ''}>Fluente</option>
+                                    <option value="Nativo" ${lang.proficiency === 'Nativo' ? 'selected' : ''}>Nativo</option>
+                                </select>
+                            </div>
+                            <button type="button" class="btn-remove-item" onclick="removeLanguageItem(${index})">Remover</button>
+                        </div>
+                    `).join('')}
+                </div>
+                <button type="button" class="btn-add-item" onclick="addLanguageItem()">+ Adicionar Idioma</button>
+            </div>
+        `;
+        
+        return html;
+    }
+
+    // ============================================
+    // FUNÇÕES DE MANIPULAÇÃO DO FORMULÁRIO
+    // ============================================
+    function collectFormData() {
+        const form = document.getElementById('curriculum-edit-form');
+        const inputs = form.querySelectorAll('[data-path]');
+        const data = JSON.parse(JSON.stringify(curriculumData));
+        
+        inputs.forEach(input => {
+            const path = input.dataset.path.split('.');
+            let current = data;
+            
+            for (let i = 0; i < path.length - 1; i++) {
+                if (!current[path[i]]) current[path[i]] = {};
+                current = current[path[i]];
+            }
+            
+            const key = path[path.length - 1];
+            
+            // Processar diferentes tipos de dados
+            if (input.dataset.type === 'array') {
+                current[key] = input.value.split(',').map(s => s.trim()).filter(Boolean);
+            } else if (input.dataset.type === 'array-lines') {
+                current[key] = input.value.split('\n').map(s => s.trim()).filter(Boolean);
+            } else if (input.type === 'number') {
+                current[key] = parseFloat(input.value);
+            } else {
+                current[key] = input.value;
+            }
+        });
+        
+        return data;
+    }
+
+    function showEditStatus(message, type) {
+        const status = document.getElementById('edit-status');
+        if (status) {
+            status.textContent = message;
+            status.className = `edit-status ${type}`;
+            status.style.display = 'block';
+            setTimeout(() => {
+                status.style.display = 'none';
+            }, 5000);
+        }
+    }
+
+    // Funções para adicionar/remover itens
+    function addEducationItem() {
+        const container = document.getElementById('education-fields');
+        const index = container.children.length;
+        const html = `
+            <div class="edit-item" data-index="${index}">
+                <h4>Formação ${index + 1}</h4>
+                <div class="edit-field">
+                    <label>Curso</label>
+                    <input type="text" value="" data-path="education.${index}.degree">
+                </div>
+                <div class="edit-field">
+                    <label>Instituição</label>
+                    <input type="text" value="" data-path="education.${index}.institution">
+                </div>
+                <div class="edit-field">
+                    <label>Período</label>
+                    <input type="text" value="" data-path="education.${index}.period">
+                </div>
+                <div class="edit-field">
+                    <label>Status</label>
+                    <select data-path="education.${index}.status">
+                        <option value="completo">Completo</option>
+                        <option value="incompleto" selected>Em andamento</option>
+                    </select>
+                </div>
+                <button type="button" class="btn-remove-item" onclick="removeEducationItem(${index})">Remover</button>
+            </div>
+        `;
+        container.insertAdjacentHTML('beforeend', html);
+        updateItemIndices('education');
+    }
+
+    function removeEducationItem(index) {
+        const container = document.getElementById('education-fields');
+        const items = container.querySelectorAll('.edit-item');
+        if (items.length > 1) {
+            items[index].remove();
+            updateItemIndices('education');
+        }
+    }
+
+    function addCourseItem() {
+        const container = document.getElementById('courses-fields');
+        const index = container.children.length;
+        const html = `
+            <div class="edit-item" data-index="${index}">
+                <h4>Curso ${index + 1}</h4>
+                <div class="edit-field">
+                    <label>Título</label>
+                    <input type="text" value="" data-path="courses.${index}.title">
+                </div>
+                <div class="edit-field">
+                    <label>Instituição</label>
+                    <input type="text" value="" data-path="courses.${index}.institution">
+                </div>
+                <div class="edit-field">
+                    <label>Duração</label>
+                    <input type="text" value="" data-path="courses.${index}.duration">
+                </div>
+                <button type="button" class="btn-remove-item" onclick="removeCourseItem(${index})">Remover</button>
+            </div>
+        `;
+        container.insertAdjacentHTML('beforeend', html);
+        updateItemIndices('courses');
+    }
+
+    function removeCourseItem(index) {
+        const container = document.getElementById('courses-fields');
+        const items = container.querySelectorAll('.edit-item');
+        if (items.length > 1) {
+            items[index].remove();
+            updateItemIndices('courses');
+        }
+    }
+
+    function addExperienceItem() {
+        const container = document.getElementById('experience-fields');
+        const index = container.children.length;
+        const html = `
+            <div class="edit-item" data-index="${index}">
+                <h4>Experiência ${index + 1}</h4>
+                <div class="edit-field">
+                    <label>Empresa</label>
+                    <input type="text" value="" data-path="experience.${index}.company">
+                </div>
+                <div class="edit-field">
+                    <label>Cargo</label>
+                    <input type="text" value="" data-path="experience.${index}.position">
+                </div>
+                <div class="edit-field">
+                    <label>Localização</label>
+                    <input type="text" value="" data-path="experience.${index}.location">
+                </div>
+                <div class="edit-field">
+                    <label>Data Início</label>
+                    <input type="text" value="" data-path="experience.${index}.startDate" placeholder="YYYY-MM">
+                </div>
+                <div class="edit-field">
+                    <label>Data Fim</label>
+                    <input type="text" value="" data-path="experience.${index}.endDate" placeholder="YYYY-MM ou 'atual'">
+                </div>
+                <div class="edit-field">
+                    <label>Responsabilidades (uma por linha)</label>
+                    <textarea data-path="experience.${index}.responsibilities" data-type="array-lines" rows="3"></textarea>
+                </div>
+                <button type="button" class="btn-remove-item" onclick="removeExperienceItem(${index})">Remover</button>
+            </div>
+        `;
+        container.insertAdjacentHTML('beforeend', html);
+        updateItemIndices('experience');
+    }
+
+    function removeExperienceItem(index) {
+        const container = document.getElementById('experience-fields');
+        const items = container.querySelectorAll('.edit-item');
+        if (items.length > 1) {
+            items[index].remove();
+            updateItemIndices('experience');
+        }
+    }
+
+    function addLanguageItem() {
+        const container = document.getElementById('languages-fields');
+        const index = container.children.length;
+        const html = `
+            <div class="edit-item" data-index="${index}">
+                <h4>Idioma ${index + 1}</h4>
+                <div class="edit-field">
+                    <label>Idioma</label>
+                    <input type="text" value="" data-path="languages.${index}.language">
+                </div>
+                <div class="edit-field">
+                    <label>Proficiência</label>
+                    <select data-path="languages.${index}.proficiency">
+                        <option value="Básico">Básico</option>
+                        <option value="Intermediário">Intermediário</option>
+                        <option value="Avançado">Avançado</option>
+                        <option value="Fluente">Fluente</option>
+                        <option value="Nativo">Nativo</option>
+                    </select>
+                </div>
+                <button type="button" class="btn-remove-item" onclick="removeLanguageItem(${index})">Remover</button>
+            </div>
+        `;
+        container.insertAdjacentHTML('beforeend', html);
+        updateItemIndices('languages');
+    }
+
+    function removeLanguageItem(index) {
+        const container = document.getElementById('languages-fields');
+        const items = container.querySelectorAll('.edit-item');
+        if (items.length > 1) {
+            items[index].remove();
+            updateItemIndices('languages');
+        }
+    }
+
+    function updateItemIndices(section) {
+        const container = document.getElementById(`${section}-fields`);
+        if (!container) return;
+        
+        const items = container.querySelectorAll('.edit-item');
+        items.forEach((item, newIndex) => {
+            item.dataset.index = newIndex;
+            item.querySelector('h4').textContent = 
+                section === 'education' ? `Formação ${newIndex + 1}` :
+                section === 'courses' ? `Curso ${newIndex + 1}` :
+                section === 'experience' ? `Experiência ${newIndex + 1}` :
+                `Idioma ${newIndex + 1}`;
+            
+            // Atualizar data-path de todos os inputs
+            item.querySelectorAll('[data-path]').forEach(input => {
+                const path = input.dataset.path.split('.');
+                path[1] = newIndex;
+                input.dataset.path = path.join('.');
+            });
+            
+            // Atualizar onclick dos botões remover
+            const removeBtn = item.querySelector('.btn-remove-item');
+            if (removeBtn) {
+                const fn = section === 'education' ? 'removeEducationItem' :
+                          section === 'courses' ? 'removeCourseItem' :
+                          section === 'experience' ? 'removeExperienceItem' :
+                          'removeLanguageItem';
+                removeBtn.setAttribute('onclick', `${fn}(${newIndex})`);
+            }
+        });
+    }
+
+    // ============================================
+    // DOWNLOAD FUNCTIONS
+    // ============================================
+    // Download do PDF gerado
+    document.getElementById('download-pdf')?.addEventListener('click', () => {
+        const element = document.getElementById('curriculum-content');
+        const opt = {
+            margin: 10,
+            filename: 'Curriculo_JoaoGabriel.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
+        };
+        html2pdf().set(opt).from(element).save();
     });
 
-    // Download DOCX
-    document.getElementById('download-docx').addEventListener('click', () => {
-      const { Document, Packer, Paragraph, TextRun, HeadingLevel, Table, TableCell, TableRow, WidthType, BorderStyle, AlignmentType, UnderlineType } = window.docx;
+    // Download do DOCX gerado
+    document.getElementById('download-docx')?.addEventListener('click', () => {
+        const { Document, Packer, Paragraph, TextRun, AlignmentType } = window.docx;
 
-      const doc = new Document({
-        sections: [{
-          properties: {},
-          children: [
-            // Cabeçalho
-            new Paragraph({
-              text: 'JOÃO GABRIEL SOUSA SANTOS',
-              bold: true,
-              size: 28,
-              alignment: AlignmentType.CENTER,
-              spacing: { after: 100 }
-            }),
-            new Paragraph({
-              text: 'Fortaleza - CE • (85) 9 9217-1191 • joaogabriel4175@gmail.com',
-              size: 20,
-              alignment: AlignmentType.CENTER,
-              spacing: { after: 200 }
-            }),
+        const doc = new Document({
+            sections: [{
+                properties: {},
+                children: [
+                    new Paragraph({
+                        text: 'JOÃO GABRIEL SOUSA SANTOS',
+                        bold: true,
+                        size: 28,
+                        alignment: AlignmentType.CENTER,
+                        spacing: { after: 100 }
+                    }),
+                    new Paragraph({
+                        text: 'Fortaleza - CE • (85) 9 9217-1191 • joaogabriel4175@gmail.com',
+                        size: 20,
+                        alignment: AlignmentType.CENTER,
+                        spacing: { after: 200 }
+                    }),
+                    new Paragraph({
+                        text: 'OBJETIVO PROFISSIONAL',
+                        bold: true,
+                        size: 24,
+                        spacing: { after: 100 }
+                    }),
+                    new Paragraph({
+                        text: curriculumData?.objective || 'Atuar nas áreas de atendimento ao cliente, rotinas administrativas e suporte operacional, contribuindo com organização, resolução de problemas e qualidade no atendimento.',
+                        size: 20,
+                        spacing: { after: 200 }
+                    }),
+                    new Paragraph({
+                        text: 'RESUMO PROFISSIONAL',
+                        bold: true,
+                        size: 24,
+                        spacing: { after: 100 }
+                    }),
+                    new Paragraph({
+                        text: curriculumData?.summary || 'Profissional com experiência em atendimento ao público e suporte em Lan House, além de atuação voluntária em ambiente escolar com apoio administrativo e organizacional.',
+                        size: 20,
+                        spacing: { after: 200 }
+                    }),
+                    new Paragraph({
+                        text: 'FORMAÇÃO ACADÊMICA',
+                        bold: true,
+                        size: 24,
+                        spacing: { after: 100 }
+                    }),
+                    ...(curriculumData?.education?.map(edu => 
+                        new Paragraph({
+                            text: `• ${edu.degree}${edu.institution ? ` – ${edu.institution}` : ''}${edu.period ? ` (${edu.period})` : ''}`,
+                            size: 20
+                        })
+                    ) || []),
+                    new Paragraph({ text: '', spacing: { after: 200 } }),
+                    new Paragraph({
+                        text: 'CURSOS E CERTIFICAÇÕES',
+                        bold: true,
+                        size: 24,
+                        spacing: { after: 100 }
+                    }),
+                    ...(curriculumData?.courses?.map(course =>
+                        new Paragraph({
+                            text: `• ${course.title}${course.duration ? ` (${course.duration})` : ''}${course.institution ? ` – ${course.institution}` : ''}`,
+                            size: 20
+                        })
+                    ) || []),
+                    new Paragraph({ text: '', spacing: { after: 200 } }),
+                    new Paragraph({
+                        text: 'COMPETÊNCIAS',
+                        bold: true,
+                        size: 24,
+                        spacing: { after: 100 }
+                    }),
+                    new Paragraph({
+                        text: (curriculumData?.skills?.core || []).concat(curriculumData?.skills?.technical || []).join(' • ') || 'Atendimento ao Cliente • Comunicação • Organização • Trabalho em Equipe',
+                        size: 20,
+                        spacing: { after: 200 }
+                    }),
+                    new Paragraph({
+                        text: 'EXPERIÊNCIAS PROFISSIONAIS',
+                        bold: true,
+                        size: 24,
+                        spacing: { after: 100 }
+                    })
+                ]
+            }]
+        });
 
-            // Objetivo
-            new Paragraph({
-              text: 'OBJETIVO PROFISSIONAL',
-              bold: true,
-              size: 24,
-              spacing: { after: 100 }
-            }),
-            new Paragraph({
-              text: 'Atuar nas áreas de atendimento ao cliente, rotinas administrativas e suporte operacional, contribuindo com organização, resolução de problemas e qualidade no atendimento.',
-              size: 20,
-              spacing: { after: 200 }
-            }),
+        // Adicionar experiências
+        const children = doc.sections[0].children;
+        curriculumData?.experience?.forEach(exp => {
+            children.push(
+                new Paragraph({ text: `Empresa: ${exp.company}`, bold: true, size: 20 }),
+                new Paragraph({ text: `Cargo: ${exp.position}`, size: 20 }),
+                new Paragraph({ text: `Período: ${exp.startDate} - ${exp.endDate}`, size: 20, spacing: { after: 100 } })
+            );
+            exp.responsibilities?.forEach(resp => {
+                children.push(new Paragraph({ text: `• ${resp}`, size: 20 }));
+            });
+            children.push(new Paragraph({ text: '', spacing: { after: 200 } }));
+        });
 
-            // Resumo
-            new Paragraph({
-              text: 'RESUMO PROFISSIONAL',
-              bold: true,
-              size: 24,
-              spacing: { after: 100 }
-            }),
-            new Paragraph({
-              text: 'Profissional com experiência em atendimento ao público e suporte em Lan House, além de atuação voluntária em ambiente escolar com apoio administrativo e organizacional. Possuo conhecimentos em informática, Pacote Office e organização documental, buscando oportunidade para desenvolver carreira na área administrativa.',
-              size: 20,
-              spacing: { after: 200 }
-            }),
-
-            // Formação
-            new Paragraph({
-              text: 'FORMAÇÃO ACADÊMICA',
-              bold: true,
-              size: 24,
-              spacing: { after: 100 }
-            }),
-            new Paragraph({
-              text: '• Bacharelado em Ciência da Computação – 2024/2025 (incompleto)',
-              size: 20
-            }),
-            new Paragraph({
-              text: '• Ensino Médio Completo',
-              size: 20,
-              spacing: { after: 200 }
-            }),
-
-            // Cursos
-            new Paragraph({
-              text: 'CURSOS E CERTIFICAÇÕES',
-              bold: true,
-              size: 24,
-              spacing: { after: 100 }
-            }),
-            new Paragraph({
-              text: '• Curso de Multidisciplinar (60h) – IJCPM',
-              size: 20
-            }),
-            new Paragraph({
-              text: '• Informática Básica (60h) – EEFM Waldemar Falcão',
-              size: 20,
-              spacing: { after: 200 }
-            }),
-
-            // Competências
-            new Paragraph({
-              text: 'COMPETÊNCIAS',
-              bold: true,
-              size: 24,
-              spacing: { after: 100 }
-            }),
-            new Paragraph({
-              text: 'Atendimento ao Cliente • Comunicação • Organização de Documentos • Trabalho em Equipe • Resolução de Problemas • Rotinas Administrativas • Microsoft Word e Excel',
-              size: 20,
-              spacing: { after: 200 }
-            }),
-
-            // Experiências
-            new Paragraph({
-              text: 'EXPERIÊNCIAS PROFISSIONAIS',
-              bold: true,
-              size: 24,
-              spacing: { after: 100 }
-            }),
-            new Paragraph({
-              text: 'Empresa: WeckTech - Lan House',
-              bold: true,
-              size: 20
-            }),
-            new Paragraph({
-              text: 'Cargo: Atendente',
-              size: 20
-            }),
-            new Paragraph({
-              text: 'Período: Abril/2026 – Atual',
-              size: 20,
-              spacing: { after: 100 }
-            }),
-            new Paragraph({
-              text: '• Atendimento ao público e operação de caixa',
-              size: 20
-            }),
-            new Paragraph({
-              text: '• Suporte básico em computadores, impressoras e serviços de impressão',
-              size: 20
-            }),
-            new Paragraph({
-              text: '• Organização do ambiente e controle de pagamentos',
-              size: 20,
-              spacing: { after: 200 }
-            }),
-
-            new Paragraph({
-              text: 'Empresa: EMTI Nossa Senhora de Fátima',
-              bold: true,
-              size: 20
-            }),
-            new Paragraph({
-              text: 'Cargo: Assistente Pedagógico – Sala de Inovação Digital (Voluntário)',
-              size: 20
-            }),
-            new Paragraph({
-              text: 'Período: Agosto/2022 - Dezembro/2023',
-              size: 20,
-              spacing: { after: 100 }
-            }),
-            new Paragraph({
-              text: '• Apoio administrativo à secretaria escolar, incluindo matrículas, organização documental e lançamento de informações acadêmicas',
-              size: 20
-            }),
-            new Paragraph({
-              text: '• Suporte à coordenação e diretoria em controles administrativos, materiais e equipamentos',
-              size: 20
-            }),
-            new Paragraph({
-              text: '• Organização de agendamentos, impressão de documentos e apoio às atividades pedagógicas',
-              size: 20
-            })
-          ]
-        }]
-      });
-
-      Packer.toBlob(doc).then(blob => {
-        const url = window.URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'Curriculo_JoaoGabriel.docx';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(url);
-      });
+        Packer.toBlob(doc).then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'Curriculo_JoaoGabriel.docx';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+        });
     });
 
     // Imprimir
-    document.getElementById('print-btn').addEventListener('click', () => {
-      window.print();
+    document.getElementById('print-btn')?.addEventListener('click', () => {
+        window.print();
     });
 
+    // Download do PDF do repositório
+    document.getElementById('download-repo-pdf')?.addEventListener('click', () => {
+        window.open('assets/curriculo_pessoal.pdf', '_blank');
+    });
+
+    // Download do DOCX do repositório
+    document.getElementById('download-repo-docx')?.addEventListener('click', () => {
+        window.open('assets/curriculo_pessoal.docx', '_blank');
+    });
+
+    // ============================================
+    // INICIALIZAÇÃO
+    // ============================================
+    document.addEventListener('DOMContentLoaded', async function() {
+        // Carregar currículo
+        await loadCurriculum();
+        
+        // Verificar autenticação
+        const isAuth = await checkAuth();
+        if (isAuth) {
+            document.getElementById('edit-btn').style.display = 'inline-flex';
+        }
+        
+        // Configurar botão de edição
+        document.getElementById('edit-btn')?.addEventListener('click', function() {
+            if (!currentToken) {
+                showLoginModal();
+            } else {
+                showEditModal();
+            }
+        });
+        
+        // Configurar modal de edição
+        document.getElementById('close-edit-modal')?.addEventListener('click', () => {
+            document.getElementById('edit-modal-overlay').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+        
+        document.getElementById('cancel-edit')?.addEventListener('click', () => {
+            document.getElementById('edit-modal-overlay').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+        
+        document.getElementById('curriculum-edit-form')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = collectFormData();
+            if (await saveCurriculum(data)) {
+                document.getElementById('edit-modal-overlay').style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Fechar modal ao clicar fora
+        document.getElementById('edit-modal-overlay')?.addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) {
+                document.getElementById('edit-modal-overlay').style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+    });
   </script>
+
+  <!-- EDIÇÃO - MODAL -->
+  <div id="edit-modal-overlay" class="edit-modal-overlay">
+    <div class="edit-modal">
+      <div class="edit-modal-header">
+        <h2><i class="fas fa-edit"></i> Editar Currículo</h2>
+        <button id="close-edit-modal" class="close-btn">&times;</button>
+      </div>
+      <div class="edit-modal-body">
+        <form id="curriculum-edit-form">
+          <div id="edit-fields-container"></div>
+          
+          <div class="form-actions">
+            <button type="submit" class="btn-save"><i class="fas fa-save"></i> Salvar Alterações</button>
+            <button type="button" id="cancel-edit" class="btn-cancel-edit">Cancelar</button>
+          </div>
+          
+          <div id="edit-status" class="edit-status"></div>
+        </form>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
