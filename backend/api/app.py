@@ -3,15 +3,17 @@ import os
 import json
 from dotenv import load_dotenv
 
-# Carregar variáveis do arquivo .env
 load_dotenv()
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timedelta
 import jwt
 from functools import wraps
+from io import BytesIO
+from docx import Document
+from docx.shared import Pt, Inches, RGBColor
 
 app = Flask(__name__)
 
@@ -299,6 +301,165 @@ def health_check():
         'database': 'connected' if app.config['SQLALCHEMY_DATABASE_URI'] else 'using_sqlite'
     })
 
+# api/app.py - Rota para download do DOCX via Python
+@app.route('/api/curriculum/download/docx', methods=['POST'])
+def download_docx():
+    try:
+        data = request.json
+        
+        # Criar documento
+        doc = Document()
+        
+        # Configurar margens
+        for section in doc.sections:
+            section.top_margin = Inches(1)
+            section.bottom_margin = Inches(1)
+            section.left_margin = Inches(1)
+            section.right_margin = Inches(1)
+        
+        # Título
+        title = doc.add_heading('JOÃO GABRIEL SOUSA SANTOS', 0)
+        title.alignment = 1  # Centralizado
+        
+        # Contato
+        if data.get('contact'):
+            contact_texts = []
+            for key, value in data['contact'].items():
+                if value:
+                    contact_texts.append(str(value))
+            if contact_texts:
+                contact = doc.add_paragraph(' • '.join(contact_texts))
+                contact.alignment = 1
+        
+        doc.add_paragraph()
+        
+        # Objetivo
+        if data.get('objective'):
+            doc.add_heading('OBJETIVO PROFISSIONAL', 2)
+            doc.add_paragraph(data['objective'])
+        
+        # Resumo
+        if data.get('summary'):
+            doc.add_heading('RESUMO PROFISSIONAL', 2)
+            doc.add_paragraph(data['summary'])
+        
+        # Formação Acadêmica
+        if data.get('education'):
+            doc.add_heading('FORMAÇÃO ACADÊMICA', 2)
+            for edu in data['education']:
+                text = f"• {edu.get('degree', '')}"
+                if edu.get('institution'):
+                    text += f" – {edu.get('institution')}"
+                if edu.get('period'):
+                    text += f" ({edu.get('period')})"
+                if edu.get('status'):
+                    status_labels = {
+                        'concluido': 'Concluído',
+                        'completo': 'Concluído',
+                        'incompleto': 'Em andamento',
+                        'trancado': 'Trancado',
+                        'interrompido': 'Interrompido'
+                    }
+                    text += f" - {status_labels.get(edu['status'], edu['status'])}"
+                doc.add_paragraph(text)
+        
+        # Cursos e Certificações
+        if data.get('courses'):
+            doc.add_heading('CURSOS E CERTIFICAÇÕES', 2)
+            for course in data['courses']:
+                text = f"• {course.get('title', '')}"
+                if course.get('duration'):
+                    text += f" ({course.get('duration')})"
+                if course.get('institution'):
+                    text += f" – {course.get('institution')}"
+                if course.get('status'):
+                    status_labels = {
+                        'concluido': '✅ Concluído',
+                        'andamento': '🔄 Em andamento',
+                        'planejado': '📋 Planejado',
+                        'cancelado': '❌ Cancelado',
+                        'pendente': '⏳ Pendente'
+                    }
+                    text += f" - {status_labels.get(course['status'], course['status'])}"
+                doc.add_paragraph(text)
+                
+                if course.get('description'):
+                    # Processar markdown simples para descrição
+                    desc = course['description']
+                    # Remover markdown básico para texto plano
+                    desc = desc.replace('**', '').replace('*', '')
+                    desc = desc.replace('# ', '').replace('## ', '').replace('### ', '')
+                    # Converter listas
+                    lines = desc.split('\n')
+                    for line in lines:
+                        if line.strip().startswith('-') or line.strip().startswith('*'):
+                            doc.add_paragraph(f"   {line.strip()}", style='Normal')
+                        elif line.strip():
+                            doc.add_paragraph(line.strip(), style='Normal')
+        
+        # Competências
+        if data.get('skills'):
+            doc.add_heading('COMPETÊNCIAS', 2)
+            skills_text = []
+            category_labels = {
+                'core': 'Soft Skills',
+                'technical': 'Hard Skills'
+            }
+            for category, items in data['skills'].items():
+                if items:
+                    label = category_labels.get(category, category.capitalize())
+                    skills_text.append(f"{label}: {', '.join(items)}")
+            doc.add_paragraph(' • '.join(skills_text))
+        
+        # Experiências Profissionais
+        if data.get('experience'):
+            doc.add_heading('EXPERIÊNCIAS PROFISSIONAIS', 2)
+            for exp in data['experience']:
+                p = doc.add_paragraph()
+                p.add_run(f"Empresa: ").bold = True
+                p.add_run(exp.get('company', ''))
+                
+                p = doc.add_paragraph()
+                p.add_run(f"Cargo: ").bold = True
+                p.add_run(exp.get('position', ''))
+                
+                if exp.get('location'):
+                    p = doc.add_paragraph()
+                    p.add_run(f"Localização: ").bold = True
+                    p.add_run(exp.get('location', ''))
+                
+                p = doc.add_paragraph()
+                p.add_run(f"Período: ").bold = True
+                p.add_run(f"{exp.get('startDate', '')} - {exp.get('endDate', '')}")
+                
+                for resp in exp.get('responsibilities', []):
+                    doc.add_paragraph(f"• {resp}", style='Normal')
+                
+                doc.add_paragraph()
+        
+        # Idiomas
+        if data.get('languages'):
+            doc.add_heading('IDIOMAS', 2)
+            for lang in data['languages']:
+                doc.add_paragraph(f"{lang.get('language', '')}: {lang.get('proficiency', '')}")
+        
+        # Salvar em memória
+        file_bytes = BytesIO()
+        doc.save(file_bytes)
+        file_bytes.seek(0)
+        
+        return Response(
+            file_bytes.getvalue(),
+            mimetype='application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            headers={
+                'Content-Disposition': 'attachment; filename=Curriculo_JoaoGabriel.docx',
+                'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+            }
+        )
+        
+    except Exception as e:
+        print(f"❌ Erro ao gerar DOCX: {e}")
+        return jsonify({'error': str(e)}), 500
 # ============================================
 # INICIALIZAÇÃO
 # ============================================
