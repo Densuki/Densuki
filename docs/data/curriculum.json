@@ -1,1 +1,113 @@
-[]
+{
+  "contact": {
+    "name": "João Gabriel Sousa Santos",
+    "location": "Fortaleza - CE",
+    "phone": "(85) 9 9217-1191",
+    "email": "joaogabriel4175@gmail.com",
+    "linkedin": "linkedin.com/in/densuki/",
+    "github": "github.com/Densuki"
+  },
+  "objective": "Atuar nas áreas de atendimento ao cliente, rotinas administrativas e suporte operacional, contribuindo com organização, resolução de problemas e qualidade no atendimento.",
+  "summary": "Profissional com experiência em atendimento ao público e suporte em Lan House, além de atuação voluntária em ambiente escolar com apoio administrativo e organizacional. Possuo conhecimentos em informática, Pacote Office e organização documental, buscando oportunidade para desenvolver carreira na área administrativa.",
+  "education": [
+    {
+      "id": "edu-1",
+      "degree": "Bacharelado em Ciência da Computação",
+      "institution": "Instituto/Universidade",
+      "period": "2024 - 2025",
+      "status": "incompleto",
+      "description": ""
+    },
+    {
+      "id": "edu-2",
+      "degree": "Ensino Médio Completo",
+      "institution": "",
+      "period": "",
+      "status": "completo",
+      "description": ""
+    }
+  ],
+  "courses": [
+    {
+      "id": "course-1",
+      "title": "Curso de Multidisciplinar",
+      "institution": "IJCPM",
+      "duration": "60h",
+      "date": "2024",
+      "description": ""
+    },
+    {
+      "id": "course-2",
+      "title": "Informática Básica",
+      "institution": "EEFM Waldemar Falcão",
+      "duration": "60h",
+      "date": "2024",
+      "description": ""
+    }
+  ],
+  "skills": {
+    "core": [
+      "Atendimento ao Cliente",
+      "Comunicação",
+      "Organização de Documentos",
+      "Trabalho em Equipe",
+      "Resolução de Problemas",
+      "Rotinas Administrativas"
+    ],
+    "technical": [
+      "Microsoft Word",
+      "Microsoft Excel",
+      "Informática Básica",
+      "Pacote Office"
+    ]
+  },
+  "experience": [
+    {
+      "id": "exp-1",
+      "company": "WeckTech - Lan House",
+      "position": "Atendente",
+      "startDate": "2026-04",
+      "endDate": "atual",
+      "location": "Fortaleza - CE",
+      "description": "Atendimento ao público e operação de caixa.",
+      "responsibilities": [
+        "Atendimento ao público e operação de caixa.",
+        "Suporte básico em computadores, impressoras e serviços de impressão.",
+        "Organização do ambiente e controle de pagamentos."
+      ]
+    },
+    {
+      "id": "exp-2",
+      "company": "EMTI Nossa Senhora de Fátima",
+      "position": "Assistente Pedagógico - Sala de Inovação Digital (Voluntário)",
+      "startDate": "2022-08",
+      "endDate": "2023-12",
+      "location": "Fortaleza - CE",
+      "description": "Apoio administrativo à secretaria escolar e atividades pedagógicas.",
+      "responsibilities": [
+        "Apoio administrativo à secretaria escolar, incluindo matrículas, organização documental e lançamento de informações acadêmicas.",
+        "Suporte à coordenação e diretoria em controles administrativos, materiais e equipamentos.",
+        "Organização de agendamentos, impressão de documentos e apoio às atividades pedagógicas."
+      ]
+    }
+  ],
+  "languages": [
+    {
+      "language": "Português",
+      "proficiency": "Nativo"
+    },
+    {
+      "language": "Inglês",
+      "proficiency": "Básico"
+    }
+  ],
+  "certifications": [
+    {
+      "id": "cert-1",
+      "name": "Certificação Profissional",
+      "issuer": "Instituição",
+      "date": "2024",
+      "url": ""
+    }
+  ]
+}
