@@ -1,4 +1,9 @@
 // ============================================
+// IMPORTAÇÃO
+// ============================================
+import { terminalTexts } from './data/terminalTexts.js';
+
+// ============================================
 // CONFIGURAÇÃO
 // ============================================
 const CONFIG = {
@@ -19,29 +24,42 @@ function resolveDataBaseUrl() {
   return new URL('./', window.location.href).href;
 }
 
-CONFIG.dataPath = new URL('./data/', resolveDataBaseUrl()).href;
-
 // ============================================
-// UTILITÁRIOS
+// CARREGAR DADOS DOS JSONS (CORRIGIDO)
 // ============================================
-const $ = (selector) => document.querySelector(selector);
-const $$ = (selector) => document.querySelectorAll(selector);
+async function fetchJSON(path) {
+  const resource = path.replace(/^\.?\//, '');
+  const candidates = [];
 
-// helper: verifica flag de exibição no profile.show (default true)
-function isShown(profile, key) {
-  if (!profile || !profile.show) return true;
-  return !(profile.show[key] === false);
+  // Prioridade 1: docs/data/ (onde os arquivos realmente estão)
+  candidates.push(new URL(`../data/${resource}`, window.location.href).toString());
+  candidates.push(new URL(`../../data/${resource}`, window.location.href).toString());
+  
+  // Prioridade 2: js/data/ (fallback)
+  candidates.push(new URL(`./data/${resource}`, window.location.href).toString());
+  
+  // Prioridade 3: caminho base do script
+  if (CONFIG.dataPath) {
+    candidates.push(new URL(resource, CONFIG.dataPath).toString());
+  }
+
+  // Prioridade 4: caminho relativo
+  candidates.push(new URL(`./${resource}`, window.location.href).toString());
+
+  for (const url of candidates) {
+    try {
+      const res = await fetch(url, { cache: 'no-store' });
+      if (!res.ok) continue;
+      return await res.json();
+    } catch (err) {
+      // Silenciosamente tenta o próximo
+    }
+  }
+
+  console.warn(`⚠️ Não foi possível carregar ${resource}`);
+  return null;
 }
 
-// helper: retorna campo seguro ou ''
-function safeGet(profile, key) {
-  if (!profile) return '';
-  return profile[key] || '';
-}
-
-// ============================================
-// 1. CARREGAR DADOS DOS JSONS
-// ============================================
 async function loadData() {
   try {
     const [books, cache, certificates, courses, current, games, music, profile, projects, statistics] = await Promise.all([
@@ -64,33 +82,60 @@ async function loadData() {
   }
 }
 
-async function fetchJSON(path) {
-  const resource = path.replace(/^\.?\//, '');
-  const candidates = [];
+// ============================================
+// UTILITÁRIOS
+// ============================================
+const $ = (selector) => document.querySelector(selector);
+const $$ = (selector) => document.querySelectorAll(selector);
 
-  if (CONFIG.dataPath) {
-    candidates.push(new URL(resource, CONFIG.dataPath).toString());
+function isShown(profile, key) {
+  if (!profile || !profile.show) return true;
+  return !(profile.show[key] === false);
+}
+
+function safeGet(profile, key) {
+  if (!profile) return '';
+  return profile[key] || '';
+}
+
+function getStatusLabel(status) {
+  const labels = {
+    'completed': '✅ Concluído',
+    'in-progress': '🔄 Em andamento',
+    'planned': '📋 Planejado',
+    'playing': '🎮 Jogando',
+    'reading': '📖 Lendo',
+    'watching': '👀 Assistindo',
+  };
+  return labels[status] || status;
+}
+
+function interpolate(template, profile) {
+  if (!template || typeof template !== 'string') return template;
+  function getByPath(obj, path) {
+    return path.split('.').reduce((acc, p) => (acc && acc[p] !== undefined ? acc[p] : undefined), obj);
   }
-
-  candidates.push(new URL(`./data/${resource}`, window.location.href).toString());
-  candidates.push(new URL(`../data/${resource}`, window.location.href).toString());
-
-  for (const url of candidates) {
-    try {
-      const res = await fetch(url, { cache: 'no-store' });
-      if (!res.ok) continue;
-      return await res.json();
-    } catch (err) {
-      console.warn(`⚠️ Falha ao carregar ${url}:`, err.message);
-    }
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
   }
-
-  console.error(`❌ Não foi possível carregar ${resource}`);
-  return null;
+  return template.replace(/{{\s*([^}|]+?)\s*(?:\|\s*([^}]+?)\s*)?}}/g, (match, path, modifier) => {
+    const keyPath = path.trim();
+    if (!profile) return '';
+    const val = getByPath(profile, keyPath);
+    if (val === undefined || val === null) return '';
+    const out = Array.isArray(val) ? val.join(', ') : String(val);
+    if (modifier && modifier.trim() === 'escape') return escapeHtml(out);
+    return out;
+  });
 }
 
 // ============================================
-// 2. RENDERIZAR FOOTER
+// RENDERIZAR FOOTER
 // ============================================
 function renderFooter(profile) {
   const container = $('#footer-content');
@@ -117,15 +162,13 @@ function renderFooter(profile) {
 }
 
 // ============================================
-// 3. RENDERIZAR SOBRE (About)
+// RENDERIZAR SOBRE
 // ============================================
 function renderAbout(profile) {
-  // Texto do About (construído de forma declarativa, sem sobrescrita)
   const aboutText = $('#about-text');
   if (!aboutText) return;
 
   function flag(key) {
-    // se não definido, assume true para compatibilidade
     return !(profile && profile.show && profile.show[key] === false);
   }
 
@@ -134,14 +177,11 @@ function renderAbout(profile) {
     return profile[key] || '';
   }
 
-  // montar conteúdo principal de forma única
   let aboutHtml = '';
 
-  // se houver bio como array e flag habilitada, mostrar lista bonita
   if (flag('bio') && Array.isArray(profile?.bio) && profile.bio.length > 0) {
     aboutHtml = profile.bio.map(line => `<p>${interpolate(line, profile)}</p>`).join('');
   } else {
-    // fallback: parágrafo condensado com campos disponíveis e respeitando flags
     const parts = [];
     const name = safeField('name') || 'João Gabriel';
     parts.push(`Olá! 👋 Me chamo <strong>${name}</strong>`);
@@ -159,7 +199,6 @@ function renderAbout(profile) {
     const bioText = (typeof profile?.bio === 'string' && profile.bio) ? interpolate(profile.bio, profile) : '';
     if (bioText) parts.push(bioText);
 
-    // hobbies/interests (opcionais)
     if (flag('hobbies') && Array.isArray(profile?.hobbies) && profile.hobbies.length > 0) {
       parts.push(`Por hobby, ${profile.hobbies.join(' e ')}.`);
     }
@@ -172,7 +211,6 @@ function renderAbout(profile) {
 
   aboutText.innerHTML = aboutHtml;
 
-  // Skills
   const skillsContainer = $('#skills-container');
   if (skillsContainer && profile?.skills) {
     skillsContainer.innerHTML = `
@@ -190,14 +228,13 @@ function renderAbout(profile) {
     `;
   }
 
-  // esconder skills se flag desabilitada
   if (skillsContainer) {
     skillsContainer.style.display = flag('skills') ? '' : 'none';
   }
 }
 
 // ============================================
-// 4. RENDERIZAR CONTATO (Contact)
+// RENDERIZAR CONTATO
 // ============================================
 function renderContact(profile) {
   const container = $('#contact-content');
@@ -224,7 +261,7 @@ function renderContact(profile) {
 }
 
 // ============================================
-// 5. RENDERIZAR GITHUB STATS
+// RENDERIZAR GITHUB STATS
 // ============================================
 function renderGitHubStats() {
   const container = $('#github-stats');
@@ -246,7 +283,7 @@ function renderGitHubStats() {
 }
 
 // ============================================
-// 6. RENDERIZAR DISCORD PRESENCE
+// RENDERIZAR DISCORD
 // ============================================
 function renderDiscord() {
   const container = $('#discord-container');
@@ -260,7 +297,7 @@ function renderDiscord() {
 }
 
 // ============================================
-// 7. RENDERIZAR PROJETOS
+// RENDERIZAR PROJETOS
 // ============================================
 function renderProjects(projects) {
   const container = $('#project-list');
@@ -293,7 +330,7 @@ function renderProjects(projects) {
 }
 
 // ============================================
-// 8. RENDERIZAR CERTIFICADOS
+// RENDERIZAR CERTIFICADOS
 // ============================================
 function renderCertificates(certificates) {
   const container = $('#certificates-list');
@@ -319,7 +356,7 @@ function renderCertificates(certificates) {
 }
 
 // ============================================
-// 9. RENDERIZAR CURSOS
+// RENDERIZAR CURSOS
 // ============================================
 function renderCourses(courses) {
   const container = $('#courses-list');
@@ -355,7 +392,7 @@ function renderCourses(courses) {
 }
 
 // ============================================
-// 10. ATUALIZAR ESTATÍSTICAS
+// ATUALIZAR ESTATÍSTICAS
 // ============================================
 function updateStats(projects, certificates, courses) {
   const projectsCount = $('#projects-count');
@@ -368,88 +405,46 @@ function updateStats(projects, certificates, courses) {
 }
 
 // ============================================
-// 11. HELPERS
-// ============================================
-function getStatusLabel(status) {
-  const labels = {
-    'completed': '✅ Concluído',
-    'in-progress': '🔄 Em andamento',
-    'planned': '📋 Planejado',
-    'playing': '🎮 Jogando',
-    'reading': '📖 Lendo',
-    'watching': '👀 Assistindo',
-  };
-  return labels[status] || status;
-}
-
-// helper: interpolates {{key}} placeholders using profile fields
-function interpolate(template, profile) {
-  if (!template || typeof template !== 'string') return template;
-  // supports nested paths like locations.city and optional modifier: {{path|escape}}
-  function getByPath(obj, path) {
-    return path.split('.').reduce((acc, p) => (acc && acc[p] !== undefined ? acc[p] : undefined), obj);
-  }
-
-  function escapeHtml(str) {
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;');
-  }
-
-  return template.replace(/{{\s*([^}|]+?)\s*(?:\|\s*([^}]+?)\s*)?}}/g, (match, path, modifier) => {
-    const keyPath = path.trim();
-    if (!profile) return '';
-    const val = getByPath(profile, keyPath);
-    if (val === undefined || val === null) return '';
-    const out = Array.isArray(val) ? val.join(', ') : String(val);
-    if (modifier && modifier.trim() === 'escape') return escapeHtml(out);
-    return out; // default: raw (preserve HTML)
-  });
-}
-
-// ============================================
-// 12. TERMINAL TYPEWRITER
+// TYPEWRITER EFFECT
 // ============================================
 function typewriterEffect() {
-  const terminalTexts = [
-    '💻 Desenvolvedor Web ',
-    '🎨 Artista Digital ',
-    '🎨 Artista & Mangaká ',
-    '🌍 Criador de Mundos ',
-    '📖 Escritor de histórias ',
-    '🎮 Amante de Games ',
-    '💜 Amante da Cultura Japonesa ',
-    '💜 Amante de Animes ',
-    '📖 Seguidor da Palavra de Jeová ',
-    '💻 Frontend & Backend ',
-    '🌿 Prefiro perder pela verdade do que vencer pela mentira ',
-    '🌟 Minha maior qualidade não é o que faço, mas como escolho agir ',
-    '📖 A verdade guia minhas palavras; o caráter guia minhas escolhas ',
-    '🌟 Que minhas atitudes falem tão alto quanto minhas palavras ',
-    '🌟 Leal aos meus princípios. Verdadeiro com as pessoas ',
-    '💜 A verdade guia minhas palavras; o caráter e a fé em Jeová guiam minhas escolhas ',
-    '🌿 Lealdade começa onde a honestidade nunca termina ',
-    '🌟 Transformando curiosidade em conhecimento ',
-    '🎨 Expressando o que palavras não dizem ',
-    '📖 Registrando mundos que só existem na imaginação ',
-    '💻 Encontrando lógica no caos ',
-    '🎹 Descobrindo emoções em cada nota ',
-    '🌿 Prefiro perder pela verdade do que vencer pela mentira. Minha fé em Jeová vale mais que qualquer vitória ',
-    '🌿 Lealdade começa onde a honestidade nunca termina — e minha fé em Jeová fortalece ambas ',
-    '🌟 Minha maior qualidade não é o que faço, mas como escolho agir diante de Jeová e das pessoas ',
-    '📖 A verdade guia minhas palavras; Jeová guia meu coração ',
-    '📖 A verdade guia minhas palavras; o caráter e a fé em Jeová guiam minhas escolhas ',
-    '📖 Que minhas atitudes honrem minha palavra e a Jeová ',
-    '💜 Leal aos meus princípios, fiel a Jeová e verdadeiro com as pessoas ',
-    '💜 Minha palavra é um compromisso; minha fé em Jeová, meu alicerce ',
-    '💜 A verdade fortalece minha palavra; Jeová fortalece meu caráter ',
-    '💜 Lealdade, honestidade e fé: valores que escolho viver diante de Jeová e das pessoas ',
-    '💜 Que minha vida reflita a verdade que aprendo com Jeová ',
-    '💜 Fiel à minha palavra, aos meus princípios e a Jeová ',
-  ];
+  // const terminalTexts = [
+  //   '💻 Desenvolvedor Web ',
+  //   '🎨 Artista Digital ',
+  //   '🎨 Artista & Mangaká ',
+  //   '🌍 Criador de Mundos ',
+  //   '📖 Escritor de histórias ',
+  //   '🎮 Amante de Games ',
+  //   '💜 Amante da Cultura Japonesa ',
+  //   '💜 Amante de Animes ',
+  //   '📖 Seguidor da Palavra de Jeová ',
+  //   '💻 Frontend & Backend ',
+  //   '🌿 Prefiro perder pela verdade do que vencer pela mentira ',
+  //   '🌟 Minha maior qualidade não é o que faço, mas como escolho agir ',
+  //   '📖 A verdade guia minhas palavras; o caráter guia minhas escolhas ',
+  //   '🌟 Que minhas atitudes falem tão alto quanto minhas palavras ',
+  //   '🌟 Leal aos meus princípios. Verdadeiro com as pessoas ',
+  //   '💜 A verdade guia minhas palavras; o caráter e a fé em Jeová guiam minhas escolhas ',
+  //   '🌿 Lealdade começa onde a honestidade nunca termina ',
+  //   '🌟 Transformando curiosidade em conhecimento ',
+  //   '🎨 Expressando o que palavras não dizem ',
+  //   '📖 Registrando mundos que só existem na imaginação ',
+  //   '💻 Encontrando lógica no caos ',
+  //   '🎹 Descobrindo emoções em cada nota ',
+  //   '🌿 Prefiro perder pela verdade do que vencer pela mentira. Minha fé em Jeová vale mais que qualquer vitória ',
+  //   '🌿 Lealdade começa onde a honestidade nunca termina — e minha fé em Jeová fortalece ambas ',
+  //   '🌟 Minha maior qualidade não é o que faço, mas como escolho agir diante de Jeová e das pessoas ',
+  //   '📖 A verdade guia minhas palavras; Jeová guia meu coração ',
+  //   '📖 A verdade guia minhas palavras; o caráter e a fé em Jeová guiam minhas escolhas ',
+  //   '📖 Que minhas atitudes honrem minha palavra e a Jeová ',
+  //   '💜 Leal aos meus princípios, fiel a Jeová e verdadeiro com as pessoas ',
+  //   '💜 Minha palavra é um compromisso; minha fé em Jeová, meu alicerce ',
+  //   '💜 A verdade fortalece minha palavra; Jeová fortalece meu caráter ',
+  //   '💜 Lealdade, honestidade e fé: valores que escolho viver diante de Jeová e das pessoas ',
+  //   '💜 Que minha vida reflita a verdade que aprendo com Jeová ',
+  //   '💜 Fiel à minha palavra, aos meus princípios e a Jeová ',
+  // ];
+
 
   const terminalElement = $('#terminal-text');
   let textIndex = 0;
@@ -489,7 +484,7 @@ function typewriterEffect() {
 }
 
 // ============================================
-// 13. THEME TOGGLE
+// THEME TOGGLE
 // ============================================
 function initThemeToggle() {
   const toggle = $('#theme-toggle');
@@ -515,7 +510,7 @@ function initThemeToggle() {
 }
 
 // ============================================
-// 14. MUSIC TOGGLE
+// MUSIC TOGGLE
 // ============================================
 function initMusicToggle() {
   const toggle = $('#music-toggle');
@@ -524,14 +519,12 @@ function initMusicToggle() {
 
   let isPlaying = false;
 
-  // Verifica se o áudio existe
   const source = audio.querySelector('source');
   if (source && source.src) {
     fetch(source.src)
       .then(res => {
         if (!res.ok) {
           toggle.style.display = 'none';
-          console.log('ℹ️ Áudio não encontrado, botão oculto');
         }
       })
       .catch(() => {
@@ -545,9 +538,7 @@ function initMusicToggle() {
       toggle.innerHTML = '<i class="fas fa-music"></i>';
       isPlaying = false;
     } else {
-      audio.play().catch(() => {
-        console.log('ℹ️ Áudio não disponível');
-      });
+      audio.play().catch(() => {});
       toggle.innerHTML = '<i class="fas fa-pause"></i>';
       isPlaying = true;
     }
@@ -555,146 +546,7 @@ function initMusicToggle() {
 }
 
 // ============================================
-// 15. SCROLL ANIMATIONS
-// ============================================
-function initScrollAnimations() {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('fade-in');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, {
-    threshold: CONFIG.scrollThreshold,
-    rootMargin: '0px 0px -50px 0px',
-  });
-
-  const elements = $$('.glass-card, .project-card, .certificate-card, .course-card, .section');
-  elements.forEach(el => {
-    el.classList.add('fade-hidden');
-    observer.observe(el);
-  });
-}
-
-// ============================================
-// 16. MOBILE NAVBAR
-// ============================================
-function initMobileNav() {
-  const hamburger = $('#hamburger');
-  const navLinks = $('.nav-links');
-  if (!hamburger || !navLinks) return;
-
-  hamburger.addEventListener('click', () => {
-    navLinks.classList.toggle('active');
-    hamburger.classList.toggle('active');
-  });
-
-  navLinks.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      navLinks.classList.remove('active');
-      hamburger.classList.remove('active');
-    });
-  });
-}
-
-// ============================================
-// 17. SMOOTH SCROLL
-// ============================================
-function initSmoothScroll() {
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      e.preventDefault();
-      const target = document.querySelector(this.getAttribute('href'));
-      if (target) {
-        target.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-        });
-      }
-    });
-  });
-}
-
-// ============================================
-// 18. SCROLL INDICATOR
-// ============================================
-function initScrollIndicator() {
-  const indicator = document.querySelector('.scroll-indicator');
-  if (!indicator) return;
-
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 100) {
-      indicator.classList.add('hidden');
-    } else {
-      indicator.classList.remove('hidden');
-    }
-  });
-}
-
-// ============================================
-// 19. HERO - Status e Dados
-// ============================================
-function renderHero(profile, current) {
-  const nameEl = $('#name');
-  const roleEl = $('#role');
-  const statusEl = $('#status-text');
-
-  if (nameEl) nameEl.textContent = profile?.name || 'João Gabriel';
-  if (roleEl) roleEl.textContent = profile?.role || 'Desenvolvedor Full Stack & Artista';
-
-  if (statusEl && current?.currentlyWorkingOn) {
-    statusEl.textContent = `🚀 Trabalhando em: ${current.currentlyWorkingOn.project}`;
-  } else if (statusEl) {
-    statusEl.textContent = '✨ Disponível para novos projetos';
-  }
-}
-
-// ============================================
-// 20. INICIALIZAÇÃO PRINCIPAL
-// ============================================
-async function init() {
-  console.log('🚀 Inicializando Densuki Portfolio...');
-
-  // Carrega dados
-  const data = await loadData();
-  if (!data) {
-    console.error('❌ Falha ao carregar dados');
-    return;
-  }
-
-  const { profile, projects, certificates, courses, statistics, current } = data;
-
-  // Renderiza tudo
-  renderHero(profile, current);
-  renderAbout(profile);
-  renderFooter(profile);
-  renderContact(profile);
-  renderGitHubStats();
-  renderDiscord();
-  renderProjects(projects);
-  renderCertificates(certificates);
-  renderCourses(courses);
-  updateStats(projects, certificates, courses);
-
-  // aplica visibilidade das seções com base no profile.show
-  applyVisibility(profile);
-
-  // Inicia efeitos
-  typewriterEffect();
-  initThemeToggle();
-  initMusicToggle();
-  initMusicPlayer(profile);
-  initScrollAnimations();
-  initMobileNav();
-  initSmoothScroll();
-  initScrollIndicator();
-
-  console.log('✅ Portfolio carregado com sucesso!');
-}
-
-// ============================================
-// MUSIC PLAYER HANDLING
+// MUSIC PLAYER
 // ============================================
 function initMusicPlayer(profile) {
   const audio = $('#bg-music');
@@ -703,17 +555,14 @@ function initMusicPlayer(profile) {
   const volUp = $('#vol-up');
   const musicSelect = $('#music-select');
   const musicControls = $('#music-controls');
-  const playerUI = $('#music-player-ui');
   const currentTrack = $('#current-track');
   const panelToggle = $('#music-panel-toggle');
 
   if (!audio || !musicControls || !volRange || !musicSelect) return;
 
-  // populate playlist
   const playlist = (profile && Array.isArray(profile.music)) ? profile.music : [];
   musicSelect.innerHTML = playlist.map((t, i) => `<option value="${i}">${t.title || t.src}</option>`).join('');
 
-  // set initial volume
   const savedVol = parseFloat(localStorage.getItem('volume'));
   const initialVol = !Number.isNaN(savedVol) ? savedVol : CONFIG.defaultVolume;
   audio.volume = initialVol;
@@ -722,11 +571,7 @@ function initMusicPlayer(profile) {
   function loadTrack(index) {
     const track = playlist[index];
     if (!track) return;
-    if (track.type === 'file' || !track.type) {
-      audio.querySelector('source').src = track.src;
-    } else if (track.type === 'link') {
-      audio.querySelector('source').src = track.src;
-    }
+    audio.querySelector('source').src = track.src;
     audio.load();
     currentTrack.textContent = track.title || track.src.split('/').pop();
   }
@@ -757,12 +602,10 @@ function initMusicPlayer(profile) {
     localStorage.setItem('volume', String(v));
   });
 
-  // controls panel visibility behaviour (discreto)
   if (profile && profile.show && profile.show.music === false) {
     if (musicControls) musicControls.style.display = 'none';
     if (panelToggle) panelToggle.style.display = 'none';
   } else {
-    // keep panel closed by default; allow toggle to open
     if (panelToggle) {
       panelToggle.addEventListener('click', () => {
         const opened = musicControls.classList.toggle('open');
@@ -772,7 +615,6 @@ function initMusicPlayer(profile) {
     }
   }
 
-  // load initial track if any
   if (playlist.length > 0) {
     const first = 0;
     musicSelect.value = String(first);
@@ -780,6 +622,105 @@ function initMusicPlayer(profile) {
   }
 }
 
+// ============================================
+// SCROLL ANIMATIONS
+// ============================================
+function initScrollAnimations() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('fade-in');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: CONFIG.scrollThreshold,
+    rootMargin: '0px 0px -50px 0px',
+  });
+
+  const elements = $$('.glass-card, .project-card, .certificate-card, .course-card, .section');
+  elements.forEach(el => {
+    el.classList.add('fade-hidden');
+    observer.observe(el);
+  });
+}
+
+// ============================================
+// MOBILE NAVBAR
+// ============================================
+function initMobileNav() {
+  const hamburger = $('#hamburger');
+  const navLinks = $('.nav-links');
+  if (!hamburger || !navLinks) return;
+
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+    hamburger.classList.toggle('active');
+  });
+
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('active');
+      hamburger.classList.remove('active');
+    });
+  });
+}
+
+// ============================================
+// SMOOTH SCROLL
+// ============================================
+function initSmoothScroll() {
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+      }
+    });
+  });
+}
+
+// ============================================
+// SCROLL INDICATOR
+// ============================================
+function initScrollIndicator() {
+  const indicator = document.querySelector('.scroll-indicator');
+  if (!indicator) return;
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 100) {
+      indicator.classList.add('hidden');
+    } else {
+      indicator.classList.remove('hidden');
+    }
+  });
+}
+
+// ============================================
+// HERO
+// ============================================
+function renderHero(profile, current) {
+  const nameEl = $('#name');
+  const roleEl = $('#role');
+  const statusEl = $('#status-text');
+
+  if (nameEl) nameEl.textContent = profile?.name || 'João Gabriel';
+  if (roleEl) roleEl.textContent = profile?.role || 'Desenvolvedor Full Stack & Artista';
+
+  if (statusEl && current?.currentlyWorkingOn) {
+    statusEl.textContent = `🚀 Trabalhando em: ${current.currentlyWorkingOn.project}`;
+  } else if (statusEl) {
+    statusEl.textContent = '✨ Disponível para novos projetos';
+  }
+}
+
+// ============================================
+// VISIBILIDADE
+// ============================================
 function applyVisibility(profile) {
   if (!profile || !profile.show) return;
   if (profile.show.projects === false) {
@@ -797,18 +738,51 @@ function applyVisibility(profile) {
 }
 
 // ============================================
-// INICIALIZAR FOOTER EM PÁGINAS SECUNDÁRIAS
+// INICIALIZAÇÃO
 // ============================================
+async function init() {
+  console.log('🚀 Inicializando Densuki Portfolio...');
+
+  const data = await loadData();
+  if (!data) {
+    console.error('❌ Falha ao carregar dados');
+    return;
+  }
+
+  const { profile, projects, certificates, courses, statistics, current } = data;
+
+  renderHero(profile, current);
+  renderAbout(profile);
+  renderFooter(profile);
+  renderContact(profile);
+  renderGitHubStats();
+  renderDiscord();
+  renderProjects(projects);
+  renderCertificates(certificates);
+  renderCourses(courses);
+  updateStats(projects, certificates, courses);
+
+  applyVisibility(profile);
+
+  typewriterEffect();
+  initThemeToggle();
+  initMusicToggle();
+  initMusicPlayer(profile);
+  initScrollAnimations();
+  initMobileNav();
+  initSmoothScroll();
+  initScrollIndicator();
+
+  console.log('✅ Portfolio carregado com sucesso!');
+}
+
 async function initPageFooter() {
   try {
     const data = await loadData();
     if (data?.profile) {
       renderFooter(data.profile);
-      // Inicializar music player em páginas secundárias
       initMusicPlayer(data.profile);
     }
-    
-    // Inicializar funções globais em páginas secundárias
     initThemeToggle();
     initMusicToggle();
     initMobileNav();
@@ -822,11 +796,9 @@ async function initPageFooter() {
 // START
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
-  // Se está na página principal, usar init() normal
   if (document.getElementById('about-text')) {
     init();
   } else {
-    // Caso contrário, apenas inicializar footer e funções globais
     initPageFooter();
   }
 });

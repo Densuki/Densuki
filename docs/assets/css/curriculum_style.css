@@ -1,0 +1,278 @@
+.curriculum-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.curriculum-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid rgba(139, 92, 246, 0.3);
+}
+
+.curriculum-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.download-btn {
+    padding: 0.75rem 1.5rem;
+    border: 2px solid var(--color-primary);
+    background: var(--color-primary);
+    color: var(--color-bg);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.download-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(139, 92, 246, 0.4);
+}
+
+.download-btn.outline {
+    background: transparent;
+    color: var(--color-text);
+}
+
+.download-btn.outline:hover {
+    background: var(--color-primary);
+    color: var(--color-bg);
+}
+
+.curriculum-content {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: 1rem;
+    padding: 2.5rem;
+    backdrop-filter: blur(10px);
+}
+
+.curriculum-name {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    color: var(--color-text);
+}
+
+.curriculum-contact {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    color: var(--color-secondary-text);
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+}
+
+.curriculum-contact-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.curriculum-contact-item i {
+    color: var(--color-primary);
+    width: 1rem;
+}
+
+.curriculum-contact-item a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+.curriculum-contact-item a:hover {
+    text-decoration: underline;
+}
+
+.curriculum-section {
+    margin-bottom: 2.5rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+.curriculum-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.section-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 0 0 1.5rem 0;
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.objective-text {
+    color: var(--color-secondary-text);
+    line-height: 1.6;
+    font-style: italic;
+}
+
+.resume-text {
+    color: var(--color-secondary-text);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+
+.education-item,
+.experience-item,
+.course-item {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px dotted rgba(139, 92, 246, 0.2);
+}
+
+.education-item:last-child,
+.experience-item:last-child,
+.course-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.item-title {
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 1.05rem;
+}
+
+.item-subtitle {
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.item-period {
+    color: var(--color-secondary-text);
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+.item-description {
+    color: var(--color-secondary-text);
+    line-height: 1.6;
+    margin-top: 0.75rem;
+}
+
+.item-description ul {
+    margin: 0.75rem 0 0 1.5rem;
+    padding: 0;
+}
+
+.item-description li {
+    margin-bottom: 0.5rem;
+    color: var(--color-secondary-text);
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.skill-category {
+    background: rgba(139, 92, 246, 0.1);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+
+.skill-category h4 {
+    margin: 0 0 0.75rem 0;
+    color: var(--color-primary);
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.skill-tag {
+    background: rgba(139, 92, 246, 0.2);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    padding: 0.35rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.85rem;
+    color: var(--color-text);
+}
+
+#curriculum-print {
+    display: none;
+}
+
+@media print {
+    body {
+        background: white;
+        color: black;
+    }
+
+    #navbar,
+    .curriculum-actions,
+    #footer {
+        display: none;
+    }
+
+    .curriculum-content {
+        background: white;
+        border: none;
+        padding: 0;
+        box-shadow: none;
+    }
+
+    .curriculum-section {
+        page-break-inside: avoid;
+    }
+
+    a {
+        color: black;
+        text-decoration: underline;
+    }
+}
+
+@media (max-width: 768px) {
+    .curriculum-content {
+        padding: 1.5rem;
+    }
+
+    .curriculum-name {
+        font-size: 1.8rem;
+    }
+
+    .curriculum-contact {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .item-header {
+        flex-direction: column;
+    }
+
+    .skills-grid {
+        grid-template-columns: 1fr;
+    }
+}

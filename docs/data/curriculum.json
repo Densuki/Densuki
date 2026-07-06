@@ -1,1 +1,110 @@
-[]
+{
+  "contact": {
+    "cidade / estado": "Fortaleza - CE",
+    "email": "joaogabriel4175@gmail.com",
+    "github": "github.com/Densuki",
+    "linkedin": "linkedin.com/in/densuki/",
+    "nome": "João Gabriel Sousa Santos",
+    "telefone": "(85) 9 9217-1191"
+  },
+  "courses": [
+    {
+      "date": "2024",
+      "description": "**COMPETÊNCIAS**\nComunicação interpessoal \n• tecnologia aplicada à empregabilidade \n• elaboração de currículo e portfólio digital \n• preparação para entrevistas de emprego \n• ética profissional \n• cidadania, direitos trabalhistas \n• trabalho em equipe \n• organização \n• resolução de problemas e desenvolvimento de competências para o mercado de trabalho.",
+      "duration": "60h",
+      "id": "course-1",
+      "institution": "Instituto João Carlos Paes Mendonça (IJCPM)",
+      "status": "concluido",
+      "title": "Curso de Multidisciplinar"
+    },
+    {
+      "date": "2024",
+      "description": "**COMPETÊNCIAS**\n• Domínio de informática básica \n• pacote Office \n• organização de arquivos \n• navegação na internet  \n• comunicação por e-mail \n• produtividade digital \n• boas práticas de segurança da informação.\n",
+      "duration": "60h",
+      "id": "course-2",
+      "institution": "EEFM Waldemar Falcão",
+      "status": "concluido",
+      "title": "Informática Básica"
+    }
+  ],
+  "education": [
+    {
+      "degree": "Bacharelado em Ciência da Computação",
+      "id": "edu-1",
+      "institution": "Estácio de Sá",
+      "period": "2024 - 2025",
+      "status": "interrompido"
+    },
+    {
+      "degree": "Ensino Médio Completo",
+      "id": "edu-2",
+      "institution": "EEFM Waldemar Falcão",
+      "period": "2016 - 2018",
+      "status": "completo"
+    }
+  ],
+  "experience": [
+    {
+      "company": "WeckTech - Lan House",
+      "endDate": "atual",
+      "id": "exp-1",
+      "location": "",
+      "position": "Atendente",
+      "responsibilities": [
+        "Atendimento ao público e operação de caixa.",
+        "Suporte básico em computadores, impressoras e serviços de impressão.",
+        "Organização do ambiente e controle de pagamentos."
+      ],
+      "startDate": "04/2026"
+    },
+    {
+      "company": "EMTI Nossa Senhora de Fátima",
+      "endDate": "12/2023",
+      "id": "exp-2",
+      "location": "",
+      "position": "Assistente Pedagógico - Sala de Inovação Digital (Voluntário)",
+      "responsibilities": [
+        "Apoio administrativo à secretaria escolar, incluindo matrículas, organização documental e lançamento de informações acadêmicas.",
+        "Suporte à coordenação e diretoria em controles administrativos, materiais e equipamentos.",
+        "Organização de agendamentos, impressão de documentos e apoio às atividades pedagógicas."
+      ],
+      "startDate": "08/2022"
+    }
+  ],
+  "languages": [
+    {
+      "language": "Português",
+      "proficiency": "Nativo"
+    },
+    {
+      "language": "Inglês",
+      "proficiency": "Básico"
+    },
+    {
+      "language": "Espanhol",
+      "proficiency": "Básico"
+    },
+    {
+      "language": "Japonês",
+      "proficiency": "Básico"
+    }
+  ],
+  "objective": "Atuar nas áreas de atendimento ao cliente, rotinas administrativas e suporte operacional, contribuindo com organização, resolução de problemas e qualidade no atendimento.",
+  "skills": {
+    "core": [
+      "Atendimento ao Cliente",
+      "Comunicação",
+      "Organização de Documentos",
+      "Trabalho em Equipe",
+      "Resolução de Problemas",
+      "Rotinas Administrativas"
+    ],
+    "technical": [
+      "Microsoft Word",
+      "Microsoft Excel",
+      "Informática Básica",
+      "Pacote Office"
+    ]
+  },
+  "summary": "Profissional com experiência em atendimento ao público e suporte em Lan House, além de atuação voluntária em ambiente escolar com apoio administrativo e organizacional. Possuo conhecimentos em informática, Pacote Office e organização documental, buscando oportunidade para desenvolver carreira na área administrativa."
+}

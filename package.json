@@ -33,5 +33,11 @@
     "build": "npm run generate-all && npm run sync-pages",
     "generate": "node generators/certificates.js && node generators/courses.js && node generators/current-book.js && node generators/current-game.js && node generators/custom-stats.js && node generators/weekly-song.js",
     "sync": "cp assets/*.json docs/data/ || true"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2"
+  },
+  "devDependencies": {
+    "http-proxy": "^1.18.1"
   }
 }
