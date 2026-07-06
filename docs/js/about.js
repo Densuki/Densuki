@@ -34,18 +34,72 @@ let currentUser = null;
 let currentToken = null;
 let aboutData = null;
 let profileData = null;
+let authCheckInterval = null;
 const API_BASE = ABOUT_CONFIG.getApiUrl();
 
 console.log('🔗 About API URL:', API_BASE);
 
 // ============================================
-// FUNÇÕES DE AUTENTICAÇÃO
+// FUNÇÕES DE MARKDOWN E INTERPOLAÇÃO (CORRIGIDAS)
+// ============================================
+function parseMarkdown(text) {
+    if (!text || typeof text !== 'string') return '';
+    
+    let html = text;
+    
+    // Cabeçalhos
+    html = html.replace(/^### (.*$)/gm, '<h4>$1</h4>');
+    html = html.replace(/^## (.*$)/gm, '<h3>$1</h3>');
+    html = html.replace(/^# (.*$)/gm, '<h2>$1</h2>');
+    
+    // Negrito - CORRIGIDO: garantir que pegue todos os casos
+    html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    
+    // Itálico
+    html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    
+    // Listas não ordenadas
+    html = html.replace(/^[\s]*[-*+] (.*$)/gm, '<li>$1</li>');
+    html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+    
+    // Listas ordenadas
+    html = html.replace(/^[\s]*\d+\. (.*$)/gm, '<li>$1</li>');
+    
+    // Quebras de linha
+    html = html.replace(/\n/g, '<br>');
+    
+    return html;
+}
+
+function interpolate(template, data) {
+    if (!template || typeof template !== 'string') return template;
+    
+    function getByPath(obj, path) {
+        return path.split('.').reduce((acc, p) => (acc && acc[p] !== undefined ? acc[p] : undefined), obj);
+    }
+    
+    return template.replace(/{{\s*([^}|]+?)\s*(?:\|\s*([^}]+?)\s*)?}}/g, (match, path, modifier) => {
+        const keyPath = path.trim();
+        if (!data) return '';
+        const val = getByPath(data, keyPath);
+        if (val === undefined || val === null) return '';
+        const out = Array.isArray(val) ? val.join(', ') : String(val);
+        return out;
+    });
+}
+
+// ============================================
+// FUNÇÕES DE AUTENTICAÇÃO (CORRIGIDAS)
 // ============================================
 async function checkAuth() {
     const token = localStorage.getItem('curriculumToken');
-    if (!token) return false;
+    if (!token) {
+        console.log('🔑 Nenhum token encontrado');
+        return false;
+    }
     
     try {
+        console.log('🔍 Verificando token...');
         const response = await fetch(`${API_BASE}/auth/verify`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -55,18 +109,21 @@ async function checkAuth() {
             currentUser = data.user;
             currentToken = token;
             console.log('✅ Usuário autenticado:', currentUser.username);
+            updateUIForAuth(true);
             return true;
         } else {
-            console.warn('⚠️ Token inválido ou expirado');
+            console.warn('⚠️ Token inválido ou expirado:', response.status);
+            localStorage.removeItem('curriculumToken');
+            currentToken = null;
+            currentUser = null;
+            updateUIForAuth(false);
+            return false;
         }
     } catch (error) {
         console.error('❌ Erro ao verificar autenticação:', error);
+        updateUIForAuth(false);
+        return false;
     }
-    
-    localStorage.removeItem('curriculumToken');
-    currentToken = null;
-    currentUser = null;
-    return false;
 }
 
 async function login(username, password) {
@@ -84,6 +141,11 @@ async function login(username, password) {
             currentUser = data.user;
             currentToken = data.token;
             console.log('✅ Login realizado com sucesso:', currentUser.username);
+            updateUIForAuth(true);
+            
+            // Iniciar verificação periódica
+            startAuthCheck();
+            
             return { success: true, user: data.user };
         } else {
             const error = await response.json();
@@ -100,8 +162,75 @@ function logout() {
     localStorage.removeItem('curriculumToken');
     currentUser = null;
     currentToken = null;
+    if (authCheckInterval) {
+        clearInterval(authCheckInterval);
+        authCheckInterval = null;
+    }
     console.log('👋 Usuário deslogado');
+    updateUIForAuth(false);
     location.reload();
+}
+
+// ============================================
+// VERIFICAÇÃO PERIÓDICA DE AUTENTICAÇÃO
+// ============================================
+function startAuthCheck() {
+    if (authCheckInterval) {
+        clearInterval(authCheckInterval);
+    }
+    authCheckInterval = setInterval(async () => {
+        const token = localStorage.getItem('curriculumToken');
+        if (!token) {
+            updateUIForAuth(false);
+            return;
+        }
+        
+        try {
+            const response = await fetch(`${API_BASE}/auth/verify`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            
+            if (!response.ok) {
+                console.warn('⚠️ Sessão expirada');
+                localStorage.removeItem('curriculumToken');
+                currentToken = null;
+                currentUser = null;
+                updateUIForAuth(false);
+            }
+        } catch (error) {
+            console.error('❌ Erro na verificação periódica:', error);
+        }
+    }, 60000); // Verificar a cada 1 minuto
+}
+
+// ============================================
+// ATUALIZAR UI BASEADO NA AUTENTICAÇÃO
+// ============================================
+function updateUIForAuth(isAuth) {
+    const editBtn = document.getElementById('edit-btn');
+    if (!editBtn) return;
+    
+    if (isAuth) {
+        editBtn.innerHTML = '<i class="fas fa-edit"></i> Editar Perfil';
+        editBtn.title = 'Editar informações do perfil';
+        editBtn.style.background = 'var(--color-primary, #8b5cf6)';
+        editBtn.style.color = 'white';
+        editBtn.style.border = '2px solid var(--color-primary, #8b5cf6)';
+        editBtn.style.opacity = '1';
+        editBtn.style.cursor = 'pointer';
+        editBtn.style.pointerEvents = 'auto';
+        console.log('🔄 Botão atualizado: Modo Edição');
+    } else {
+        editBtn.innerHTML = '<i class="fas fa-lock"></i> Login para Editar';
+        editBtn.title = 'Faça login para editar o perfil';
+        editBtn.style.background = 'rgba(139, 92, 246, 0.15)';
+        editBtn.style.color = 'var(--color-text, #f0f0ff)';
+        editBtn.style.border = '2px solid rgba(139, 92, 246, 0.3)';
+        editBtn.style.opacity = '1';
+        editBtn.style.cursor = 'pointer';
+        editBtn.style.pointerEvents = 'auto';
+        console.log('🔄 Botão atualizado: Modo Login');
+    }
 }
 
 // ============================================
@@ -110,13 +239,19 @@ function logout() {
 async function loadAboutData() {
     try {
         console.log('📡 Carregando dados do about de:', `${API_BASE}/about`);
-        const response = await fetch(`${API_BASE}/about`);
+        const response = await fetch(`${API_BASE}/about`, {
+            headers: {
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+                'Pragma': 'no-cache'
+            }
+        });
         
         console.log('📊 Status da resposta:', response.status);
         
         if (response.ok) {
             aboutData = await response.json();
             console.log('✅ Dados do about carregados com sucesso!');
+            console.log('📄 Dados recebidos:', JSON.stringify(aboutData, null, 2));
             updateConnectionStatus('success', '✅ Dados carregados com sucesso!');
             return true;
         } else {
@@ -135,11 +270,17 @@ async function loadAboutData() {
 async function loadProfileData() {
     try {
         console.log('📡 Carregando perfil de:', `${API_BASE}/profile`);
-        const response = await fetch(`${API_BASE}/profile`);
+        const response = await fetch(`${API_BASE}/profile`, {
+            headers: {
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+                'Pragma': 'no-cache'
+            }
+        });
         
         if (response.ok) {
             profileData = await response.json();
             console.log('✅ Perfil carregado com sucesso!');
+            console.log('📄 Perfil recebido:', JSON.stringify(profileData, null, 2));
             return true;
         } else {
             console.warn('⚠️ Não foi possível carregar o perfil:', response.status);
@@ -160,11 +301,14 @@ async function saveAboutData(data) {
     
     try {
         console.log('💾 Salvando dados do about...');
+        console.log('📤 Dados a serem salvos:', JSON.stringify(data, null, 2));
+        
         const response = await fetch(`${API_BASE}/about`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${currentToken}`
+                'Authorization': `Bearer ${currentToken}`,
+                'Cache-Control': 'no-cache'
             },
             body: JSON.stringify(data)
         });
@@ -184,6 +328,7 @@ async function saveAboutData(data) {
             localStorage.removeItem('curriculumToken');
             currentToken = null;
             currentUser = null;
+            updateUIForAuth(false);
             showLoginModal();
             updateConnectionStatus('error', '❌ Sessão expirada. Faça login novamente.');
             return false;
@@ -240,17 +385,10 @@ function updateConnectionStatus(status, message) {
         statusEl.style.borderRadius = '0.5rem';
         statusEl.style.marginBottom = '1rem';
     }
-    
-    // Auto-esconder após 5 segundos
-    setTimeout(() => {
-        if (statusEl.style.display !== 'none') {
-            statusEl.style.display = 'none';
-        }
-    }, 5000);
 }
 
 // ============================================
-// RENDERIZAÇÃO (USANDO FUNÇÕES DO WINDOW)
+// RENDERIZAÇÃO (CORRIGIDA)
 // ============================================
 function renderAbout(data) {
     if (!data) {
@@ -259,75 +397,68 @@ function renderAbout(data) {
     }
 
     console.log('🎨 Renderizando dados do about...');
+    console.log('📄 Dados para renderização:', JSON.stringify(data, null, 2));
 
-    // Verificar se as funções globais existem
-    const parseMarkdownFn = window.parseMarkdown || function(text) { 
-        if (!text) return '';
-        
-        let html = text;
-        html = html.replace(/^### (.*$)/gm, '<h4>$1</h4>');
-        html = html.replace(/^## (.*$)/gm, '<h3>$1</h3>');
-        html = html.replace(/^# (.*$)/gm, '<h2>$1</h2>');
-        html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
-        html = html.replace(/^[\s]*[-*+] (.*$)/gm, '<li>$1</li>');
-        html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
-        html = html.replace(/^[\s]*\d+\. (.*$)/gm, '<li>$1</li>');
-        html = html.replace(/\n/g, '<br>');
-        return html;
+    // Combinar dados do about com profile para interpolação
+    const combinedData = {
+        ...profileData,
+        ...data
     };
-    
-    const interpolateFn = window.interpolate || function(template, data) {
-        if (!template || typeof template !== 'string') return template;
-        function getByPath(obj, path) {
-            return path.split('.').reduce((acc, p) => (acc && acc[p] !== undefined ? acc[p] : undefined), obj);
-        }
-        return template.replace(/{{\s*([^}|]+?)\s*(?:\|\s*([^}]+?)\s*)?}}/g, (match, path, modifier) => {
-            const keyPath = path.trim();
-            if (!data) return '';
-            const val = getByPath(data, keyPath);
-            if (val === undefined || val === null) return '';
-            const out = Array.isArray(val) ? val.join(', ') : String(val);
-            return out;
-        });
-    };
+    console.log('📊 Dados combinados para interpolação:', JSON.stringify(combinedData, null, 2));
 
     // Bio - Sobre Mim
     const bioContainer = document.getElementById('profile-bio');
     if (bioContainer && data.bio) {
+        let bioHtml = '';
         if (Array.isArray(data.bio)) {
-            bioContainer.innerHTML = data.bio.map(line => `<p>${interpolateFn(line, data)}</p>`).join('');
+            bioHtml = data.bio.map(line => {
+                const interpolated = interpolate(line, combinedData);
+                return `<p>${parseMarkdown(interpolated)}</p>`;
+            }).join('');
         } else if (typeof data.bio === 'string') {
-            bioContainer.innerHTML = `<p>${interpolateFn(data.bio, data)}</p>`;
+            const interpolated = interpolate(data.bio, combinedData);
+            bioHtml = `<p>${parseMarkdown(interpolated)}</p>`;
         }
+        bioContainer.innerHTML = bioHtml;
+        console.log('✅ Bio renderizada:', bioHtml);
     }
 
     // Objetivo
     const objectiveEl = document.getElementById('profile-objective');
     if (objectiveEl && data.objective) {
-        objectiveEl.textContent = data.objective;
+        const interpolated = interpolate(data.objective, combinedData);
+        objectiveEl.textContent = interpolated;
+        console.log('✅ Objetivo renderizado:', interpolated);
     }
 
     // Status
     if (data.status) {
         const workingEl = document.getElementById('profile-working');
-        if (workingEl) workingEl.textContent = data.status.working || 'Em procura de oportunidades';
+        if (workingEl) {
+            const interpolated = interpolate(data.status.working || 'Em procura de oportunidades', combinedData);
+            workingEl.textContent = interpolated;
+        }
         
         const studyingEl = document.getElementById('profile-studying');
-        if (studyingEl) studyingEl.textContent = data.status.studying || 'Aprendizado contínuo';
+        if (studyingEl) {
+            const interpolated = interpolate(data.status.studying || 'Aprendizado contínuo', combinedData);
+            studyingEl.textContent = interpolated;
+        }
     }
 
     // Descrição (com Markdown)
     const descriptionEl = document.getElementById('profile-description');
     if (descriptionEl && data.description) {
-        descriptionEl.innerHTML = parseMarkdownFn(data.description);
+        const interpolated = interpolate(data.description, combinedData);
+        descriptionEl.innerHTML = parseMarkdown(interpolated);
         console.log('✅ Descrição renderizada com Markdown');
     }
 
     // Saúde
     const healthEl = document.getElementById('profile-health');
     if (healthEl && data.health) {
-        healthEl.textContent = data.health;
+        const interpolated = interpolate(data.health, combinedData);
+        healthEl.textContent = interpolated;
     }
 
     // Habilidades
@@ -385,16 +516,23 @@ function renderAbout(data) {
     // História
     const historyEl = document.getElementById('profile-history');
     if (historyEl && data.history) {
+        let historyHtml = '';
         if (Array.isArray(data.history)) {
-            historyEl.innerHTML = data.history.map(line => `<p>${interpolateFn(line, data)}</p>`).join('');
+            historyHtml = data.history.map(line => {
+                const interpolated = interpolate(line, combinedData);
+                return `<p>${parseMarkdown(interpolated)}</p>`;
+            }).join('');
         } else if (typeof data.history === 'string') {
-            historyEl.innerHTML = `<p>${interpolateFn(data.history, data)}</p>`;
+            const interpolated = interpolate(data.history, combinedData);
+            historyHtml = `<p>${parseMarkdown(interpolated)}</p>`;
         }
+        historyEl.innerHTML = historyHtml;
+        console.log('✅ História renderizada');
     }
 }
 
 // ============================================
-// MODAL DE LOGIN
+// MODAL DE LOGIN (CORRIGIDO)
 // ============================================
 function showLoginModal() {
     // Verificar se já existe um modal aberto
@@ -510,15 +648,12 @@ function showLoginModal() {
             successEl.textContent = '✅ Login realizado com sucesso!';
             setTimeout(() => {
                 modal.remove();
-                const editBtn = document.getElementById('edit-btn');
-                if (editBtn) {
-                    editBtn.innerHTML = '<i class="fas fa-edit"></i> Editar Perfil';
-                    editBtn.style.background = 'var(--color-primary, #8b5cf6)';
-                    editBtn.style.color = 'white';
-                    editBtn.style.border = '2px solid var(--color-primary, #8b5cf6)';
-                }
                 updateConnectionStatus('success', '✅ Login realizado com sucesso!');
-                loadAboutData().then(() => renderAbout(aboutData));
+                loadAboutData().then(() => {
+                    loadProfileData().then(() => {
+                        renderAbout(aboutData);
+                    });
+                });
             }, 1000);
         } else {
             errorEl.textContent = '❌ ' + (result.message || 'Usuário ou senha incorretos');
@@ -734,7 +869,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     // Carregar dados
     const aboutLoaded = await loadAboutData();
-    await loadProfileData();
+    const profileLoaded = await loadProfileData();
     
     // Renderizar
     if (aboutLoaded && aboutData) {
@@ -746,37 +881,17 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     // Verificar autenticação
     const isAuth = await checkAuth();
-    const editBtn = document.getElementById('edit-btn');
+    updateUIForAuth(isAuth);
     
-    if (editBtn) {
-        if (isAuth) {
-            editBtn.innerHTML = '<i class="fas fa-edit"></i> Editar Perfil';
-            editBtn.title = 'Editar informações do perfil';
-            editBtn.style.background = 'var(--color-primary, #8b5cf6)';
-            editBtn.style.color = 'white';
-            editBtn.style.border = '2px solid var(--color-primary, #8b5cf6)';
-        } else {
-            editBtn.innerHTML = '<i class="fas fa-lock"></i> Login para Editar';
-            editBtn.title = 'Faça login para editar o perfil';
-            editBtn.style.background = 'rgba(139, 92, 246, 0.15)';
-            editBtn.style.color = 'var(--color-text, #f0f0ff)';
-            editBtn.style.border = '2px solid rgba(139, 92, 246, 0.3)';
-        }
-        editBtn.style.display = 'inline-flex';
-        editBtn.style.padding = '0.6rem 1.5rem';
-        editBtn.style.borderRadius = '0.5rem';
-        editBtn.style.fontWeight = '600';
-        editBtn.style.cursor = 'pointer';
-        editBtn.style.transition = 'all 0.3s ease';
-        editBtn.style.gap = '0.5rem';
-        editBtn.style.alignItems = 'center';
-    } else {
-        console.warn('⚠️ Botão de edição não encontrado no DOM');
+    // Iniciar verificação periódica se autenticado
+    if (isAuth) {
+        startAuthCheck();
     }
     
     // Event Listeners
     document.getElementById('edit-btn')?.addEventListener('click', function(e) {
         e.preventDefault();
+        console.log('🖱️ Botão Editar clicado. Token:', !!currentToken);
         if (!currentToken) {
             showLoginModal();
         } else {
@@ -797,6 +912,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     document.getElementById('about-edit-form')?.addEventListener('submit', async (e) => {
         e.preventDefault();
         const data = collectFormData();
+        console.log('📤 Formulário submetido. Dados coletados:', JSON.stringify(data, null, 2));
         if (await saveAboutData(data)) {
             document.getElementById('edit-modal-overlay').style.display = 'none';
             document.body.style.overflow = 'auto';
