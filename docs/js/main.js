@@ -110,6 +110,41 @@ function getStatusLabel(status) {
   return labels[status] || status;
 }
 
+// ============================================
+// FUNÇÃO PARSE MARKDOWN (CORRIGIDA)
+// ============================================
+function parseMarkdown(text) {
+    if (!text) return '';
+    
+    let html = text;
+    
+    // Cabeçalhos
+    html = html.replace(/^### (.*$)/gm, '<h4>$1</h4>');
+    html = html.replace(/^## (.*$)/gm, '<h3>$1</h3>');
+    html = html.replace(/^# (.*$)/gm, '<h2>$1</h2>');
+    
+    // Negrito
+    html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    
+    // Itálico
+    html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    
+    // Listas não ordenadas
+    html = html.replace(/^[\s]*[-*+] (.*$)/gm, '<li>$1</li>');
+    html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+    
+    // Listas ordenadas
+    html = html.replace(/^[\s]*\d+\. (.*$)/gm, '<li>$1</li>');
+    
+    // Quebras de linha
+    html = html.replace(/\n/g, '<br>');
+    
+    return html;
+}
+
+// ============================================
+// FUNÇÃO INTERPOLATE (CORRIGIDA)
+// ============================================
 function interpolate(template, profile) {
   if (!template || typeof template !== 'string') return template;
   function getByPath(obj, path) {
@@ -408,45 +443,9 @@ function updateStats(projects, certificates, courses) {
 // TYPEWRITER EFFECT
 // ============================================
 function typewriterEffect() {
-  // const terminalTexts = [
-  //   '💻 Desenvolvedor Web ',
-  //   '🎨 Artista Digital ',
-  //   '🎨 Artista & Mangaká ',
-  //   '🌍 Criador de Mundos ',
-  //   '📖 Escritor de histórias ',
-  //   '🎮 Amante de Games ',
-  //   '💜 Amante da Cultura Japonesa ',
-  //   '💜 Amante de Animes ',
-  //   '📖 Seguidor da Palavra de Jeová ',
-  //   '💻 Frontend & Backend ',
-  //   '🌿 Prefiro perder pela verdade do que vencer pela mentira ',
-  //   '🌟 Minha maior qualidade não é o que faço, mas como escolho agir ',
-  //   '📖 A verdade guia minhas palavras; o caráter guia minhas escolhas ',
-  //   '🌟 Que minhas atitudes falem tão alto quanto minhas palavras ',
-  //   '🌟 Leal aos meus princípios. Verdadeiro com as pessoas ',
-  //   '💜 A verdade guia minhas palavras; o caráter e a fé em Jeová guiam minhas escolhas ',
-  //   '🌿 Lealdade começa onde a honestidade nunca termina ',
-  //   '🌟 Transformando curiosidade em conhecimento ',
-  //   '🎨 Expressando o que palavras não dizem ',
-  //   '📖 Registrando mundos que só existem na imaginação ',
-  //   '💻 Encontrando lógica no caos ',
-  //   '🎹 Descobrindo emoções em cada nota ',
-  //   '🌿 Prefiro perder pela verdade do que vencer pela mentira. Minha fé em Jeová vale mais que qualquer vitória ',
-  //   '🌿 Lealdade começa onde a honestidade nunca termina — e minha fé em Jeová fortalece ambas ',
-  //   '🌟 Minha maior qualidade não é o que faço, mas como escolho agir diante de Jeová e das pessoas ',
-  //   '📖 A verdade guia minhas palavras; Jeová guia meu coração ',
-  //   '📖 A verdade guia minhas palavras; o caráter e a fé em Jeová guiam minhas escolhas ',
-  //   '📖 Que minhas atitudes honrem minha palavra e a Jeová ',
-  //   '💜 Leal aos meus princípios, fiel a Jeová e verdadeiro com as pessoas ',
-  //   '💜 Minha palavra é um compromisso; minha fé em Jeová, meu alicerce ',
-  //   '💜 A verdade fortalece minha palavra; Jeová fortalece meu caráter ',
-  //   '💜 Lealdade, honestidade e fé: valores que escolho viver diante de Jeová e das pessoas ',
-  //   '💜 Que minha vida reflita a verdade que aprendo com Jeová ',
-  //   '💜 Fiel à minha palavra, aos meus princípios e a Jeová ',
-  // ];
-
-
   const terminalElement = $('#terminal-text');
+  if (!terminalElement) return;
+  
   let textIndex = 0;
   let charIndex = 0;
   let isDeleting = false;
@@ -807,6 +806,9 @@ window.addEventListener('error', (e) => {
   console.error('❌ Erro no portfolio:', e.message);
 });
 
+// ============================================
+// EXPORTAÇÕES PARA OUTROS MÓDULOS
+// ============================================
 export {
     parseMarkdown,
     interpolate,
@@ -815,5 +817,8 @@ export {
     initMusicToggle,
     initMobileNav,
     initSmoothScroll,
-    CONFIG
+    CONFIG,
+    $,
+    $$,
+    getStatusLabel
 };
