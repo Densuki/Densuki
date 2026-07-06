@@ -39,11 +39,11 @@ CORS(app,
      supports_credentials=True)
 
 # ============================================
-# FUNÇÃO PARA CARREGAR DADOS DO curriculum.json
+# FUNÇÕES PARA CARREGAR DADOS DOS JSONs
 # ============================================
-def load_curriculum_from_json():
-    """Carrega os dados do curriculum.json"""
-    json_path = os.path.join(os.path.dirname(__file__), '..', '..', 'docs', 'data', 'curriculum.json')
+def load_json_data(filename, default_factory):
+    """Carrega dados de um arquivo JSON"""
+    json_path = os.path.join(os.path.dirname(__file__), '..', '..', 'docs', 'data', filename)
     
     try:
         with open(json_path, 'r', encoding='utf-8') as f:
@@ -55,8 +55,32 @@ def load_curriculum_from_json():
         print(f"❌ Erro ao ler JSON: {e}")
         return None
 
+def save_json_data(filename, data):
+    """Salva dados em um arquivo JSON"""
+    json_path = os.path.join(os.path.dirname(__file__), '..', '..', 'docs', 'data', filename)
+    
+    try:
+        # Criar diretório se não existir
+        os.makedirs(os.path.dirname(json_path), exist_ok=True)
+        
+        with open(json_path, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        print(f"✅ {filename} atualizado em: {json_path}")
+        return True
+    except Exception as e:
+        print(f"⚠️ Não foi possível atualizar o JSON: {e}")
+        return False
+
+def load_curriculum_from_json():
+    """Carrega os dados do curriculum.json"""
+    return load_json_data('curriculum.json', None)
+
+def load_about_from_json():
+    """Carrega os dados do about.json"""
+    return load_json_data('about.json', None)
+
 def get_default_curriculum_data():
-    """Retorna dados padrão caso o JSON não seja encontrado"""
+    """Retorna dados padrão para currículo"""
     return {
         "contact": {
             "name": "João Gabriel Sousa Santos",
@@ -73,6 +97,37 @@ def get_default_curriculum_data():
         "skills": {},
         "experience": [],
         "languages": []
+    }
+
+def get_default_about_data():
+    """Retorna dados padrão para about"""
+    return {
+        "bio": [
+            "Olá! 👋 Me chamo **João Gabriel**, tenho {{age}} anos e sou natural de {{location}}.",
+            "Sou um **Desenvolvedor Full Stack** e **Artista Digital** apaixonado por tecnologia, criatividade e histórias.",
+            "Acredito que a tecnologia pode ser uma ferramenta poderosa para conectar pessoas e criar experiências significativas."
+        ],
+        "objective": "Desenvolver soluções inovadoras que unam tecnologia e arte, impactando positivamente a vida das pessoas.",
+        "status": {
+            "working": "Desenvolvedor Full Stack & Artista",
+            "studying": "React, Node.js e Design de Interfaces"
+        },
+        "description": "Sou um profissional versátil que transita entre o **código** e a **arte**. Minha jornada começou no mundo do desenvolvimento web, onde descobri a paixão por criar interfaces intuitivas e funcionais.\n\nAlém da programação, sou **artista digital** e **mangaká**, explorando diferentes formas de expressão criativa. Essa combinação única me permite abordar projetos com uma visão holística, unindo técnica e estética.",
+        "health": "❤️ Saudável, pratico exercícios regularmente e mantenho uma alimentação equilibrada.",
+        "skills": {
+            "core": ["Comunicação", "Liderança", "Trabalho em Equipe", "Resolução de Problemas", "Criatividade"],
+            "technical": ["JavaScript", "Python", "HTML5", "CSS3", "React", "Node.js", "Git"],
+            "creative": ["Desenho", "Ilustração Digital", "Mangá", "Escrita Criativa", "Música"],
+            "languages": ["Português (Nativo)", "Inglês (Avançado)", "Espanhol (Básico)"]
+        },
+        "interests": ["Anime", "Manga", "Programação", "Música", "Games", "Design", "Fotografia", "Viagens"],
+        "badges": ["Desenvolvedor", "Artista", "Mangaká", "Escritor", "Músico", "Gamer", "Leitor", "Viajante"],
+        "history": [
+            "Minha história começou em **{{birthday}}**, quando nasci em {{location}}. Desde criança, sempre fui curioso e apaixonado por histórias.",
+            "Aos {{age}} anos, descobri o mundo da programação e me encantei com a possibilidade de criar coisas novas a partir do zero.",
+            "Ao longo dos anos, explorei diferentes áreas, desde o **desenvolvimento web** até a **arte digital**, sempre buscando unir tecnologia e criatividade.",
+            "Hoje, continuo aprendendo e evoluindo, acreditando que cada dia é uma oportunidade para criar algo incrível."
+        ]
     }
 
 # ============================================
@@ -106,6 +161,40 @@ class CurriculumEdit(db.Model):
     edited_by = db.Column(db.Integer, db.ForeignKey('users.id'))
     edited_at = db.Column(db.DateTime, default=datetime.utcnow)
     version_id = db.Column(db.Integer, db.ForeignKey('curriculum_versions.id'))
+
+# ============================================
+# MODELOS PARA ABOUT
+# ============================================
+class AboutVersion(db.Model):
+    __tablename__ = 'about_versions'
+    id = db.Column(db.Integer, primary_key=True)
+    version = db.Column(db.String(20), nullable=False)
+    data = db.Column(db.JSON, nullable=False)
+    created_by = db.Column(db.Integer, db.ForeignKey('users.id'))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    is_current = db.Column(db.Boolean, default=False)
+
+class AboutEdit(db.Model):
+    __tablename__ = 'about_edits'
+    id = db.Column(db.Integer, primary_key=True)
+    field = db.Column(db.String(100), nullable=False)
+    old_value = db.Column(db.Text)
+    new_value = db.Column(db.Text)
+    edited_by = db.Column(db.Integer, db.ForeignKey('users.id'))
+    edited_at = db.Column(db.DateTime, default=datetime.utcnow)
+    version_id = db.Column(db.Integer, db.ForeignKey('about_versions.id'))
+
+# ============================================
+# MODELO PARA PROFILE (dados do perfil)
+# ============================================
+class ProfileVersion(db.Model):
+    __tablename__ = 'profile_versions'
+    id = db.Column(db.Integer, primary_key=True)
+    version = db.Column(db.String(20), nullable=False)
+    data = db.Column(db.JSON, nullable=False)
+    created_by = db.Column(db.Integer, db.ForeignKey('users.id'))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    is_current = db.Column(db.Boolean, default=False)
 
 # ============================================
 # DECORADOR DE AUTENTICAÇÃO
@@ -256,24 +345,94 @@ def update_curriculum(current_user):
                 db.session.add(edit)
         db.session.commit()
     
-    # Também atualizar o arquivo JSON (opcional)
-    try:
-        json_path = os.path.join(os.path.dirname(__file__), '..', '..', 'docs', 'data', 'curriculum.json')
-        with open(json_path, 'w', encoding='utf-8') as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
-        print(f"✅ curriculum.json atualizado em: {json_path}")
-    except Exception as e:
-        print(f"⚠️ Não foi possível atualizar o JSON: {e}")
+    # Também atualizar o arquivo JSON
+    save_json_data('curriculum.json', data)
     
     return jsonify({
         'message': 'Currículo atualizado com sucesso!',
         'version': version.version
     })
 
-@app.route('/api/curriculum/history', methods=['GET'])
+# ============================================
+# ROTAS DO ABOUT
+# ============================================
+@app.route('/api/about', methods=['GET'])
+def get_about():
+    """Obtém os dados do about"""
+    # Tentar buscar do banco de dados primeiro
+    version = AboutVersion.query.filter_by(is_current=True).first()
+    
+    if version:
+        return jsonify(version.data)
+    
+    # Se não houver versão no banco, carregar do JSON
+    print("📂 Nenhuma versão no banco. Carregando do about.json...")
+    about_data = load_about_from_json()
+    
+    if not about_data:
+        print("⚠️ Usando dados padrão...")
+        about_data = get_default_about_data()
+    
+    # Salvar no banco como versão inicial
+    version = AboutVersion(
+        version='1.0.0',
+        data=about_data,
+        is_current=True
+    )
+    db.session.add(version)
+    db.session.commit()
+    print("✅ Versão inicial do About criada no banco de dados!")
+    
+    return jsonify(about_data)
+
+@app.route('/api/about', methods=['PUT'])
 @token_required
-def get_history(current_user):
-    versions = CurriculumVersion.query.order_by(CurriculumVersion.created_at.desc()).limit(10).all()
+def update_about(current_user):
+    """Atualiza os dados do about"""
+    data = request.json
+    
+    # Criar nova versão
+    version = AboutVersion(
+        version=f"1.0.{AboutVersion.query.count() + 1}",
+        data=data,
+        is_current=True,
+        created_by=current_user.id
+    )
+    
+    # Desmarcar versões anteriores como correntes
+    db.session.query(AboutVersion).update({AboutVersion.is_current: False})
+    
+    db.session.add(version)
+    db.session.commit()
+    
+    # Registrar edições
+    old_version = AboutVersion.query.filter_by(is_current=False).order_by(AboutVersion.created_at.desc()).first()
+    if old_version:
+        for key in data:
+            if key in old_version.data and data[key] != old_version.data[key]:
+                edit = AboutEdit(
+                    field=key,
+                    old_value=str(old_version.data[key]),
+                    new_value=str(data[key]),
+                    edited_by=current_user.id,
+                    version_id=version.id
+                )
+                db.session.add(edit)
+        db.session.commit()
+    
+    # Também atualizar o arquivo JSON
+    save_json_data('about.json', data)
+    
+    return jsonify({
+        'message': 'Sobre atualizado com sucesso!',
+        'version': version.version
+    })
+
+@app.route('/api/about/history', methods=['GET'])
+@token_required
+def get_about_history(current_user):
+    """Obtém o histórico de versões do about"""
+    versions = AboutVersion.query.order_by(AboutVersion.created_at.desc()).limit(10).all()
     return jsonify([{
         'version': v.version,
         'created_at': v.created_at.isoformat(),
@@ -281,16 +440,37 @@ def get_history(current_user):
         'is_current': v.is_current
     } for v in versions])
 
-@app.route('/curriculum', methods=['GET'])
-def get_curriculum_redirect():
-    """Redireciona de /curriculum para /api/curriculum (compatibilidade)"""
-    return get_curriculum()
-
-@app.route('/curriculum', methods=['PUT'])
-@token_required
-def update_curriculum_redirect(current_user):
-    """Redireciona de /curriculum para /api/curriculum (compatibilidade)"""
-    return update_curriculum(current_user)
+# ============================================
+# ROTAS DO PROFILE
+# ============================================
+@app.route('/api/profile', methods=['GET'])
+def get_profile():
+    """Obtém os dados do perfil (profile.json)"""
+    # Tentar buscar do banco de dados primeiro
+    version = ProfileVersion.query.filter_by(is_current=True).first()
+    
+    if version:
+        return jsonify(version.data)
+    
+    # Se não houver versão no banco, carregar do JSON
+    print("📂 Nenhuma versão no banco. Carregando do profile.json...")
+    profile_data = load_json_data('profile.json', None)
+    
+    if not profile_data:
+        print("⚠️ Profile.json não encontrado!")
+        return jsonify({})
+    
+    # Salvar no banco como versão inicial
+    version = ProfileVersion(
+        version='1.0.0',
+        data=profile_data,
+        is_current=True
+    )
+    db.session.add(version)
+    db.session.commit()
+    print("✅ Versão inicial do Profile criada no banco de dados!")
+    
+    return jsonify(profile_data)
 
 # ============================================
 # ROTA PARA DOWNLOAD DOS ARQUIVOS
@@ -317,10 +497,18 @@ def health_check():
     return jsonify({
         'status': 'ok',
         'timestamp': datetime.utcnow().isoformat(),
-        'database': 'connected' if app.config['SQLALCHEMY_DATABASE_URI'] else 'using_sqlite'
+        'database': 'connected' if app.config['SQLALCHEMY_DATABASE_URI'] else 'using_sqlite',
+        'endpoints': {
+            'curriculum': '/api/curriculum',
+            'about': '/api/about',
+            'profile': '/api/profile',
+            'auth': '/api/auth/login, /api/auth/verify'
+        }
     })
 
-# api/app.py - Rota para download do DOCX via Python
+# ============================================
+# ROTA PARA DOWNLOAD DO DOCX VIA PYTHON
+# ============================================
 @app.route('/api/curriculum/download/docx', methods=['POST'])
 def download_docx():
     try:
@@ -479,6 +667,7 @@ def download_docx():
     except Exception as e:
         print(f"❌ Erro ao gerar DOCX: {e}")
         return jsonify({'error': str(e)}), 500
+
 # ============================================
 # INICIALIZAÇÃO
 # ============================================
@@ -498,9 +687,9 @@ if __name__ == '__main__':
             db.session.commit()
             print("✅ Usuário padrão criado: yukiridensuki / yukiridensuki4175")
         
-        # Carregar dados iniciais se não houver versões
+        # Carregar dados iniciais do currículo se não houver versões
         if CurriculumVersion.query.count() == 0:
-            print("📂 Nenhuma versão encontrada. Carregando dados iniciais...")
+            print("📂 Nenhuma versão do currículo encontrada. Carregando dados iniciais...")
             curriculum_data = load_curriculum_from_json()
             if not curriculum_data:
                 curriculum_data = get_default_curriculum_data()
@@ -511,13 +700,45 @@ if __name__ == '__main__':
                 is_current=True
             )
             db.session.add(initial_version)
-            db.session.commit()
-            print("✅ Dados iniciais carregados!")
+            print("✅ Dados iniciais do currículo carregados!")
+        
+        # Carregar dados iniciais do about se não houver versões
+        if AboutVersion.query.count() == 0:
+            print("📂 Nenhuma versão do about encontrada. Carregando dados iniciais...")
+            about_data = load_about_from_json()
+            if not about_data:
+                about_data = get_default_about_data()
+            
+            initial_version = AboutVersion(
+                version='1.0.0',
+                data=about_data,
+                is_current=True
+            )
+            db.session.add(initial_version)
+            print("✅ Dados iniciais do about carregados!")
+        
+        # Carregar dados iniciais do profile se não houver versões
+        if ProfileVersion.query.count() == 0:
+            print("📂 Nenhuma versão do profile encontrada. Carregando dados iniciais...")
+            profile_data = load_json_data('profile.json', None)
+            if profile_data:
+                initial_version = ProfileVersion(
+                    version='1.0.0',
+                    data=profile_data,
+                    is_current=True
+                )
+                db.session.add(initial_version)
+                print("✅ Dados iniciais do profile carregados!")
+        
+        db.session.commit()
     
     print("🚀 Servidor rodando em http://localhost:5000")
     print("📋 Endpoints disponíveis:")
     print("   GET  /api/curriculum     - Obter currículo")
     print("   PUT  /api/curriculum     - Atualizar currículo (auth)")
+    print("   GET  /api/about          - Obter dados do about")
+    print("   PUT  /api/about          - Atualizar dados do about (auth)")
+    print("   GET  /api/profile        - Obter dados do perfil")
     print("   POST /api/auth/login     - Login")
     print("   POST /api/auth/register  - Registrar usuário")
     print("   GET  /api/auth/verify    - Verificar token (auth)")

@@ -13,215 +13,315 @@
   
   <link rel="icon" type="image/x-icon" href="assets/icons/favicon.ico">
   <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/about_style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   
   <style>
-    .about-container {
-      max-width: 1000px;
-      margin: 0 auto;
+    /* Estilos do modal de edição */
+    .login-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
     }
 
-    .about-header {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      margin-bottom: 3rem;
-    }
-
-    .about-card {
-      background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
-      border: 2px solid rgba(139, 92, 246, 0.3);
+    .login-modal {
+      background: var(--bg-secondary, #12121f);
+      border: 1px solid var(--glass-border, rgba(139, 92, 246, 0.15));
       border-radius: 1rem;
       padding: 2rem;
-      backdrop-filter: blur(10px);
-      transition: all 0.3s ease;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
     }
 
-    .about-card:hover {
-      border-color: #8b5cf6;
-      box-shadow: 0 8px 32px rgba(139, 92, 246, 0.2);
-      transform: translateY(-4px);
+    .login-modal h2 {
+      color: var(--color-primary, #8b5cf6);
+      margin-bottom: 0.5rem;
     }
 
-    .card-title {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      font-size: 1.3rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-      color: #a78bfa;
-    }
-
-    .card-title i {
-      font-size: 1.5rem;
-    }
-
-    .card-content {
-      color: var(--color-secondary-text);
-      line-height: 1.7;
-    }
-
-    .card-content p {
-      margin-bottom: 1rem;
-    }
-
-    .card-content strong {
-      color: #8b5cf6;
-    }
-
-    .badge-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      margin-top: 1rem;
-    }
-
-    .badge {
-      background: rgba(139, 92, 246, 0.2);
-      border: 1px solid #8b5cf6;
-      padding: 0.5rem 1rem;
-      border-radius: 2rem;
-      font-size: 0.85rem;
-      color: #a78bfa;
-      font-weight: 600;
-    }
-
-    .skills-section {
-      background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
-      border: 2px solid rgba(139, 92, 246, 0.3);
-      border-radius: 1rem;
-      padding: 2.5rem;
-      margin-bottom: 3rem;
-      backdrop-filter: blur(10px);
-    }
-
-    .skills-title {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin-bottom: 2rem;
-      color: #a78bfa;
-    }
-
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .skill-category {
-      background: rgba(139, 92, 246, 0.1);
-      border: 1px solid #8b5cf6;
-      border-radius: 0.75rem;
-      padding: 1.25rem;
-    }
-
-    .skill-category h4 {
-      color: #8b5cf6;
-      font-size: 0.95rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.75rem;
-    }
-
-    .skill-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .skill-tag {
-      background: rgba(196, 181, 212, 0.2);
-      color: #a78bfa;
-      padding: 0.35rem 0.75rem;
-      border-radius: 1rem;
-      font-size: 0.8rem;
-      border: 1px solid #a78bfa;
-    }
-
-    .interests-section {
-      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
-      border: 2px solid rgba(59, 130, 246, 0.3);
-      border-radius: 1rem;
-      padding: 2.5rem;
-      text-align: center;
-      backdrop-filter: blur(10px);
-    }
-
-    .interests-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #8b5cf6;
+    .login-modal p {
+      color: var(--color-secondary-text, #c4b5d4);
       margin-bottom: 1.5rem;
     }
 
-    .interests-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 1rem;
+    .form-group {
+      margin-bottom: 1rem;
     }
 
-    .interest-item {
-      background: rgba(139, 92, 246, 0.2);
-      border: 1px solid #8b5cf6;
-      padding: 1rem;
-      border-radius: 0.75rem;
-      font-size: 0.9rem;
+    .form-group label {
+      display: block;
+      color: var(--color-text, #f0f0ff);
+      margin-bottom: 0.3rem;
       font-weight: 600;
-      color: var(--color-text);
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      border: 1px solid var(--glass-border, rgba(139, 92, 246, 0.15));
+      border-radius: 0.5rem;
+      background: var(--bg-primary, #0a0a0f);
+      color: var(--color-text, #f0f0ff);
+      font-size: 1rem;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .btn-login {
+      flex: 1;
+      padding: 0.6rem 1.5rem;
+      background: var(--color-primary, #8b5cf6);
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      cursor: pointer;
       transition: all 0.3s ease;
     }
 
-    .interest-item:hover {
-      background: #8b5cf6;
-      color: white;
-      transform: scale(1.05);
+    .btn-login:hover {
+      background: var(--color-primary-dark, #6d28d9);
+      transform: scale(1.02);
     }
 
-    .status-box {
-      background: rgba(139, 92, 246, 0.15);
-      border: 2px solid #8b5cf6;
+    .btn-cancel {
+      padding: 0.6rem 1.5rem;
+      background: transparent;
+      color: var(--color-text, #f0f0ff);
+      border: 1px solid var(--glass-border, rgba(139, 92, 246, 0.15));
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-cancel:hover {
+      background: rgba(139, 92, 246, 0.1);
+    }
+
+    .login-error {
+      color: #ef4444;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .login-success {
+      color: #10b981;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    /* Modal de Edição */
+    #edit-modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 10000;
+      padding: 1rem;
+      overflow-y: auto;
+    }
+
+    .edit-modal {
+      background: var(--bg-secondary, #12121f);
+      border: 1px solid var(--glass-border, rgba(139, 92, 246, 0.15));
       border-radius: 1rem;
-      padding: 1.5rem;
-      margin-top: 2rem;
-      text-align: center;
+      padding: 2rem;
+      max-width: 800px;
+      margin: 2rem auto;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
     }
 
-    .status-box h4 {
-      color: #8b5cf6;
+    .edit-modal h2 {
+      color: var(--color-primary, #8b5cf6);
+      margin-bottom: 0.5rem;
+    }
+
+    .edit-modal > p {
+      color: var(--color-secondary-text, #c4b5d4);
+      margin-bottom: 1.5rem;
+    }
+
+    .edit-section {
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--glass-border, rgba(139, 92, 246, 0.15));
+    }
+
+    .edit-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .edit-section h3 {
+      color: var(--color-primary, #8b5cf6);
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+
+    .edit-field {
       margin-bottom: 0.75rem;
     }
 
-    .status-item {
-      color: var(--color-secondary-text);
-      margin: 0.5rem 0;
+    .edit-field label {
+      display: block;
+      color: var(--color-text, #f0f0ff);
+      margin-bottom: 0.2rem;
+      font-size: 0.9rem;
+    }
+
+    .edit-field input,
+    .edit-field textarea,
+    .edit-field select {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      border: 1px solid var(--glass-border, rgba(139, 92, 246, 0.15));
+      border-radius: 0.5rem;
+      background: var(--bg-primary, #0a0a0f);
+      color: var(--color-text, #f0f0ff);
       font-size: 0.95rem;
+      font-family: var(--font-sans, 'Poppins', sans-serif);
     }
 
-    .status-item strong {
-      color: #8b5cf6;
+    .edit-field textarea {
+      resize: vertical;
+      min-height: 80px;
     }
 
+    .edit-field input:focus,
+    .edit-field textarea:focus,
+    .edit-field select:focus {
+      outline: 2px solid var(--color-primary, #8b5cf6);
+      outline-offset: 1px;
+    }
+
+    .edit-actions {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-save {
+      padding: 0.6rem 2rem;
+      background: var(--color-primary, #8b5cf6);
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-save:hover {
+      background: var(--color-primary-dark, #6d28d9);
+      transform: scale(1.02);
+    }
+
+    .btn-cancel-edit {
+      padding: 0.6rem 2rem;
+      background: transparent;
+      color: var(--color-text, #f0f0ff);
+      border: 1px solid var(--glass-border, rgba(139, 92, 246, 0.15));
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-cancel-edit:hover {
+      background: rgba(139, 92, 246, 0.1);
+    }
+
+    .edit-status {
+      padding: 0.6rem 1rem;
+      border-radius: 0.5rem;
+      margin-top: 0.5rem;
+      display: none;
+    }
+
+    .edit-status.success {
+      display: block;
+      background: rgba(16, 185, 129, 0.2);
+      color: #10b981;
+      border: 1px solid #10b981;
+    }
+
+    .edit-status.error {
+      display: block;
+      background: rgba(239, 68, 68, 0.2);
+      color: #ef4444;
+      border: 1px solid #ef4444;
+    }
+
+    body.light-mode .login-modal,
+    body.light-mode .edit-modal {
+      background: #f4f0ff;
+    }
+
+    body.light-mode .form-group input,
+    body.light-mode .edit-field input,
+    body.light-mode .edit-field textarea,
+    body.light-mode .edit-field select {
+      background: white;
+      color: #1a1a2e;
+    }
+
+    /* Responsividade do modal */
     @media (max-width: 768px) {
-      .about-grid {
-        grid-template-columns: 1fr;
+      .edit-modal {
+        padding: 1rem;
+        margin: 1rem auto;
       }
 
-      .skills-grid {
-        grid-template-columns: 1fr;
+      .edit-actions {
+        flex-direction: column;
       }
 
-      .interests-grid {
-        grid-template-columns: repeat(2, 1fr);
+      .btn-save,
+      .btn-cancel-edit {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .login-modal {
+        padding: 1rem;
+      }
+
+      .edit-modal {
+        padding: 0.75rem;
+      }
+
+      .form-actions {
+        flex-direction: column;
+      }
+
+      .btn-login,
+      .btn-cancel {
+        width: 100%;
+        text-align: center;
       }
     }
   </style>
@@ -271,12 +371,19 @@
   <main style="padding-top: 2rem;">
     <section class="section about-container" style="margin-top: 2rem;">
       <div class="about-header">
-        <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">
+        <h1>
           <i class="fas fa-user-circle"></i> Quem Sou Eu
         </h1>
-        <p style="color: var(--color-secondary-text); margin-top: 1rem; max-width: 600px; margin-left: auto; margin-right: auto;">
-          Conhece mais sobre minha jornada, interesses e o que me motiva a criar código e arte.
+        <p>
+          Conheça mais sobre minha jornada, interesses e o que me motiva a criar código e arte.
         </p>
+      </div>
+
+      <!-- BOTÕES DE AÇÃO -->
+      <div class="about-actions">
+        <button id="edit-btn" class="edit-btn" style="display: none;">
+          <i class="fas fa-edit"></i> Editar Perfil
+        </button>
       </div>
 
       <!-- PRINCIPAIS INFORMAÇÕES -->
@@ -292,7 +399,7 @@
           </div>
         </div>
 
-        <!-- OBJETIVO E STATUS -->
+        <!-- OBJETIVO & STATUS -->
         <div class="about-card">
           <div class="card-title">
             <i class="fas fa-target"></i>
@@ -317,6 +424,27 @@
         </div>
       </div>
 
+      <!-- DESCRIÇÃO -->
+      <div class="skills-section" style="margin-bottom: 2rem;">
+        <div class="skills-title">
+          <i class="fas fa-quote-left"></i>
+          Descrição
+        </div>
+        <div id="profile-description" class="card-content" style="color: var(--color-secondary-text); line-height: 1.7;">
+          Carregando...
+        </div>
+      </div>
+
+      <!-- SAÚDE -->
+      <div class="interests-section" style="margin-bottom: 2rem;">
+        <div class="interests-title">
+          <i class="fas fa-heartbeat"></i> Saúde
+        </div>
+        <div id="profile-health" style="color: var(--color-secondary-text); font-size: clamp(0.95rem, 1.1vw, 1rem);">
+          Carregando...
+        </div>
+      </div>
+
       <!-- HABILIDADES -->
       <div class="skills-section">
         <div class="skills-title">
@@ -338,11 +466,22 @@
         </div>
       </div>
 
+      <!-- HISTÓRIA -->
+      <div class="skills-section" style="margin-bottom: 2rem;">
+        <div class="skills-title">
+          <i class="fas fa-book-open"></i>
+          Minha História
+        </div>
+        <div id="profile-history" class="card-content" style="color: var(--color-secondary-text); line-height: 1.7;">
+          Carregando...
+        </div>
+      </div>
+
       <!-- BADGES -->
-      <div style="text-align: center; margin-top: 3rem;">
-        <h3 style="color: #8b5cf6; margin-bottom: 1.5rem;">Badges & Identificação</h3>
+      <div class="badges-wrapper">
+        <h3><i class="fas fa-tags"></i> Badges & Identificação</h3>
         <div class="badge-list" id="badges-list">
-          <p>Carregando badges...</p>
+          <span class="badge">Carregando badges...</span>
         </div>
       </div>
     </section>
@@ -368,65 +507,60 @@
     </div>
   </div>
 
+  <!-- MODAL DE LOGIN -->
+  <div id="login-modal-overlay" class="login-modal-overlay" style="display: none;">
+    <div class="login-modal">
+      <h2>🔐 Acesso ao About</h2>
+      <p>Faça login para editar o conteúdo</p>
+      
+      <form id="login-form">
+        <div class="form-group">
+          <label for="login-username">Usuário</label>
+          <input type="text" id="login-username" placeholder="Usuário" required autocomplete="username">
+        </div>
+        
+        <div class="form-group">
+          <label for="login-password">Senha</label>
+          <input type="password" id="login-password" placeholder="Senha" required autocomplete="current-password">
+        </div>
+        
+        <div class="form-actions">
+          <button type="submit" class="btn-login">Entrar</button>
+          <button type="button" class="btn-cancel" onclick="document.getElementById('login-modal-overlay').style.display='none'">Cancelar</button>
+        </div>
+        
+        <div id="login-error" class="login-error"></div>
+        <div id="login-success" class="login-success"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL DE EDIÇÃO -->
+  <div id="edit-modal-overlay">
+    <div class="edit-modal">
+      <h2>✏️ Editar Perfil</h2>
+      <p>Modifique as informações da página Sobre</p>
+      
+      <form id="about-edit-form">
+        <div id="edit-fields-container">
+          <!-- Preenchido via JS -->
+        </div>
+        
+        <div id="edit-status" class="edit-status"></div>
+        
+        <div class="edit-actions">
+          <button type="submit" class="btn-save">
+            <i class="fas fa-save"></i> Salvar
+          </button>
+          <button type="button" id="cancel-edit" class="btn-cancel-edit">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script src="js/main.js" type="module"></script>
-  <script>
-    async function loadProfileData() {
-      try {
-        const response = await fetch('./data/profile.json');
-        if (!response.ok) throw new Error('Failed to load profile');
-        const profile = await response.json();
-
-        // Bio
-        const bioContainer = document.getElementById('profile-bio');
-        if (profile.bio && Array.isArray(profile.bio)) {
-          bioContainer.innerHTML = profile.bio.slice(0, 4).map(line => `<p>${line}</p>`).join('');
-        } else {
-          bioContainer.innerHTML = `<p>${profile.bio || 'Profissional apaixonado por tecnologia e criatividade.'}</p>`;
-        }
-
-        // Objetivo
-        document.getElementById('profile-objective').textContent = profile.objective || 'Desenvolver soluções úteis e criativas';
-
-        // Status
-        document.getElementById('profile-working').textContent = profile.status?.working || 'Em procura de oportunidades';
-        document.getElementById('profile-studying').textContent = profile.status?.studying || 'Aprendizado contínuo';
-
-        // Skills
-        const skillsGrid = document.getElementById('skills-grid');
-        if (profile.skills && Object.keys(profile.skills).length > 0) {
-          skillsGrid.innerHTML = Object.entries(profile.skills)
-            .map(([category, items]) => `
-              <div class="skill-category">
-                <h4>${category.charAt(0).toUpperCase() + category.slice(1)}</h4>
-                <div class="skill-tags">
-                  ${items.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
-                </div>
-              </div>
-            `).join('');
-        }
-
-        // Interesses
-        const interestsGrid = document.getElementById('interests-grid');
-        if (profile.interests && Array.isArray(profile.interests)) {
-          interestsGrid.innerHTML = profile.interests.map(interest => 
-            `<div class="interest-item">${interest}</div>`
-          ).join('');
-        }
-
-        // Badges
-        const badgesList = document.getElementById('badges-list');
-        if (profile.badges && Array.isArray(profile.badges)) {
-          badgesList.innerHTML = profile.badges.map(badge => 
-            `<span class="badge">${badge}</span>`
-          ).join('');
-        }
-      } catch (error) {
-        console.error('❌ Erro ao carregar perfil:', error);
-      }
-    }
-
-    // Carregar dados específicos da página
-    document.addEventListener('DOMContentLoaded', loadProfileData);
-  </script>
+  <script src="js/about.js" type="module"></script>
 </body>
 </html>

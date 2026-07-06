@@ -806,3 +806,14 @@ document.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('error', (e) => {
   console.error('❌ Erro no portfolio:', e.message);
 });
+
+export {
+    parseMarkdown,
+    interpolate,
+    renderFooter,
+    initThemeToggle,
+    initMusicToggle,
+    initMobileNav,
+    initSmoothScroll,
+    CONFIG
+};

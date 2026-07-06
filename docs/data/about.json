@@ -1,0 +1,28 @@
+{
+  "bio": [
+    "Olá! 👋 Me chamo **João Gabriel**, tenho {{age}} anos e sou natural de {{location}}.",
+    "Sou um **Desenvolvedor Full Stack** e **Artista Digital** apaixonado por tecnologia, criatividade e histórias.",
+    "Acredito que a tecnologia pode ser uma ferramenta poderosa para conectar pessoas e criar experiências significativas."
+  ],
+  "objective": "Desenvolver soluções inovadoras que unam tecnologia e arte, impactando positivamente a vida das pessoas.",
+  "status": {
+    "working": "Desenvolvedor Full Stack & Artista",
+    "studying": "React, Node.js e Design de Interfaces"
+  },
+  "description": "Sou um profissional versátil que transita entre o **código** e a **arte**. Minha jornada começou no mundo do desenvolvimento web, onde descobri a paixão por criar interfaces intuitivas e funcionais.\n\nAlém da programação, sou **artista digital** e **mangaká**, explorando diferentes formas de expressão criativa. Essa combinação única me permite abordar projetos com uma visão holística, unindo técnica e estética.",
+  "health": "❤️ Saudável, pratico exercícios regularmente e mantenho uma alimentação equilibrada.",
+  "skills": {
+    "core": ["Comunicação", "Liderança", "Trabalho em Equipe", "Resolução de Problemas", "Criatividade"],
+    "technical": ["JavaScript", "Python", "HTML5", "CSS3", "React", "Node.js", "Git"],
+    "creative": ["Desenho", "Ilustração Digital", "Mangá", "Escrita Criativa", "Música"],
+    "languages": ["Português (Nativo)", "Inglês (Avançado)", "Espanhol (Básico)"]
+  },
+  "interests": ["Anime", "Manga", "Programação", "Música", "Games", "Design", "Fotografia", "Viagens"],
+  "badges": ["Desenvolvedor", "Artista", "Mangaká", "Escritor", "Músico", "Gamer", "Leitor", "Viajante"],
+  "history": [
+    "Minha história começou em **{{birthday}}**, quando nasci em {{location}}. Desde criança, sempre fui curioso e apaixonado por histórias.",
+    "Aos {{age}} anos, descobri o mundo da programação e me encantei com a possibilidade de criar coisas novas a partir do zero.",
+    "Ao longo dos anos, explorei diferentes áreas, desde o **desenvolvimento web** até a **arte digital**, sempre buscando unir tecnologia e criatividade.",
+    "Hoje, continuo aprendendo e evoluindo, acreditando que cada dia é uma oportunidade para criar algo incrível."
+  ]
+}
