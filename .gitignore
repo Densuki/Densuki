@@ -1,1 +1,14 @@
+# PASTAS
 node_modules
+backend/api/venv
+.venv
+
+# ARQUIVOS
+.env
+start.sh
+setup.sh
+
+# TEXTOS
+requirements.txt
+tree.txt
+arvore_de_arquivos.txt
