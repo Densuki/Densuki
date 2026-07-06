@@ -1,28 +1,33 @@
+/* ============================================ */
+/* CURRICULUM STYLES - RESPONSIVO */
+/* ============================================ */
+
 .curriculum-container {
     max-width: 900px;
     margin: 0 auto;
+    padding: 0 clamp(0.5rem, 2vw, 1rem);
 }
 
 .curriculum-header {
     text-align: center;
-    margin-bottom: 3rem;
-    padding-bottom: 2rem;
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+    padding-bottom: clamp(1.5rem, 2.5vw, 2rem);
     border-bottom: 2px solid rgba(139, 92, 246, 0.3);
 }
 
 .curriculum-actions {
     display: flex;
-    gap: 1rem;
+    gap: clamp(0.5rem, 1.5vw, 1rem);
     justify-content: center;
-    margin-bottom: 2rem;
+    margin-bottom: clamp(1.5rem, 3vw, 2rem);
     flex-wrap: wrap;
 }
 
 .download-btn {
-    padding: 0.75rem 1.5rem;
-    border: 2px solid var(--color-primary);
-    background: var(--color-primary);
-    color: var(--color-bg);
+    padding: clamp(0.6rem, 1.2vw, 0.75rem) clamp(1rem, 2vw, 1.5rem);
+    border: 2px solid var(--color-primary, #8b5cf6);
+    background: var(--color-primary, #8b5cf6);
+    color: var(--color-bg, #ffffff);
     border-radius: 0.5rem;
     cursor: pointer;
     font-weight: 600;
@@ -31,6 +36,10 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
+    font-size: clamp(0.85rem, 1.1vw, 1rem);
+    text-align: center;
+    justify-content: center;
+    min-width: clamp(120px, 20vw, 160px);
 }
 
 .download-btn:hover {
@@ -38,55 +47,74 @@
     box-shadow: 0 8px 16px rgba(139, 92, 246, 0.4);
 }
 
+/* Prevenir hover em touch devices */
+@media (hover: none) {
+    .download-btn:hover {
+        transform: none;
+        box-shadow: none;
+    }
+}
+
 .download-btn.outline {
     background: transparent;
-    color: var(--color-text);
+    color: var(--color-text, #f0f0ff);
 }
 
 .download-btn.outline:hover {
-    background: var(--color-primary);
-    color: var(--color-bg);
+    background: var(--color-primary, #8b5cf6);
+    color: var(--color-bg, #ffffff);
 }
 
 .curriculum-content {
     background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
     border: 1px solid rgba(139, 92, 246, 0.2);
-    border-radius: 1rem;
-    padding: 2.5rem;
+    border-radius: clamp(0.75rem, 1.5vw, 1rem);
+    padding: clamp(1.5rem, 3vw, 2.5rem);
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* Modo claro */
+body.light-mode .curriculum-content {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.03) 0%, rgba(139, 92, 246, 0.03) 100%);
+    border-color: rgba(139, 92, 246, 0.15);
 }
 
 .curriculum-name {
-    font-size: 2.2rem;
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
     font-weight: 700;
     margin: 0 0 0.5rem 0;
-    color: var(--color-text);
+    color: var(--color-text, #f0f0ff);
+    word-break: break-word;
 }
 
 .curriculum-contact {
     display: flex;
     justify-content: center;
-    gap: 2rem;
+    gap: clamp(0.75rem, 2vw, 2rem);
     flex-wrap: wrap;
-    color: var(--color-secondary-text);
-    font-size: 0.9rem;
-    margin-bottom: 2rem;
+    color: var(--color-secondary-text, #c4b5d4);
+    font-size: clamp(0.8rem, 1vw, 0.9rem);
+    margin-bottom: clamp(1.5rem, 2.5vw, 2rem);
 }
 
 .curriculum-contact-item {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    word-break: break-word;
 }
 
 .curriculum-contact-item i {
-    color: var(--color-primary);
+    color: var(--color-primary, #8b5cf6);
     width: 1rem;
+    flex-shrink: 0;
 }
 
 .curriculum-contact-item a {
-    color: var(--color-primary);
+    color: var(--color-primary, #8b5cf6);
     text-decoration: none;
+    word-break: break-all;
 }
 
 .curriculum-contact-item a:hover {
@@ -94,8 +122,8 @@
 }
 
 .curriculum-section {
-    margin-bottom: 2.5rem;
-    padding-bottom: 2.5rem;
+    margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+    padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
     border-bottom: 1px solid rgba(139, 92, 246, 0.2);
 }
 
@@ -106,32 +134,39 @@
 }
 
 .section-title {
-    font-size: 1.3rem;
+    font-size: clamp(1.1rem, 2vw, 1.3rem);
     font-weight: 700;
-    margin: 0 0 1.5rem 0;
-    color: var(--color-primary);
+    margin: 0 0 clamp(1rem, 2vw, 1.5rem) 0;
+    color: var(--color-primary, #8b5cf6);
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.section-title i {
+    font-size: clamp(0.9rem, 1.2vw, 1.1rem);
 }
 
 .objective-text {
-    color: var(--color-secondary-text);
+    color: var(--color-secondary-text, #c4b5d4);
     line-height: 1.6;
     font-style: italic;
+    font-size: clamp(0.9rem, 1.1vw, 1rem);
 }
 
 .resume-text {
-    color: var(--color-secondary-text);
+    color: var(--color-secondary-text, #c4b5d4);
     line-height: 1.7;
     margin-bottom: 1rem;
+    font-size: clamp(0.9rem, 1.1vw, 1rem);
 }
 
 .education-item,
 .experience-item,
 .course-item {
-    margin-bottom: 1.5rem;
-    padding-bottom: 1.5rem;
+    margin-bottom: clamp(1rem, 2vw, 1.5rem);
+    padding-bottom: clamp(1rem, 2vw, 1.5rem);
     border-bottom: 1px dotted rgba(139, 92, 246, 0.2);
 }
 
@@ -146,7 +181,7 @@
 .item-header {
     display: flex;
     justify-content: space-between;
-    align-items: start;
+    align-items: flex-start;
     gap: 1rem;
     margin-bottom: 0.5rem;
     flex-wrap: wrap;
@@ -154,56 +189,62 @@
 
 .item-title {
     font-weight: 700;
-    color: var(--color-text);
-    font-size: 1.05rem;
+    color: var(--color-text, #f0f0ff);
+    font-size: clamp(0.95rem, 1.3vw, 1.05rem);
+    word-break: break-word;
 }
 
 .item-subtitle {
-    color: var(--color-primary);
+    color: var(--color-primary, #8b5cf6);
     font-weight: 600;
+    font-size: clamp(0.85rem, 1.1vw, 0.95rem);
 }
 
 .item-period {
-    color: var(--color-secondary-text);
-    font-size: 0.9rem;
+    color: var(--color-secondary-text, #c4b5d4);
+    font-size: clamp(0.75rem, 0.9vw, 0.9rem);
     font-style: italic;
+    flex-shrink: 0;
 }
 
 .item-description {
-    color: var(--color-secondary-text);
+    color: var(--color-secondary-text, #c4b5d4);
     line-height: 1.6;
     margin-top: 0.75rem;
+    font-size: clamp(0.85rem, 1vw, 0.95rem);
 }
 
 .item-description ul {
-    margin: 0.75rem 0 0 1.5rem;
+    margin: 0.75rem 0 0 clamp(1rem, 2vw, 1.5rem);
     padding: 0;
 }
 
 .item-description li {
     margin-bottom: 0.5rem;
-    color: var(--color-secondary-text);
+    color: var(--color-secondary-text, #c4b5d4);
+    font-size: clamp(0.85rem, 1vw, 0.95rem);
 }
 
 .skills-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+    gap: clamp(0.75rem, 1.5vw, 1rem);
 }
 
 .skill-category {
     background: rgba(139, 92, 246, 0.1);
     border: 1px solid rgba(139, 92, 246, 0.2);
     border-radius: 0.5rem;
-    padding: 1rem;
+    padding: clamp(0.75rem, 1.5vw, 1rem);
 }
 
 .skill-category h4 {
     margin: 0 0 0.75rem 0;
-    color: var(--color-primary);
-    font-size: 0.95rem;
+    color: var(--color-primary, #8b5cf6);
+    font-size: clamp(0.85rem, 1vw, 0.95rem);
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    word-break: break-word;
 }
 
 .skill-tags {
@@ -215,64 +256,492 @@
 .skill-tag {
     background: rgba(139, 92, 246, 0.2);
     border: 1px solid rgba(139, 92, 246, 0.3);
-    padding: 0.35rem 0.75rem;
+    padding: clamp(0.25rem, 0.5vw, 0.35rem) clamp(0.5rem, 1vw, 0.75rem);
     border-radius: 1rem;
-    font-size: 0.85rem;
-    color: var(--color-text);
+    font-size: clamp(0.75rem, 0.9vw, 0.85rem);
+    color: var(--color-text, #f0f0ff);
+    white-space: nowrap;
+    transition: all 0.3s ease;
+}
+
+.skill-tag:hover {
+    background: var(--color-primary, #8b5cf6);
+    color: var(--color-bg, #ffffff);
+    transform: scale(1.05);
+}
+
+@media (hover: none) {
+    .skill-tag:hover {
+        transform: none;
+        background: rgba(139, 92, 246, 0.2);
+        color: var(--color-text, #f0f0ff);
+    }
 }
 
 #curriculum-print {
     display: none;
 }
 
+/* ============================================ */
+/* IMPRESSÃO */
+/* ============================================ */
 @media print {
+    * {
+        background: white !important;
+        color: black !important;
+        border-color: #ddd !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+        filter: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+    
     body {
-        background: white;
-        color: black;
+        background: white !important;
+        color: black !important;
+        font-size: 12pt;
+        line-height: 1.4;
     }
 
     #navbar,
     .curriculum-actions,
-    #footer {
-        display: none;
+    #footer,
+    .nav-controls,
+    .hamburger,
+    .scroll-indicator,
+    #music-player-ui,
+    .orb {
+        display: none !important;
+    }
+
+    .curriculum-container {
+        max-width: 100%;
+        padding: 0;
+        margin: 0;
     }
 
     .curriculum-content {
-        background: white;
-        border: none;
-        padding: 0;
-        box-shadow: none;
+        background: white !important;
+        border: none !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        border-radius: 0 !important;
+    }
+
+    .curriculum-header {
+        border-bottom: 2px solid #333 !important;
+        margin-bottom: 20pt;
+        padding-bottom: 15pt;
     }
 
     .curriculum-section {
+        border-bottom: 1px solid #ddd !important;
         page-break-inside: avoid;
+        margin-bottom: 15pt;
+        padding-bottom: 15pt;
     }
 
-    a {
-        color: black;
-        text-decoration: underline;
+    .curriculum-section:last-child {
+        border-bottom: none !important;
     }
-}
 
-@media (max-width: 768px) {
-    .curriculum-content {
-        padding: 1.5rem;
+    .section-title {
+        color: #333 !important;
+        border-bottom: 1px solid #ddd !important;
+        padding-bottom: 5pt;
+        margin-bottom: 10pt;
     }
 
     .curriculum-name {
-        font-size: 1.8rem;
+        color: #000 !important;
+        font-size: 24pt;
+    }
+
+    .curriculum-contact {
+        color: #555 !important;
+    }
+
+    .curriculum-contact-item a {
+        color: #000 !important;
+        text-decoration: underline !important;
+    }
+
+    .item-title {
+        color: #000 !important;
+    }
+
+    .item-subtitle {
+        color: #333 !important;
+    }
+
+    .item-description {
+        color: #444 !important;
+    }
+
+    .item-description li {
+        color: #444 !important;
+    }
+
+    .objective-text,
+    .resume-text {
+        color: #444 !important;
+        font-style: italic;
+    }
+
+    .skill-category {
+        background: #f5f5f5 !important;
+        border-color: #ddd !important;
+    }
+
+    .skill-category h4 {
+        color: #333 !important;
+    }
+
+    .skill-tag {
+        background: #e8e8e8 !important;
+        border-color: #ccc !important;
+        color: #000 !important;
+    }
+
+    .education-item,
+    .experience-item,
+    .course-item {
+        border-bottom: 1px dotted #ddd !important;
+    }
+
+    a {
+        color: #000 !important;
+        text-decoration: underline !important;
+    }
+
+    .item-period {
+        color: #555 !important;
+    }
+
+    .curriculum-contact-item i {
+        color: #333 !important;
+    }
+
+    .section-title i {
+        color: #333 !important;
+    }
+}
+
+/* ============================================ */
+/* RESPONSIVIDADE - TABLETS E TELAS MÉDIAS */
+/* ============================================ */
+@media (max-width: 1024px) {
+    .curriculum-content {
+        padding: clamp(1.25rem, 2.5vw, 2rem);
+    }
+    
+    .skills-grid {
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+    }
+}
+
+/* ============================================ */
+/* RESPONSIVIDADE - TABLETS MENORES E MOBILE */
+/* ============================================ */
+@media (max-width: 768px) {
+    .curriculum-content {
+        padding: 1.25rem;
+    }
+
+    .curriculum-name {
+        font-size: clamp(1.4rem, 4vw, 1.8rem);
     }
 
     .curriculum-contact {
         flex-direction: column;
-        gap: 0.75rem;
+        align-items: center;
+        gap: 0.6rem;
+        font-size: 0.85rem;
+    }
+
+    .curriculum-contact-item {
+        width: 100%;
+        justify-content: center;
+        max-width: 100%;
+        word-break: break-all;
     }
 
     .item-header {
         flex-direction: column;
+        align-items: flex-start;
+        gap: 0.3rem;
+    }
+
+    .item-period {
+        align-self: flex-start;
+        font-size: 0.8rem;
     }
 
     .skills-grid {
         grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .curriculum-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+    }
+
+    .download-btn {
+        width: 100%;
+        justify-content: center;
+        min-width: unset;
+        padding: 0.7rem 1rem;
+    }
+
+    .section-title {
+        font-size: 1.1rem;
+    }
+
+    .curriculum-section {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.5rem;
+    }
+
+    .education-item,
+    .experience-item,
+    .course-item {
+        margin-bottom: 1.25rem;
+        padding-bottom: 1.25rem;
+    }
+
+    .item-description ul {
+        margin-left: 1rem;
+    }
+
+    .item-description li {
+        font-size: 0.85rem;
+    }
+}
+
+/* ============================================ */
+/* RESPONSIVIDADE - MOBILE PEQUENO */
+/* ============================================ */
+@media (max-width: 480px) {
+    .curriculum-container {
+        padding: 0 0.25rem;
+    }
+
+    .curriculum-content {
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+    }
+
+    .curriculum-name {
+        font-size: 1.2rem;
+    }
+
+    .curriculum-contact {
+        font-size: 0.75rem;
+        gap: 0.4rem;
+    }
+
+    .curriculum-contact-item {
+        gap: 0.3rem;
+        font-size: 0.75rem;
+    }
+
+    .curriculum-contact-item i {
+        width: 0.8rem;
+        font-size: 0.8rem;
+    }
+
+    .section-title {
+        font-size: 0.95rem;
+        gap: 0.3rem;
+    }
+
+    .section-title i {
+        font-size: 0.85rem;
+    }
+
+    .objective-text,
+    .resume-text {
+        font-size: 0.85rem;
+    }
+
+    .item-title {
+        font-size: 0.9rem;
+    }
+
+    .item-subtitle {
+        font-size: 0.8rem;
+    }
+
+    .item-period {
+        font-size: 0.7rem;
+    }
+
+    .item-description {
+        font-size: 0.8rem;
+        margin-top: 0.5rem;
+    }
+
+    .item-description li {
+        font-size: 0.8rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .skill-category {
+        padding: 0.6rem;
+    }
+
+    .skill-category h4 {
+        font-size: 0.8rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .skill-tag {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.5rem;
+    }
+
+    .curriculum-actions {
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .download-btn {
+        font-size: 0.8rem;
+        padding: 0.6rem 0.8rem;
+        gap: 0.3rem;
+    }
+
+    .download-btn i {
+        font-size: 0.9rem;
+    }
+
+    .curriculum-header {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+    }
+
+    .curriculum-section {
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+    }
+
+    .education-item,
+    .experience-item,
+    .course-item {
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.75rem;
+    }
+
+    .item-description ul {
+        margin-left: 0.75rem;
+    }
+}
+
+/* ============================================ */
+/* RESPONSIVIDADE - TELAS MUITO GRANDES */
+/* ============================================ */
+@media (min-width: 1600px) {
+    .curriculum-container {
+        max-width: 1100px;
+    }
+
+    .curriculum-content {
+        padding: 3rem;
+    }
+
+    .curriculum-name {
+        font-size: 2.6rem;
+    }
+
+    .skills-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.25rem;
+    }
+}
+
+/* ============================================ */
+/* ACESSIBILIDADE - REDUZIR MOVIMENTO */
+/* ============================================ */
+@media (prefers-reduced-motion: reduce) {
+    .download-btn {
+        transition: none;
+    }
+    
+    .download-btn:hover {
+        transform: none;
+    }
+    
+    .skill-tag {
+        transition: none;
+    }
+    
+    .skill-tag:hover {
+        transform: none;
+    }
+}
+
+/* ============================================ */
+/* FOCUS VISIBLE - ACESSIBILIDADE */
+/* ============================================ */
+.download-btn:focus-visible {
+    outline: 2px solid var(--color-primary, #8b5cf6);
+    outline-offset: 2px;
+}
+
+.curriculum-contact-item a:focus-visible {
+    outline: 2px solid var(--color-primary, #8b5cf6);
+    outline-offset: 2px;
+}
+
+/* ============================================ */
+/* SUPORTE A TELAS ORIENTADAS A RETRATO */
+/* ============================================ */
+@media (orientation: portrait) and (max-width: 768px) {
+    .curriculum-contact {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .curriculum-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .download-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ============================================ */
+/* SUPORTE A TELAS ORIENTADAS A PAISAGEM */
+/* ============================================ */
+@media (orientation: landscape) and (max-height: 500px) {
+    .curriculum-container {
+        max-width: 100%;
+        padding: 0 1rem;
+    }
+    
+    .curriculum-content {
+        padding: 1rem;
+    }
+    
+    .curriculum-header {
+        margin-bottom: 1rem;
+        padding-bottom: 0.75rem;
+    }
+    
+    .curriculum-section {
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.75rem;
+    }
+    
+    .curriculum-name {
+        font-size: 1.4rem;
     }
 }
