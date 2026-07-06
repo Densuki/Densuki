@@ -10,7 +10,7 @@
   "courses": [
     {
       "date": "2024",
-      "description": "**COMPETÊNCIAS**\nComunicação interpessoal \n• tecnologia aplicada à empregabilidade \n• elaboração de currículo e portfólio digital \n• preparação para entrevistas de emprego • ética profissional \n• cidadania, direitos trabalhistas \n• trabalho em equipe \n• organização \n• resolução de problemas e desenvolvimento de competências para o mercado de trabalho.",
+      "description": "**COMPETÊNCIAS**\nComunicação interpessoal \n• tecnologia aplicada à empregabilidade \n• elaboração de currículo e portfólio digital \n• preparação para entrevistas de emprego \n• ética profissional \n• cidadania, direitos trabalhistas \n• trabalho em equipe \n• organização \n• resolução de problemas e desenvolvimento de competências para o mercado de trabalho.",
       "duration": "60h",
       "id": "course-1",
       "institution": "Instituto João Carlos Paes Mendonça (IJCPM)",
@@ -48,20 +48,20 @@
       "company": "WeckTech - Lan House",
       "endDate": "atual",
       "id": "exp-1",
-      "location": "Fortaleza - CE",
+      "location": "",
       "position": "Atendente",
       "responsibilities": [
         "Atendimento ao público e operação de caixa.",
         "Suporte básico em computadores, impressoras e serviços de impressão.",
         "Organização do ambiente e controle de pagamentos."
       ],
-      "startDate": "2026-04"
+      "startDate": "04/2026"
     },
     {
       "company": "EMTI Nossa Senhora de Fátima",
       "endDate": "12/2023",
       "id": "exp-2",
-      "location": "Fortaleza - CE",
+      "location": "",
       "position": "Assistente Pedagógico - Sala de Inovação Digital (Voluntário)",
       "responsibilities": [
         "Apoio administrativo à secretaria escolar, incluindo matrículas, organização documental e lançamento de informações acadêmicas.",
@@ -78,6 +78,14 @@
     },
     {
       "language": "Inglês",
+      "proficiency": "Básico"
+    },
+    {
+      "language": "Espanhol",
+      "proficiency": "Básico"
+    },
+    {
+      "language": "Japonês",
       "proficiency": "Básico"
     }
   ],
