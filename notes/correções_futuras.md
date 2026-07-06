@@ -18,6 +18,9 @@ Temos o `.env` em `backend/api/.env`, então podemos aproveitá-lo para tal.
 # 5 - Organização
 Quero que exclua pasta e arquivos que são desnecessários e que não possuam usos no repositório e não agregem ao site.
 
+Em outras palavras, lógicas repetitivas deverá ficar centralizada e serem reutilizadas quando necessárias, assim facilitando a manutenção e edição.
+lógicas onde é focado em um sistema deverá ficar centralizado naquele "nicho" e não disperso em outros arquivos, mas apenas outros arquivos referenciando-os via importação.
+
 # 6 - Reformulação
 É atrelado a "organização" e "reaproveitamento" / "modulação", onde o foco é otimizar os códigos evitando a centralização em um único arquivo, mas jogando a lógica em seus respectivos arquivos.
 Por exemplo, onde é "Currículo", fica centralizado onde é "Currículo" e os arquivos que possuía ele centralizado deixa de tê-lo, mas claro, sem quebrar o código.

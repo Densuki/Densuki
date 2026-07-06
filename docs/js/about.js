@@ -2,8 +2,6 @@
 // ABOUT - Módulo Principal
 // ============================================
 
-import { parseMarkdown, interpolate } from './main.js';
-
 // ============================================
 // CONFIGURAÇÃO
 // ============================================
@@ -252,7 +250,7 @@ function updateConnectionStatus(status, message) {
 }
 
 // ============================================
-// RENDERIZAÇÃO
+// RENDERIZAÇÃO (USANDO FUNÇÕES DO WINDOW)
 // ============================================
 function renderAbout(data) {
     if (!data) {
@@ -262,13 +260,45 @@ function renderAbout(data) {
 
     console.log('🎨 Renderizando dados do about...');
 
+    // Verificar se as funções globais existem
+    const parseMarkdownFn = window.parseMarkdown || function(text) { 
+        if (!text) return '';
+        
+        let html = text;
+        html = html.replace(/^### (.*$)/gm, '<h4>$1</h4>');
+        html = html.replace(/^## (.*$)/gm, '<h3>$1</h3>');
+        html = html.replace(/^# (.*$)/gm, '<h2>$1</h2>');
+        html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+        html = html.replace(/^[\s]*[-*+] (.*$)/gm, '<li>$1</li>');
+        html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+        html = html.replace(/^[\s]*\d+\. (.*$)/gm, '<li>$1</li>');
+        html = html.replace(/\n/g, '<br>');
+        return html;
+    };
+    
+    const interpolateFn = window.interpolate || function(template, data) {
+        if (!template || typeof template !== 'string') return template;
+        function getByPath(obj, path) {
+            return path.split('.').reduce((acc, p) => (acc && acc[p] !== undefined ? acc[p] : undefined), obj);
+        }
+        return template.replace(/{{\s*([^}|]+?)\s*(?:\|\s*([^}]+?)\s*)?}}/g, (match, path, modifier) => {
+            const keyPath = path.trim();
+            if (!data) return '';
+            const val = getByPath(data, keyPath);
+            if (val === undefined || val === null) return '';
+            const out = Array.isArray(val) ? val.join(', ') : String(val);
+            return out;
+        });
+    };
+
     // Bio - Sobre Mim
     const bioContainer = document.getElementById('profile-bio');
     if (bioContainer && data.bio) {
         if (Array.isArray(data.bio)) {
-            bioContainer.innerHTML = data.bio.map(line => `<p>${interpolate(line, data)}</p>`).join('');
+            bioContainer.innerHTML = data.bio.map(line => `<p>${interpolateFn(line, data)}</p>`).join('');
         } else if (typeof data.bio === 'string') {
-            bioContainer.innerHTML = `<p>${interpolate(data.bio, data)}</p>`;
+            bioContainer.innerHTML = `<p>${interpolateFn(data.bio, data)}</p>`;
         }
     }
 
@@ -290,7 +320,7 @@ function renderAbout(data) {
     // Descrição (com Markdown)
     const descriptionEl = document.getElementById('profile-description');
     if (descriptionEl && data.description) {
-        descriptionEl.innerHTML = parseMarkdown(data.description);
+        descriptionEl.innerHTML = parseMarkdownFn(data.description);
         console.log('✅ Descrição renderizada com Markdown');
     }
 
@@ -356,9 +386,9 @@ function renderAbout(data) {
     const historyEl = document.getElementById('profile-history');
     if (historyEl && data.history) {
         if (Array.isArray(data.history)) {
-            historyEl.innerHTML = data.history.map(line => `<p>${interpolate(line, data)}</p>`).join('');
+            historyEl.innerHTML = data.history.map(line => `<p>${interpolateFn(line, data)}</p>`).join('');
         } else if (typeof data.history === 'string') {
-            historyEl.innerHTML = `<p>${interpolate(data.history, data)}</p>`;
+            historyEl.innerHTML = `<p>${interpolateFn(data.history, data)}</p>`;
         }
     }
 }
@@ -483,6 +513,9 @@ function showLoginModal() {
                 const editBtn = document.getElementById('edit-btn');
                 if (editBtn) {
                     editBtn.innerHTML = '<i class="fas fa-edit"></i> Editar Perfil';
+                    editBtn.style.background = 'var(--color-primary, #8b5cf6)';
+                    editBtn.style.color = 'white';
+                    editBtn.style.border = '2px solid var(--color-primary, #8b5cf6)';
                 }
                 updateConnectionStatus('success', '✅ Login realizado com sucesso!');
                 loadAboutData().then(() => renderAbout(aboutData));
@@ -721,14 +754,22 @@ document.addEventListener('DOMContentLoaded', async function() {
             editBtn.title = 'Editar informações do perfil';
             editBtn.style.background = 'var(--color-primary, #8b5cf6)';
             editBtn.style.color = 'white';
+            editBtn.style.border = '2px solid var(--color-primary, #8b5cf6)';
         } else {
             editBtn.innerHTML = '<i class="fas fa-lock"></i> Login para Editar';
             editBtn.title = 'Faça login para editar o perfil';
-            editBtn.style.background = 'rgba(139, 92, 246, 0.2)';
+            editBtn.style.background = 'rgba(139, 92, 246, 0.15)';
             editBtn.style.color = 'var(--color-text, #f0f0ff)';
-            editBtn.style.border = '1px solid rgba(139, 92, 246, 0.3)';
+            editBtn.style.border = '2px solid rgba(139, 92, 246, 0.3)';
         }
         editBtn.style.display = 'inline-flex';
+        editBtn.style.padding = '0.6rem 1.5rem';
+        editBtn.style.borderRadius = '0.5rem';
+        editBtn.style.fontWeight = '600';
+        editBtn.style.cursor = 'pointer';
+        editBtn.style.transition = 'all 0.3s ease';
+        editBtn.style.gap = '0.5rem';
+        editBtn.style.alignItems = 'center';
     } else {
         console.warn('⚠️ Botão de edição não encontrado no DOM');
     }

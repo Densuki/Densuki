@@ -1,824 +1,784 @@
 // ============================================
-// IMPORTAÇÃO
+// ABOUT - Módulo Principal
 // ============================================
-import { terminalTexts } from './data/terminalTexts.js';
+
+// Importar funções do main.js via window (já estão expostas globalmente)
+// As funções parseMarkdown, interpolate, etc. estão disponíveis em window
 
 // ============================================
 // CONFIGURAÇÃO
 // ============================================
-const CONFIG = {
-  dataPath: '',
-  terminalSpeed: 80,
-  terminalDelay: 2000,
-  scrollThreshold: 0.1,
-  githubUsername: 'Densuki',
-  discordId: '568923940768972808',
-  defaultVolume: 0.5,
+const ABOUT_CONFIG = {
+    getApiUrl() {
+        const hostname = window.location.hostname;
+        const port = '5000';
+        
+        if (hostname === 'localhost' || hostname === '127.0.0.1') {
+            return `http://localhost:${port}/api`;
+        }
+        
+        if (hostname.includes('github.dev')) {
+            const baseName = hostname.replace(/-\d+\.app\.github\.dev$/, '');
+            return `https://${baseName}-${port}.app.github.dev/api`;
+        }
+        
+        if (hostname.includes('github.io')) {
+            return 'https://portifolio-pj8c.onrender.com/api';
+        }
+        
+        return `http://localhost:${port}/api`;
+    }
 };
 
-function resolveDataBaseUrl() {
-  const scriptTag = document.querySelector('script[src*="main.js"]');
-  if (scriptTag?.src) {
-    return new URL('.', scriptTag.src).href;
-  }
-  return new URL('./', window.location.href).href;
-}
+// ============================================
+// ESTADO GLOBAL
+// ============================================
+let currentUser = null;
+let currentToken = null;
+let aboutData = null;
+let profileData = null;
+const API_BASE = ABOUT_CONFIG.getApiUrl();
+
+console.log('🔗 About API URL:', API_BASE);
 
 // ============================================
-// CARREGAR DADOS DOS JSONS (CORRIGIDO)
+// FUNÇÕES DE AUTENTICAÇÃO
 // ============================================
-async function fetchJSON(path) {
-  const resource = path.replace(/^\.?\//, '');
-  const candidates = [];
-
-  // Prioridade 1: docs/data/ (onde os arquivos realmente estão)
-  candidates.push(new URL(`../data/${resource}`, window.location.href).toString());
-  candidates.push(new URL(`../../data/${resource}`, window.location.href).toString());
-  
-  // Prioridade 2: js/data/ (fallback)
-  candidates.push(new URL(`./data/${resource}`, window.location.href).toString());
-  
-  // Prioridade 3: caminho base do script
-  if (CONFIG.dataPath) {
-    candidates.push(new URL(resource, CONFIG.dataPath).toString());
-  }
-
-  // Prioridade 4: caminho relativo
-  candidates.push(new URL(`./${resource}`, window.location.href).toString());
-
-  for (const url of candidates) {
+async function checkAuth() {
+    const token = localStorage.getItem('curriculumToken');
+    if (!token) return false;
+    
     try {
-      const res = await fetch(url, { cache: 'no-store' });
-      if (!res.ok) continue;
-      return await res.json();
-    } catch (err) {
-      // Silenciosamente tenta o próximo
+        const response = await fetch(`${API_BASE}/auth/verify`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            currentUser = data.user;
+            currentToken = token;
+            console.log('✅ Usuário autenticado:', currentUser.username);
+            return true;
+        } else {
+            console.warn('⚠️ Token inválido ou expirado');
+        }
+    } catch (error) {
+        console.error('❌ Erro ao verificar autenticação:', error);
     }
-  }
-
-  console.warn(`⚠️ Não foi possível carregar ${resource}`);
-  return null;
+    
+    localStorage.removeItem('curriculumToken');
+    currentToken = null;
+    currentUser = null;
+    return false;
 }
 
-async function loadData() {
-  try {
-    const [books, cache, certificates, courses, current, games, music, profile, projects, statistics] = await Promise.all([
-      fetchJSON('books.json'),
-      fetchJSON('cache.json'),
-      fetchJSON('certificates.json'),
-      fetchJSON('courses.json'),
-      fetchJSON('current.json').catch(() => null),
-      fetchJSON('games.json'),
-      fetchJSON('music.json'),
-      fetchJSON('profile.json'),
-      fetchJSON('projects.json'),
-      fetchJSON('statistics.json'),
-    ]);
-
-    return { books, cache, certificates, courses, current, games, music, profile, projects, statistics };
-  } catch (error) {
-    console.error('❌ Erro ao carregar dados:', error);
-    return null;
-  }
+async function login(username, password) {
+    try {
+        console.log('🔐 Tentando login para:', username);
+        const response = await fetch(`${API_BASE}/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            localStorage.setItem('curriculumToken', data.token);
+            currentUser = data.user;
+            currentToken = data.token;
+            console.log('✅ Login realizado com sucesso:', currentUser.username);
+            return { success: true, user: data.user };
+        } else {
+            const error = await response.json();
+            console.error('❌ Falha no login:', error.message);
+            return { success: false, message: error.message || 'Credenciais inválidas' };
+        }
+    } catch (error) {
+        console.error('❌ Erro no login:', error);
+        return { success: false, message: 'Erro de conexão com o servidor' };
+    }
 }
 
-// ============================================
-// UTILITÁRIOS
-// ============================================
-const $ = (selector) => document.querySelector(selector);
-const $$ = (selector) => document.querySelectorAll(selector);
-
-function isShown(profile, key) {
-  if (!profile || !profile.show) return true;
-  return !(profile.show[key] === false);
-}
-
-function safeGet(profile, key) {
-  if (!profile) return '';
-  return profile[key] || '';
-}
-
-function getStatusLabel(status) {
-  const labels = {
-    'completed': '✅ Concluído',
-    'in-progress': '🔄 Em andamento',
-    'planned': '📋 Planejado',
-    'playing': '🎮 Jogando',
-    'reading': '📖 Lendo',
-    'watching': '👀 Assistindo',
-  };
-  return labels[status] || status;
+function logout() {
+    localStorage.removeItem('curriculumToken');
+    currentUser = null;
+    currentToken = null;
+    console.log('👋 Usuário deslogado');
+    location.reload();
 }
 
 // ============================================
-// FUNÇÃO PARSE MARKDOWN (CORRIGIDA)
+// FUNÇÕES DE CARREGAMENTO
 // ============================================
-function parseMarkdown(text) {
-    if (!text) return '';
+async function loadAboutData() {
+    try {
+        console.log('📡 Carregando dados do about de:', `${API_BASE}/about`);
+        const response = await fetch(`${API_BASE}/about`);
+        
+        console.log('📊 Status da resposta:', response.status);
+        
+        if (response.ok) {
+            aboutData = await response.json();
+            console.log('✅ Dados do about carregados com sucesso!');
+            updateConnectionStatus('success', '✅ Dados carregados com sucesso!');
+            return true;
+        } else {
+            const errorText = await response.text();
+            console.error('❌ Erro ao carregar about:', response.status, errorText);
+            updateConnectionStatus('error', `❌ Erro ${response.status}: Falha ao carregar dados`);
+            return false;
+        }
+    } catch (error) {
+        console.error('❌ Erro ao carregar about:', error);
+        updateConnectionStatus('error', '❌ Erro de conexão com o servidor');
+        return false;
+    }
+}
+
+async function loadProfileData() {
+    try {
+        console.log('📡 Carregando perfil de:', `${API_BASE}/profile`);
+        const response = await fetch(`${API_BASE}/profile`);
+        
+        if (response.ok) {
+            profileData = await response.json();
+            console.log('✅ Perfil carregado com sucesso!');
+            return true;
+        } else {
+            console.warn('⚠️ Não foi possível carregar o perfil:', response.status);
+            return false;
+        }
+    } catch (error) {
+        console.error('❌ Erro ao carregar perfil:', error);
+        return false;
+    }
+}
+
+async function saveAboutData(data) {
+    if (!currentToken) {
+        updateConnectionStatus('error', '❌ Faça login para salvar as alterações');
+        showLoginModal();
+        return false;
+    }
     
-    let html = text;
+    try {
+        console.log('💾 Salvando dados do about...');
+        const response = await fetch(`${API_BASE}/about`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${currentToken}`
+            },
+            body: JSON.stringify(data)
+        });
+        
+        if (response.ok) {
+            const result = await response.json();
+            console.log('✅ Dados salvos com sucesso:', result);
+            showEditStatus('✅ ' + (result.message || 'Dados salvos com sucesso!'), 'success');
+            updateConnectionStatus('success', '✅ Dados salvos com sucesso!');
+            
+            // Recarregar dados para garantir consistência
+            await loadAboutData();
+            renderAbout(aboutData);
+            return true;
+        } else if (response.status === 401) {
+            console.warn('⚠️ Sessão expirada, solicitando novo login');
+            localStorage.removeItem('curriculumToken');
+            currentToken = null;
+            currentUser = null;
+            showLoginModal();
+            updateConnectionStatus('error', '❌ Sessão expirada. Faça login novamente.');
+            return false;
+        } else {
+            const error = await response.json();
+            console.error('❌ Erro ao salvar:', error);
+            showEditStatus('❌ ' + (error.message || 'Erro ao salvar'), 'error');
+            updateConnectionStatus('error', '❌ ' + (error.message || 'Erro ao salvar'));
+            return false;
+        }
+    } catch (error) {
+        console.error('❌ Erro ao salvar about:', error);
+        showEditStatus('❌ Erro de conexão com o servidor', 'error');
+        updateConnectionStatus('error', '❌ Erro de conexão com o servidor');
+        return false;
+    }
+}
+
+// ============================================
+// FUNÇÃO DE STATUS DE CONEXÃO
+// ============================================
+function updateConnectionStatus(status, message) {
+    const statusEl = document.getElementById('connection-status');
+    const textEl = document.getElementById('status-text');
     
-    // Cabeçalhos
-    html = html.replace(/^### (.*$)/gm, '<h4>$1</h4>');
-    html = html.replace(/^## (.*$)/gm, '<h3>$1</h3>');
-    html = html.replace(/^# (.*$)/gm, '<h2>$1</h2>');
+    if (!statusEl || !textEl) return;
     
-    // Negrito
-    html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    statusEl.style.display = 'block';
+    textEl.textContent = message;
     
-    // Itálico
-    html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    // Reset classes
+    statusEl.className = '';
+    statusEl.style.cssText = '';
     
-    // Listas não ordenadas
-    html = html.replace(/^[\s]*[-*+] (.*$)/gm, '<li>$1</li>');
-    html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+    if (status === 'success') {
+        statusEl.className = 'success';
+        statusEl.style.background = 'rgba(16, 185, 129, 0.15)';
+        statusEl.style.border = '1px solid #10b981';
+        statusEl.style.color = '#10b981';
+        statusEl.style.padding = '0.75rem';
+        statusEl.style.borderRadius = '0.5rem';
+        statusEl.style.marginBottom = '1rem';
+    } else if (status === 'error') {
+        statusEl.className = 'error';
+        statusEl.style.background = 'rgba(239, 68, 68, 0.15)';
+        statusEl.style.border = '1px solid #ef4444';
+        statusEl.style.color = '#ef4444';
+        statusEl.style.padding = '0.75rem';
+        statusEl.style.borderRadius = '0.5rem';
+        statusEl.style.marginBottom = '1rem';
+    } else {
+        statusEl.className = 'loading';
+        statusEl.style.background = 'rgba(245, 158, 11, 0.15)';
+        statusEl.style.border = '1px solid #f59e0b';
+        statusEl.style.color = '#f59e0b';
+        statusEl.style.padding = '0.75rem';
+        statusEl.style.borderRadius = '0.5rem';
+        statusEl.style.marginBottom = '1rem';
+    }
     
-    // Listas ordenadas
-    html = html.replace(/^[\s]*\d+\. (.*$)/gm, '<li>$1</li>');
+    // Auto-esconder após 5 segundos
+    setTimeout(() => {
+        if (statusEl.style.display !== 'none') {
+            statusEl.style.display = 'none';
+        }
+    }, 5000);
+}
+
+// ============================================
+// RENDERIZAÇÃO (USANDO FUNÇÕES DO WINDOW)
+// ============================================
+function renderAbout(data) {
+    if (!data) {
+        console.warn('⚠️ Sem dados para renderizar');
+        return;
+    }
+
+    console.log('🎨 Renderizando dados do about...');
+
+    // Verificar se as funções globais existem
+    const parseMarkdownFn = window.parseMarkdown || ((text) => text);
+    const interpolateFn = window.interpolate || ((text) => text);
+
+    // Bio - Sobre Mim
+    const bioContainer = document.getElementById('profile-bio');
+    if (bioContainer && data.bio) {
+        if (Array.isArray(data.bio)) {
+            bioContainer.innerHTML = data.bio.map(line => `<p>${interpolateFn(line, data)}</p>`).join('');
+        } else if (typeof data.bio === 'string') {
+            bioContainer.innerHTML = `<p>${interpolateFn(data.bio, data)}</p>`;
+        }
+    }
+
+    // Objetivo
+    const objectiveEl = document.getElementById('profile-objective');
+    if (objectiveEl && data.objective) {
+        objectiveEl.textContent = data.objective;
+    }
+
+    // Status
+    if (data.status) {
+        const workingEl = document.getElementById('profile-working');
+        if (workingEl) workingEl.textContent = data.status.working || 'Em procura de oportunidades';
+        
+        const studyingEl = document.getElementById('profile-studying');
+        if (studyingEl) studyingEl.textContent = data.status.studying || 'Aprendizado contínuo';
+    }
+
+    // Descrição (com Markdown)
+    const descriptionEl = document.getElementById('profile-description');
+    if (descriptionEl && data.description) {
+        descriptionEl.innerHTML = parseMarkdownFn(data.description);
+        console.log('✅ Descrição renderizada com Markdown');
+    }
+
+    // Saúde
+    const healthEl = document.getElementById('profile-health');
+    if (healthEl && data.health) {
+        healthEl.textContent = data.health;
+    }
+
+    // Habilidades
+    const skillsGrid = document.getElementById('skills-grid');
+    if (skillsGrid && data.skills) {
+        const categoryLabels = {
+            'core': 'Soft Skills',
+            'technical': 'Hard Skills',
+            'creative': 'Criativas',
+            'languages': 'Idiomas'
+        };
+        
+        const hasSkills = Object.values(data.skills).some(items => items && items.length > 0);
+        
+        if (hasSkills) {
+            skillsGrid.innerHTML = Object.entries(data.skills)
+                .filter(([_, items]) => items && items.length > 0)
+                .map(([category, items]) => `
+                    <div class="skill-category">
+                        <h4>${categoryLabels[category] || category.charAt(0).toUpperCase() + category.slice(1)}</h4>
+                        <div class="skill-tags">
+                            ${items.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+                        </div>
+                    </div>
+                `).join('');
+        } else {
+            skillsGrid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--color-secondary-text);">Nenhuma habilidade cadastrada.</p>`;
+        }
+    }
+
+    // Interesses
+    const interestsGrid = document.getElementById('interests-grid');
+    if (interestsGrid && data.interests) {
+        if (data.interests.length > 0) {
+            interestsGrid.innerHTML = data.interests.map(interest => 
+                `<div class="interest-item">${interest}</div>`
+            ).join('');
+        } else {
+            interestsGrid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--color-secondary-text);">Nenhum interesse cadastrado.</p>`;
+        }
+    }
+
+    // Badges
+    const badgesList = document.getElementById('badges-list');
+    if (badgesList && data.badges) {
+        if (data.badges.length > 0) {
+            badgesList.innerHTML = data.badges.map(badge => 
+                `<span class="badge">${badge}</span>`
+            ).join('');
+        } else {
+            badgesList.innerHTML = `<span class="badge">Nenhum badge cadastrado</span>`;
+        }
+    }
+
+    // História
+    const historyEl = document.getElementById('profile-history');
+    if (historyEl && data.history) {
+        if (Array.isArray(data.history)) {
+            historyEl.innerHTML = data.history.map(line => `<p>${interpolateFn(line, data)}</p>`).join('');
+        } else if (typeof data.history === 'string') {
+            historyEl.innerHTML = `<p>${interpolateFn(data.history, data)}</p>`;
+        }
+    }
+}
+
+// ============================================
+// MODAL DE LOGIN
+// ============================================
+function showLoginModal() {
+    // Verificar se já existe um modal aberto
+    const existing = document.querySelector('.login-modal-overlay');
+    if (existing) {
+        existing.style.display = 'flex';
+        return;
+    }
+
+    const modal = document.createElement('div');
+    modal.className = 'login-modal-overlay';
+    modal.id = 'login-modal-overlay-custom';
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+    `;
     
-    // Quebras de linha
-    html = html.replace(/\n/g, '<br>');
+    modal.innerHTML = `
+        <div class="login-modal" style="
+            background: var(--bg-secondary, #12121f);
+            border: 1px solid var(--glass-border, rgba(139, 92, 246, 0.15));
+            border-radius: 1rem;
+            padding: 2rem;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        ">
+            <h2 style="color: var(--color-primary, #8b5cf6); margin-bottom: 0.5rem;">🔐 Acesso ao About</h2>
+            <p style="color: var(--color-secondary-text, #c4b5d4); margin-bottom: 1.5rem;">Faça login para editar o conteúdo</p>
+            
+            <form id="login-form-custom">
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label for="login-username-custom" style="display: block; color: var(--color-text, #f0f0ff); margin-bottom: 0.3rem; font-weight: 600;">Usuário</label>
+                    <input type="text" id="login-username-custom" placeholder="Usuário" required autocomplete="username" style="
+                        width: 100%;
+                        padding: 0.6rem 0.8rem;
+                        border: 1px solid var(--glass-border, rgba(139, 92, 246, 0.15));
+                        border-radius: 0.5rem;
+                        background: var(--bg-primary, #0a0a0f);
+                        color: var(--color-text, #f0f0ff);
+                        font-size: 1rem;
+                    ">
+                </div>
+                
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label for="login-password-custom" style="display: block; color: var(--color-text, #f0f0ff); margin-bottom: 0.3rem; font-weight: 600;">Senha</label>
+                    <input type="password" id="login-password-custom" placeholder="Senha" required autocomplete="current-password" style="
+                        width: 100%;
+                        padding: 0.6rem 0.8rem;
+                        border: 1px solid var(--glass-border, rgba(139, 92, 246, 0.15));
+                        border-radius: 0.5rem;
+                        background: var(--bg-primary, #0a0a0f);
+                        color: var(--color-text, #f0f0ff);
+                        font-size: 1rem;
+                    ">
+                </div>
+                
+                <div class="form-actions" style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
+                    <button type="submit" class="btn-login" style="
+                        flex: 1;
+                        padding: 0.6rem 1.5rem;
+                        background: var(--color-primary, #8b5cf6);
+                        color: white;
+                        border: none;
+                        border-radius: 0.5rem;
+                        font-weight: 600;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                    ">Entrar</button>
+                    <button type="button" class="btn-cancel" onclick="this.closest('.login-modal-overlay').remove()" style="
+                        padding: 0.6rem 1.5rem;
+                        background: transparent;
+                        color: var(--color-text, #f0f0ff);
+                        border: 1px solid var(--glass-border, rgba(139, 92, 246, 0.15));
+                        border-radius: 0.5rem;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                    ">Cancelar</button>
+                </div>
+                
+                <div id="login-error-custom" class="login-error" style="color: #ef4444; margin-top: 0.5rem; font-size: 0.9rem;"></div>
+                <div id="login-success-custom" class="login-success" style="color: #10b981; margin-top: 0.5rem; font-size: 0.9rem;"></div>
+            </form>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    document.getElementById('login-form-custom').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const username = document.getElementById('login-username-custom').value;
+        const password = document.getElementById('login-password-custom').value;
+        
+        const errorEl = document.getElementById('login-error-custom');
+        const successEl = document.getElementById('login-success-custom');
+        
+        errorEl.textContent = '';
+        successEl.textContent = '';
+        
+        const result = await login(username, password);
+        if (result.success) {
+            successEl.textContent = '✅ Login realizado com sucesso!';
+            setTimeout(() => {
+                modal.remove();
+                const editBtn = document.getElementById('edit-btn');
+                if (editBtn) {
+                    editBtn.innerHTML = '<i class="fas fa-edit"></i> Editar Perfil';
+                    editBtn.style.background = 'var(--color-primary, #8b5cf6)';
+                    editBtn.style.color = 'white';
+                }
+                updateConnectionStatus('success', '✅ Login realizado com sucesso!');
+                loadAboutData().then(() => renderAbout(aboutData));
+            }, 1000);
+        } else {
+            errorEl.textContent = '❌ ' + (result.message || 'Usuário ou senha incorretos');
+        }
+    });
+}
+
+// ============================================
+// MODAL DE EDIÇÃO
+// ============================================
+function showEditModal() {
+    if (!currentToken) {
+        showLoginModal();
+        return;
+    }
+
+    const overlay = document.getElementById('edit-modal-overlay');
+    const container = document.getElementById('edit-fields-container');
+    
+    if (!overlay || !container) {
+        console.error('❌ Elementos do modal de edição não encontrados');
+        return;
+    }
+    
+    container.innerHTML = generateEditFields(aboutData);
+    overlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function generateEditFields(data) {
+    let html = '';
+    
+    // Bio - Sobre Mim
+    html += `
+        <div class="edit-section">
+            <h3>📖 Sobre Mim</h3>
+            <p style="color: var(--color-secondary-text); font-size: 0.85rem; margin-bottom: 1rem;">
+                💡 Use <strong>Markdown</strong> para formatar: <code>**negrito**</code>, <code>*itálico*</code>, 
+                <code>- item</code> para listas, <code># Título</code>
+            </p>
+            <div class="edit-field">
+                <label>Bio (parágrafos separados por linha)</label>
+                <textarea id="bio-edit" data-path="bio" data-type="array-lines" rows="6" placeholder="Sobre você...">${Array.isArray(data.bio) ? data.bio.join('\n') : data.bio || ''}</textarea>
+            </div>
+        </div>
+    `;
+    
+    // Objetivo
+    html += `
+        <div class="edit-section">
+            <h3>🎯 Objetivo Profissional</h3>
+            <div class="edit-field">
+                <input type="text" id="objective-edit" data-path="objective" value="${data.objective || ''}" placeholder="Seu objetivo profissional">
+            </div>
+        </div>
+    `;
+    
+    // Status
+    html += `
+        <div class="edit-section">
+            <h3>📊 Status</h3>
+            <div class="edit-field">
+                <label>Trabalhando em</label>
+                <input type="text" id="status-working" data-path="status.working" value="${data.status?.working || ''}" placeholder="Ex: Desenvolvedor Full Stack">
+            </div>
+            <div class="edit-field">
+                <label>Estudando</label>
+                <input type="text" id="status-studying" data-path="status.studying" value="${data.status?.studying || ''}" placeholder="Ex: React, Node.js">
+            </div>
+        </div>
+    `;
+    
+    // Descrição
+    html += `
+        <div class="edit-section">
+            <h3>📝 Descrição</h3>
+            <p style="color: var(--color-secondary-text); font-size: 0.85rem; margin-bottom: 1rem;">
+                💡 Suporta <strong>Markdown</strong> para formatação
+            </p>
+            <div class="edit-field">
+                <textarea id="description-edit" data-path="description" rows="4" placeholder="Descrição detalhada...">${data.description || ''}</textarea>
+            </div>
+        </div>
+    `;
+    
+    // Saúde
+    html += `
+        <div class="edit-section">
+            <h3>❤️ Saúde</h3>
+            <div class="edit-field">
+                <input type="text" id="health-edit" data-path="health" value="${data.health || ''}" placeholder="Ex: Saudável, praticando exercícios">
+            </div>
+        </div>
+    `;
+    
+    // Habilidades
+    html += `
+        <div class="edit-section">
+            <h3>⚡ Habilidades</h3>
+            <div class="edit-field">
+                <label>Soft Skills (separadas por vírgula)</label>
+                <input type="text" id="skills-core" data-path="skills.core" data-type="array" value="${data.skills?.core?.join(', ') || ''}" placeholder="Comunicação, Liderança, Trabalho em Equipe">
+            </div>
+            <div class="edit-field">
+                <label>Hard Skills (separadas por vírgula)</label>
+                <input type="text" id="skills-technical" data-path="skills.technical" data-type="array" value="${data.skills?.technical?.join(', ') || ''}" placeholder="JavaScript, Python, HTML, CSS">
+            </div>
+            <div class="edit-field">
+                <label>Habilidades Criativas (separadas por vírgula)</label>
+                <input type="text" id="skills-creative" data-path="skills.creative" data-type="array" value="${data.skills?.creative?.join(', ') || ''}" placeholder="Desenho, Escrita, Música">
+            </div>
+            <div class="edit-field">
+                <label>Idiomas (separados por vírgula)</label>
+                <input type="text" id="skills-languages" data-path="skills.languages" data-type="array" value="${data.skills?.languages?.join(', ') || ''}" placeholder="Português (Nativo), Inglês (Avançado)">
+            </div>
+        </div>
+    `;
+    
+    // Interesses
+    html += `
+        <div class="edit-section">
+            <h3>🌟 Interesses</h3>
+            <div class="edit-field">
+                <label>Interesses (separados por vírgula)</label>
+                <input type="text" id="interests-edit" data-path="interests" data-type="array" value="${data.interests?.join(', ') || ''}" placeholder="Anime, Manga, Programação, Música">
+            </div>
+        </div>
+    `;
+    
+    // Badges
+    html += `
+        <div class="edit-section">
+            <h3>🏷️ Badges</h3>
+            <div class="edit-field">
+                <label>Badges (separados por vírgula)</label>
+                <input type="text" id="badges-edit" data-path="badges" data-type="array" value="${data.badges?.join(', ') || ''}" placeholder="Desenvolvedor, Artista, Escritor">
+            </div>
+        </div>
+    `;
+    
+    // História
+    html += `
+        <div class="edit-section">
+            <h3>📜 História</h3>
+            <p style="color: var(--color-secondary-text); font-size: 0.85rem; margin-bottom: 1rem;">
+                💡 Use <strong>Markdown</strong> para formatar e <code>{{nome}}</code> para interpolação
+            </p>
+            <div class="edit-field">
+                <label>História (parágrafos separados por linha)</label>
+                <textarea id="history-edit" data-path="history" data-type="array-lines" rows="6" placeholder="Sua história...">${Array.isArray(data.history) ? data.history.join('\n') : data.history || ''}</textarea>
+            </div>
+        </div>
+    `;
     
     return html;
 }
 
 // ============================================
-// FUNÇÃO INTERPOLATE (CORRIGIDA)
+// FUNÇÕES DE MANIPULAÇÃO DO FORMULÁRIO
 // ============================================
-function interpolate(template, profile) {
-  if (!template || typeof template !== 'string') return template;
-  function getByPath(obj, path) {
-    return path.split('.').reduce((acc, p) => (acc && acc[p] !== undefined ? acc[p] : undefined), obj);
-  }
-  function escapeHtml(str) {
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;');
-  }
-  return template.replace(/{{\s*([^}|]+?)\s*(?:\|\s*([^}]+?)\s*)?}}/g, (match, path, modifier) => {
-    const keyPath = path.trim();
-    if (!profile) return '';
-    const val = getByPath(profile, keyPath);
-    if (val === undefined || val === null) return '';
-    const out = Array.isArray(val) ? val.join(', ') : String(val);
-    if (modifier && modifier.trim() === 'escape') return escapeHtml(out);
-    return out;
-  });
-}
-
-// ============================================
-// RENDERIZAR FOOTER
-// ============================================
-function renderFooter(profile) {
-  const container = $('#footer-content');
-  if (!container) return;
-
-  const year = new Date().getFullYear();
-  const name = profile?.name || 'João Gabriel';
-  const quote = profile?.quote || '"É por isso que não sabem quem são. Nós sabemos quem somos e por isso não precisamos de nomes."';
-  const quoteAuthor = profile?.quoteAuthor || 'gato, CORALINE';
-
-  container.innerHTML = `
-    <p>
-      <i class="fas fa-crown"></i>
-      Feito com <i class="fas fa-heart" style="color: #8b5cf6;"></i> 
-      por <strong><em>${name}</em></strong> — ${year}
-    </p>
-    <p class="footer-quote">
-      <em>"${quote}"</em> — ${quoteAuthor}
-    </p>
-    <div class="footer-links">
-      <a href="#hero"><i class="fas fa-arrow-up"></i> Voltar ao topo</a>
-    </div>
-  `;
-}
-
-// ============================================
-// RENDERIZAR SOBRE
-// ============================================
-function renderAbout(profile) {
-  const aboutText = $('#about-text');
-  if (!aboutText) return;
-
-  function flag(key) {
-    return !(profile && profile.show && profile.show[key] === false);
-  }
-
-  function safeField(key) {
-    if (!profile) return '';
-    return profile[key] || '';
-  }
-
-  let aboutHtml = '';
-
-  if (flag('bio') && Array.isArray(profile?.bio) && profile.bio.length > 0) {
-    aboutHtml = profile.bio.map(line => `<p>${interpolate(line, profile)}</p>`).join('');
-  } else {
-    const parts = [];
-    const name = safeField('name') || 'João Gabriel';
-    parts.push(`Olá! 👋 Me chamo <strong>${name}</strong>`);
-
-    if (flag('birthday') && safeField('birthday')) {
-      parts.push(`nascido em ${safeField('birthday')}`);
-    } else if (flag('age') && safeField('age')) {
-      parts.push(`tenho <span id="age">${safeField('age')}</span> anos`);
-    }
-
-    if (flag('location') && safeField('location')) {
-      parts.push(`e sou <strong>${safeField('location')}</strong>`);
-    }
-
-    const bioText = (typeof profile?.bio === 'string' && profile.bio) ? interpolate(profile.bio, profile) : '';
-    if (bioText) parts.push(bioText);
-
-    if (flag('hobbies') && Array.isArray(profile?.hobbies) && profile.hobbies.length > 0) {
-      parts.push(`Por hobby, ${profile.hobbies.join(' e ')}.`);
-    }
-    if (flag('interests') && Array.isArray(profile?.interests) && profile.interests.length > 0) {
-      parts.push(`Interesses: ${profile.interests.slice(0, 5).join(', ')}.`);
-    }
-
-    aboutHtml = `<p>${parts.join(' • ')}</p>`;
-  }
-
-  aboutText.innerHTML = aboutHtml;
-
-  const skillsContainer = $('#skills-container');
-  if (skillsContainer && profile?.skills) {
-    skillsContainer.innerHTML = `
-      <h3>⚡ Habilidades</h3>
-      <div class="skills-grid">
-        ${Object.entries(profile.skills).map(([category, items]) => `
-          <div class="skill-category">
-            <h4>${category.charAt(0).toUpperCase() + category.slice(1)}</h4>
-            <div class="skill-tags">
-              ${items.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
-            </div>
-          </div>
-        `).join('')}
-      </div>
-    `;
-  }
-
-  if (skillsContainer) {
-    skillsContainer.style.display = flag('skills') ? '' : 'none';
-  }
-}
-
-// ============================================
-// RENDERIZAR CONTATO
-// ============================================
-function renderContact(profile) {
-  const container = $('#contact-content');
-  if (!container || !profile) return;
-
-  const social = profile.social || {};
-  const email = profile.email || 'joaogabriel4175@gmail.com';
-
-  container.innerHTML = `
-    <p class="contact-message">
-      ✨ ${profile.contactMessage || 'Gosta de código, arte ou histórias? Vamos trocar uma ideia!'}
-    </p>
-    <div class="social-links">
-      ${profile.show && profile.show.social === false ? '' : (social.github ? `<a href="${social.github}" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub"><i class="fab fa-github"></i></a>` : '')}
-      ${profile.show && profile.show.social === false ? '' : (social.linkedin ? `<a href="${social.linkedin}" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>` : '')}
-      ${profile.show && profile.show.social === false ? '' : (social.instagram ? `<a href="${social.instagram}" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>` : '')}
-      ${profile.show && profile.show.social === false ? '' : (social.discord ? `<a href="${social.discord}" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Discord"><i class="fab fa-discord"></i></a>` : '')}
-    </div>
-    <div class="contact-email">
-      <i class="fas fa-envelope"></i>
-      ${profile.show && profile.show.email === false ? '' : `<a href="mailto:${email}">${email}</a>`}
-    </div>
-  `;
-}
-
-// ============================================
-// RENDERIZAR GITHUB STATS
-// ============================================
-function renderGitHubStats() {
-  const container = $('#github-stats');
-  if (!container) return;
-
-  const username = CONFIG.githubUsername;
-
-  container.innerHTML = `
-    <a href="https://github.com/${username}" target="_blank" rel="noopener noreferrer">
-      <img src="https://github-stats-extended.vercel.app/api?username=${username}&show_icons=true&locale=pt-br&show=discussions_started,discussions_answered&hide=prs,contribs&count_private=true&theme=aura&hide_border=true" alt="GitHub Stats">
-    </a>
-    <a href="https://github.com/${username}" target="_blank" rel="noopener noreferrer">
-      <img src="https://github-stats-extended.vercel.app/api/top-langs?username=${username}&layout=compact&langs_count=6&locale=pt-br&theme=aura&hide_border=true" alt="Top Languages">
-    </a>
-    <a href="https://github.com/${username}" target="_blank" rel="noopener noreferrer">
-      <img src="https://github-readme-streak-stats.herokuapp.com?user=${username}&locale=pt-br&theme=aura&hide_border=true" alt="Streak Stats">
-    </a>
-  `;
-}
-
-// ============================================
-// RENDERIZAR DISCORD
-// ============================================
-function renderDiscord() {
-  const container = $('#discord-container');
-  if (!container) return;
-
-  const discordId = CONFIG.discordId;
-
-  container.innerHTML = `
-<a href="https://discord.com/users/${discordId}"><img src="https://lanyard.kyrie25.dev/api/${discordId}?animatedDecoration=true&showDisplayName=true&forceGradient=false&showBanner=animated&imgStyle=circle&theme=dark&idleMessage=%F0%9F%8C%8C%20Nem%20toda%20aus%C3%AAncia%20%C3%A9%20dist%C3%A2ncia%3B%20%C3%A0s%20vezes%20%C3%A9%20apenas%20um%20momento%20de%20reflex%C3%A3o." /></a>
-  `;
-}
-
-// ============================================
-// RENDERIZAR PROJETOS
-// ============================================
-function renderProjects(projects) {
-  const container = $('#project-list');
-  if (!container) return;
-
-  if (!projects || projects.length === 0) {
-    container.innerHTML = `<p class="empty-message">📭 Nenhum projeto cadastrado ainda.</p>`;
-    return;
-  }
-
-  container.innerHTML = projects.map(project => `
-    <div class="project-card glass-card">
-      <div class="project-image">
-        <img src="${project.image || 'assets/img/default-project.jpg'}" alt="${project.title}">
-        <span class="project-status status-${project.status}">${getStatusLabel(project.status)}</span>
-      </div>
-      <div class="project-content">
-        <h3>${project.title}</h3>
-        <p>${project.description}</p>
-        <div class="project-tech">
-          ${project.technologies.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
-        </div>
-        <div class="project-links">
-          ${project.url && project.url !== '#' ? `<a href="${project.url}" target="_blank" rel="noopener noreferrer" class="btn-small">🔗 Ver Demo</a>` : ''}
-          ${project.repo && project.repo !== '#' ? `<a href="${project.repo}" target="_blank" rel="noopener noreferrer" class="btn-small">📂 GitHub</a>` : ''}
-        </div>
-      </div>
-    </div>
-  `).join('');
-}
-
-// ============================================
-// RENDERIZAR CERTIFICADOS
-// ============================================
-function renderCertificates(certificates) {
-  const container = $('#certificates-list');
-  if (!container) return;
-
-  if (!certificates || certificates.length === 0) {
-    container.innerHTML = `<p class="empty-message">📭 Nenhum certificado cadastrado ainda.</p>`;
-    return;
-  }
-
-  container.innerHTML = certificates.map(cert => `
-    <div class="certificate-card glass-card">
-      <div class="certificate-icon">🏆</div>
-      <div class="certificate-content">
-        <h4>${cert.name}</h4>
-        <p class="cert-institution">${cert.institution}</p>
-        <p class="cert-date">📅 ${cert.date}</p>
-        ${cert.description ? `<p class="cert-description">${cert.description}</p>` : ''}
-        ${cert.link && cert.link !== '#' ? `<a href="${cert.link}" target="_blank" rel="noopener noreferrer" class="btn-small">🔗 Ver Certificado</a>` : ''}
-      </div>
-    </div>
-  `).join('');
-}
-
-// ============================================
-// RENDERIZAR CURSOS
-// ============================================
-function renderCourses(courses) {
-  const container = $('#courses-list');
-  if (!container) return;
-
-  if (!courses || courses.length === 0) {
-    container.innerHTML = `<p class="empty-message">📭 Nenhum curso cadastrado ainda.</p>`;
-    return;
-  }
-
-  container.innerHTML = courses.map(course => `
-    <div class="course-card glass-card">
-      <div class="course-header">
-        <span class="course-status status-${course.status}">${getStatusLabel(course.status)}</span>
-        <span class="course-category">${course.category || 'Geral'}</span>
-      </div>
-      <div class="course-content">
-        <h4>${course.name}</h4>
-        <p class="course-platform">📚 ${course.platform} ${course.instructor ? `- ${course.instructor}` : ''}</p>
-        ${course.description ? `<p class="course-description">${course.description}</p>` : ''}
-        ${course.progress !== undefined ? `
-          <div class="course-progress">
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: ${course.progress}%"></div>
-            </div>
-            <span class="progress-text">${course.progress}%</span>
-          </div>
-        ` : ''}
-        ${course.url && course.url !== '#' ? `<a href="${course.url}" target="_blank" rel="noopener noreferrer" class="btn-small">🔗 Ver Curso</a>` : ''}
-      </div>
-    </div>
-  `).join('');
-}
-
-// ============================================
-// ATUALIZAR ESTATÍSTICAS
-// ============================================
-function updateStats(projects, certificates, courses) {
-  const projectsCount = $('#projects-count');
-  const certificatesCount = $('#certificates-count');
-  const coursesCount = $('#courses-count');
-
-  if (projectsCount) projectsCount.textContent = projects?.length || 0;
-  if (certificatesCount) certificatesCount.textContent = certificates?.length || 0;
-  if (coursesCount) coursesCount.textContent = courses?.length || 0;
-}
-
-// ============================================
-// TYPEWRITER EFFECT
-// ============================================
-function typewriterEffect() {
-  const terminalElement = $('#terminal-text');
-  if (!terminalElement) return;
-  
-  let textIndex = 0;
-  let charIndex = 0;
-  let isDeleting = false;
-  let currentText = '';
-
-  function type() {
-    const fullText = terminalTexts[textIndex];
-
-    if (!isDeleting) {
-      currentText = fullText.substring(0, charIndex + 1);
-      charIndex++;
-
-      if (charIndex === fullText.length) {
-        isDeleting = true;
-        setTimeout(type, CONFIG.terminalDelay);
-        return;
-      }
-    } else {
-      currentText = fullText.substring(0, charIndex - 1);
-      charIndex--;
-
-      if (charIndex === 0) {
-        isDeleting = false;
-        textIndex = Math.floor(Math.random() * terminalTexts.length);
-        setTimeout(type, 500);
-        return;
-      }
-    }
-
-    terminalElement.textContent = currentText;
-    setTimeout(type, CONFIG.terminalSpeed);
-  }
-
-  type();
-}
-
-// ============================================
-// THEME TOGGLE
-// ============================================
-function initThemeToggle() {
-  const toggle = $('#theme-toggle');
-  if (!toggle) return;
-
-  const savedTheme = localStorage.getItem('theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-  if (savedTheme === 'light') {
-    document.body.classList.add('light-mode');
-    toggle.innerHTML = '<i class="fas fa-sun"></i>';
-  } else if (savedTheme === 'dark' || (savedTheme === null && prefersDark)) {
-    document.body.classList.remove('light-mode');
-    toggle.innerHTML = '<i class="fas fa-moon"></i>';
-  }
-
-  toggle.addEventListener('click', () => {
-    document.body.classList.toggle('light-mode');
-    const isLight = document.body.classList.contains('light-mode');
-    localStorage.setItem('theme', isLight ? 'light' : 'dark');
-    toggle.innerHTML = isLight ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-  });
-}
-
-// ============================================
-// MUSIC TOGGLE
-// ============================================
-function initMusicToggle() {
-  const toggle = $('#music-toggle');
-  const audio = $('#bg-music');
-  if (!toggle || !audio) return;
-
-  let isPlaying = false;
-
-  const source = audio.querySelector('source');
-  if (source && source.src) {
-    fetch(source.src)
-      .then(res => {
-        if (!res.ok) {
-          toggle.style.display = 'none';
+function collectFormData() {
+    const form = document.getElementById('about-edit-form');
+    const inputs = form.querySelectorAll('[data-path]');
+    const data = JSON.parse(JSON.stringify(aboutData));
+    
+    inputs.forEach(input => {
+        const path = input.dataset.path.split('.');
+        let current = data;
+        
+        for (let i = 0; i < path.length - 1; i++) {
+            if (!current[path[i]]) current[path[i]] = {};
+            current = current[path[i]];
         }
-      })
-      .catch(() => {
-        toggle.style.display = 'none';
-      });
-  }
+        
+        const key = path[path.length - 1];
+        
+        if (input.dataset.type === 'array') {
+            current[key] = input.value.split(',').map(s => s.trim()).filter(Boolean);
+        } else if (input.dataset.type === 'array-lines') {
+            current[key] = input.value.split('\n').map(s => s.trim()).filter(Boolean);
+        } else if (input.type === 'number') {
+            current[key] = parseFloat(input.value);
+        } else {
+            current[key] = input.value;
+        }
+    });
+    
+    return data;
+}
 
-  toggle.addEventListener('click', () => {
-    if (isPlaying) {
-      audio.pause();
-      toggle.innerHTML = '<i class="fas fa-music"></i>';
-      isPlaying = false;
+function showEditStatus(message, type) {
+    const status = document.getElementById('edit-status');
+    if (status) {
+        status.textContent = message;
+        status.className = `edit-status ${type}`;
+        status.style.display = 'block';
+        setTimeout(() => {
+            status.style.display = 'none';
+        }, 5000);
+    }
+}
+
+// ============================================
+// INICIALIZAÇÃO PRINCIPAL
+// ============================================
+document.addEventListener('DOMContentLoaded', async function() {
+    console.log('📄 Inicializando About...');
+    console.log('🔗 API URL:', API_BASE);
+    console.log('🌐 Hostname:', window.location.hostname);
+    
+    // Mostrar status de carregamento
+    updateConnectionStatus('loading', '🔄 Carregando dados...');
+    
+    // Carregar dados
+    const aboutLoaded = await loadAboutData();
+    await loadProfileData();
+    
+    // Renderizar
+    if (aboutLoaded && aboutData) {
+        renderAbout(aboutData);
+        updateConnectionStatus('success', '✅ Dados carregados com sucesso!');
     } else {
-      audio.play().catch(() => {});
-      toggle.innerHTML = '<i class="fas fa-pause"></i>';
-      isPlaying = true;
+        updateConnectionStatus('error', '⚠️ Não foi possível carregar os dados');
     }
-  });
-}
-
-// ============================================
-// MUSIC PLAYER
-// ============================================
-function initMusicPlayer(profile) {
-  const audio = $('#bg-music');
-  const volRange = $('#volume-range');
-  const volDown = $('#vol-down');
-  const volUp = $('#vol-up');
-  const musicSelect = $('#music-select');
-  const musicControls = $('#music-controls');
-  const currentTrack = $('#current-track');
-  const panelToggle = $('#music-panel-toggle');
-
-  if (!audio || !musicControls || !volRange || !musicSelect) return;
-
-  const playlist = (profile && Array.isArray(profile.music)) ? profile.music : [];
-  musicSelect.innerHTML = playlist.map((t, i) => `<option value="${i}">${t.title || t.src}</option>`).join('');
-
-  const savedVol = parseFloat(localStorage.getItem('volume'));
-  const initialVol = !Number.isNaN(savedVol) ? savedVol : CONFIG.defaultVolume;
-  audio.volume = initialVol;
-  volRange.value = initialVol;
-
-  function loadTrack(index) {
-    const track = playlist[index];
-    if (!track) return;
-    audio.querySelector('source').src = track.src;
-    audio.load();
-    currentTrack.textContent = track.title || track.src.split('/').pop();
-  }
-
-  musicSelect.addEventListener('change', (e) => {
-    const idx = parseInt(e.target.value, 10);
-    loadTrack(idx);
-    audio.play().catch(() => {});
-  });
-
-  volRange.addEventListener('input', (e) => {
-    const v = parseFloat(e.target.value);
-    audio.volume = v;
-    localStorage.setItem('volume', String(v));
-  });
-
-  volDown.addEventListener('click', () => {
-    let v = Math.max(0, audio.volume - 0.1);
-    audio.volume = v;
-    volRange.value = v;
-    localStorage.setItem('volume', String(v));
-  });
-
-  volUp.addEventListener('click', () => {
-    let v = Math.min(1, audio.volume + 0.1);
-    audio.volume = v;
-    volRange.value = v;
-    localStorage.setItem('volume', String(v));
-  });
-
-  if (profile && profile.show && profile.show.music === false) {
-    if (musicControls) musicControls.style.display = 'none';
-    if (panelToggle) panelToggle.style.display = 'none';
-  } else {
-    if (panelToggle) {
-      panelToggle.addEventListener('click', () => {
-        const opened = musicControls.classList.toggle('open');
-        musicControls.setAttribute('aria-hidden', (!opened).toString());
-        panelToggle.setAttribute('aria-pressed', opened.toString());
-      });
-    }
-  }
-
-  if (playlist.length > 0) {
-    const first = 0;
-    musicSelect.value = String(first);
-    loadTrack(first);
-  }
-}
-
-// ============================================
-// SCROLL ANIMATIONS
-// ============================================
-function initScrollAnimations() {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('fade-in');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, {
-    threshold: CONFIG.scrollThreshold,
-    rootMargin: '0px 0px -50px 0px',
-  });
-
-  const elements = $$('.glass-card, .project-card, .certificate-card, .course-card, .section');
-  elements.forEach(el => {
-    el.classList.add('fade-hidden');
-    observer.observe(el);
-  });
-}
-
-// ============================================
-// MOBILE NAVBAR
-// ============================================
-function initMobileNav() {
-  const hamburger = $('#hamburger');
-  const navLinks = $('.nav-links');
-  if (!hamburger || !navLinks) return;
-
-  hamburger.addEventListener('click', () => {
-    navLinks.classList.toggle('active');
-    hamburger.classList.toggle('active');
-  });
-
-  navLinks.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      navLinks.classList.remove('active');
-      hamburger.classList.remove('active');
-    });
-  });
-}
-
-// ============================================
-// SMOOTH SCROLL
-// ============================================
-function initSmoothScroll() {
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      e.preventDefault();
-      const target = document.querySelector(this.getAttribute('href'));
-      if (target) {
-        target.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-        });
-      }
-    });
-  });
-}
-
-// ============================================
-// SCROLL INDICATOR
-// ============================================
-function initScrollIndicator() {
-  const indicator = document.querySelector('.scroll-indicator');
-  if (!indicator) return;
-
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 100) {
-      indicator.classList.add('hidden');
+    
+    // Verificar autenticação
+    const isAuth = await checkAuth();
+    const editBtn = document.getElementById('edit-btn');
+    
+    if (editBtn) {
+        if (isAuth) {
+            editBtn.innerHTML = '<i class="fas fa-edit"></i> Editar Perfil';
+            editBtn.title = 'Editar informações do perfil';
+            editBtn.style.background = 'var(--color-primary, #8b5cf6)';
+            editBtn.style.color = 'white';
+            editBtn.style.border = '2px solid var(--color-primary, #8b5cf6)';
+        } else {
+            editBtn.innerHTML = '<i class="fas fa-lock"></i> Login para Editar';
+            editBtn.title = 'Faça login para editar o perfil';
+            editBtn.style.background = 'rgba(139, 92, 246, 0.15)';
+            editBtn.style.color = 'var(--color-text, #f0f0ff)';
+            editBtn.style.border = '2px solid rgba(139, 92, 246, 0.3)';
+        }
+        editBtn.style.display = 'inline-flex';
     } else {
-      indicator.classList.remove('hidden');
+        console.warn('⚠️ Botão de edição não encontrado no DOM');
     }
-  });
-}
-
-// ============================================
-// HERO
-// ============================================
-function renderHero(profile, current) {
-  const nameEl = $('#name');
-  const roleEl = $('#role');
-  const statusEl = $('#status-text');
-
-  if (nameEl) nameEl.textContent = profile?.name || 'João Gabriel';
-  if (roleEl) roleEl.textContent = profile?.role || 'Desenvolvedor Full Stack & Artista';
-
-  if (statusEl && current?.currentlyWorkingOn) {
-    statusEl.textContent = `🚀 Trabalhando em: ${current.currentlyWorkingOn.project}`;
-  } else if (statusEl) {
-    statusEl.textContent = '✨ Disponível para novos projetos';
-  }
-}
-
-// ============================================
-// VISIBILIDADE
-// ============================================
-function applyVisibility(profile) {
-  if (!profile || !profile.show) return;
-  if (profile.show.projects === false) {
-    const sec = document.getElementById('projects');
-    if (sec) sec.style.display = 'none';
-  }
-  if (profile.show.certificates === false) {
-    const sec = document.getElementById('certificates');
-    if (sec) sec.style.display = 'none';
-  }
-  if (profile.show.courses === false) {
-    const sec = document.getElementById('courses');
-    if (sec) sec.style.display = 'none';
-  }
-}
-
-// ============================================
-// INICIALIZAÇÃO
-// ============================================
-async function init() {
-  console.log('🚀 Inicializando Densuki Portfolio...');
-
-  const data = await loadData();
-  if (!data) {
-    console.error('❌ Falha ao carregar dados');
-    return;
-  }
-
-  const { profile, projects, certificates, courses, statistics, current } = data;
-
-  renderHero(profile, current);
-  renderAbout(profile);
-  renderFooter(profile);
-  renderContact(profile);
-  renderGitHubStats();
-  renderDiscord();
-  renderProjects(projects);
-  renderCertificates(certificates);
-  renderCourses(courses);
-  updateStats(projects, certificates, courses);
-
-  applyVisibility(profile);
-
-  typewriterEffect();
-  initThemeToggle();
-  initMusicToggle();
-  initMusicPlayer(profile);
-  initScrollAnimations();
-  initMobileNav();
-  initSmoothScroll();
-  initScrollIndicator();
-
-  console.log('✅ Portfolio carregado com sucesso!');
-}
-
-async function initPageFooter() {
-  try {
-    const data = await loadData();
-    if (data?.profile) {
-      renderFooter(data.profile);
-      initMusicPlayer(data.profile);
-    }
-    initThemeToggle();
-    initMusicToggle();
-    initMobileNav();
-    initSmoothScroll();
-  } catch (error) {
-    console.error('❌ Erro ao carregar footer:', error);
-  }
-}
-
-// ============================================
-// START
-// ============================================
-document.addEventListener('DOMContentLoaded', () => {
-  if (document.getElementById('about-text')) {
-    init();
-  } else {
-    initPageFooter();
-  }
+    
+    // Event Listeners
+    document.getElementById('edit-btn')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (!currentToken) {
+            showLoginModal();
+        } else {
+            showEditModal();
+        }
+    });
+    
+    document.getElementById('close-edit-modal')?.addEventListener('click', () => {
+        document.getElementById('edit-modal-overlay').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    });
+    
+    document.getElementById('cancel-edit')?.addEventListener('click', () => {
+        document.getElementById('edit-modal-overlay').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    });
+    
+    document.getElementById('about-edit-form')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = collectFormData();
+        if (await saveAboutData(data)) {
+            document.getElementById('edit-modal-overlay').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    });
+    
+    document.getElementById('edit-modal-overlay')?.addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) {
+            document.getElementById('edit-modal-overlay').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    });
+    
+    console.log('✅ About inicializado com sucesso!');
 });
-
-window.addEventListener('error', (e) => {
-  console.error('❌ Erro no portfolio:', e.message);
-});
-
-// ============================================
-// EXPORTAÇÕES PARA OUTROS MÓDULOS
-// ============================================
-export {
-    parseMarkdown,
-    interpolate,
-    renderFooter,
-    initThemeToggle,
-    initMusicToggle,
-    initMobileNav,
-    initSmoothScroll,
-    CONFIG,
-    $,
-    $$,
-    getStatusLabel
-};
