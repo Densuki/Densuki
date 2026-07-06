@@ -20,7 +20,8 @@ const CURRICULUM_CONFIG = {
         }
         
         if (hostname.includes('github.io')) {
-            return 'https://portifolio-pj8c.onrender.com';
+            // Usar seu novo backend no Render
+            return 'https://portifolio-pj8c.onrender.com/api';  // <-- CORRIGIDO: adicionado /api
         }
         
         return `http://localhost:${port}/api`;

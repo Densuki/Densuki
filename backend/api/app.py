@@ -28,7 +28,15 @@ if not app.config['SQLALCHEMY_DATABASE_URI']:
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///curriculum.db'
 
 db = SQLAlchemy(app)
-CORS(app, origins=['https://densuki.github.io', 'http://localhost:3000', 'https://studious-goggles-v6wpp65rvwwcxgg6-5000.app.github.dev', '*'])
+CORS(app, 
+     origins=['https://densuki.github.io', 
+              'http://localhost:3000', 
+              'https://studious-goggles-v6wpp65rvwwcxgg6-5000.app.github.dev',
+              'https://portifolio-pj8c.onrender.com',
+              '*'],  # Para teste, depois restrinja
+     allow_headers=['Content-Type', 'Authorization'],
+     expose_headers=['Content-Type', 'Authorization'],
+     supports_credentials=True)
 
 # ============================================
 # FUNÇÃO PARA CARREGAR DADOS DO curriculum.json
@@ -272,6 +280,17 @@ def get_history(current_user):
         'created_by': User.query.get(v.created_by).username if v.created_by else 'Sistema',
         'is_current': v.is_current
     } for v in versions])
+
+@app.route('/curriculum', methods=['GET'])
+def get_curriculum_redirect():
+    """Redireciona de /curriculum para /api/curriculum (compatibilidade)"""
+    return get_curriculum()
+
+@app.route('/curriculum', methods=['PUT'])
+@token_required
+def update_curriculum_redirect(current_user):
+    """Redireciona de /curriculum para /api/curriculum (compatibilidade)"""
+    return update_curriculum(current_user)
 
 # ============================================
 # ROTA PARA DOWNLOAD DOS ARQUIVOS
