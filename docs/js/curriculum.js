@@ -20,7 +20,7 @@ const CURRICULUM_CONFIG = {
         }
         
         if (hostname.includes('github.io')) {
-            return 'https://densuki-api.onrender.com/api';
+            return 'https://portifolio-pj8c.onrender.com';
         }
         
         return `http://localhost:${port}/api`;
