@@ -18,7 +18,9 @@
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   
   <style>
-    /* Estilos do modal de edição */
+    /* ============================================ */
+    /* ESTILOS DO MODAL DE LOGIN */
+    /* ============================================ */
     .login-modal-overlay {
       position: fixed;
       top: 0;
@@ -29,10 +31,14 @@
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       z-index: 10000;
-      display: flex;
+      display: none;
       align-items: center;
       justify-content: center;
       padding: 1rem;
+    }
+
+    .login-modal-overlay.active {
+      display: flex;
     }
 
     .login-modal {
@@ -43,11 +49,24 @@
       max-width: 400px;
       width: 100%;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      animation: modalFadeIn 0.3s ease;
+    }
+
+    @keyframes modalFadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95) translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
     }
 
     .login-modal h2 {
       color: var(--color-primary, #8b5cf6);
       margin-bottom: 0.5rem;
+      font-size: 1.5rem;
     }
 
     .login-modal p {
@@ -64,6 +83,7 @@
       color: var(--color-text, #f0f0ff);
       margin-bottom: 0.3rem;
       font-weight: 600;
+      font-size: 0.9rem;
     }
 
     .form-group input {
@@ -74,6 +94,13 @@
       background: var(--bg-primary, #0a0a0f);
       color: var(--color-text, #f0f0ff);
       font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--color-primary, #8b5cf6);
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
     }
 
     .form-actions {
@@ -97,6 +124,10 @@
     .btn-login:hover {
       background: var(--color-primary-dark, #6d28d9);
       transform: scale(1.02);
+    }
+
+    .btn-login:active {
+      transform: scale(0.98);
     }
 
     .btn-cancel {
@@ -125,7 +156,9 @@
       font-size: 0.9rem;
     }
 
-    /* Modal de Edição */
+    /* ============================================ */
+    /* ESTILOS DO MODAL DE EDIÇÃO */
+    /* ============================================ */
     #edit-modal-overlay {
       display: none;
       position: fixed;
@@ -141,19 +174,28 @@
       overflow-y: auto;
     }
 
+    #edit-modal-overlay.active {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+
     .edit-modal {
       background: var(--bg-secondary, #12121f);
       border: 1px solid var(--glass-border, rgba(139, 92, 246, 0.15));
       border-radius: 1rem;
       padding: 2rem;
       max-width: 800px;
+      width: 100%;
       margin: 2rem auto;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      animation: modalFadeIn 0.3s ease;
     }
 
     .edit-modal h2 {
       color: var(--color-primary, #8b5cf6);
       margin-bottom: 0.5rem;
+      font-size: 1.5rem;
     }
 
     .edit-modal > p {
@@ -188,6 +230,7 @@
       color: var(--color-text, #f0f0ff);
       margin-bottom: 0.2rem;
       font-size: 0.9rem;
+      font-weight: 500;
     }
 
     .edit-field input,
@@ -201,6 +244,7 @@
       color: var(--color-text, #f0f0ff);
       font-size: 0.95rem;
       font-family: var(--font-sans, 'Poppins', sans-serif);
+      transition: border-color 0.3s ease;
     }
 
     .edit-field textarea {
@@ -211,8 +255,9 @@
     .edit-field input:focus,
     .edit-field textarea:focus,
     .edit-field select:focus {
-      outline: 2px solid var(--color-primary, #8b5cf6);
-      outline-offset: 1px;
+      outline: none;
+      border-color: var(--color-primary, #8b5cf6);
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
     }
 
     .edit-actions {
@@ -231,11 +276,18 @@
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     .btn-save:hover {
       background: var(--color-primary-dark, #6d28d9);
       transform: scale(1.02);
+    }
+
+    .btn-save:active {
+      transform: scale(0.98);
     }
 
     .btn-cancel-edit {
@@ -246,6 +298,9 @@
       border-radius: 0.5rem;
       cursor: pointer;
       transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     .btn-cancel-edit:hover {
@@ -257,25 +312,68 @@
       border-radius: 0.5rem;
       margin-top: 0.5rem;
       display: none;
+      font-weight: 500;
     }
 
     .edit-status.success {
       display: block;
-      background: rgba(16, 185, 129, 0.2);
+      background: rgba(16, 185, 129, 0.15);
       color: #10b981;
-      border: 1px solid #10b981;
+      border: 1px solid rgba(16, 185, 129, 0.3);
     }
 
     .edit-status.error {
       display: block;
-      background: rgba(239, 68, 68, 0.2);
+      background: rgba(239, 68, 68, 0.15);
       color: #ef4444;
-      border: 1px solid #ef4444;
+      border: 1px solid rgba(239, 68, 68, 0.3);
     }
 
+    /* ============================================ */
+    /* STATUS DE CONEXÃO */
+    /* ============================================ */
+    #connection-status {
+      text-align: center;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border-radius: 0.5rem;
+      display: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    #connection-status.success {
+      display: block;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #10b981;
+    }
+
+    #connection-status.error {
+      display: block;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #ef4444;
+    }
+
+    #connection-status.loading {
+      display: block;
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      color: #f59e0b;
+    }
+
+    /* ============================================ */
+    /* MODO CLARO - AJUSTES DOS MODAIS */
+    /* ============================================ */
     body.light-mode .login-modal,
     body.light-mode .edit-modal {
       background: #f4f0ff;
+    }
+
+    body.light-mode .login-modal h2,
+    body.light-mode .edit-modal h2 {
+      color: #6d28d9;
     }
 
     body.light-mode .form-group input,
@@ -284,12 +382,94 @@
     body.light-mode .edit-field select {
       background: white;
       color: #1a1a2e;
+      border-color: rgba(139, 92, 246, 0.2);
     }
 
-    /* Responsividade do modal */
+    body.light-mode .form-group input:focus,
+    body.light-mode .edit-field input:focus,
+    body.light-mode .edit-field textarea:focus,
+    body.light-mode .edit-field select:focus {
+      border-color: #8b5cf6;
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+    }
+
+    body.light-mode .edit-section {
+      border-color: rgba(139, 92, 246, 0.1);
+    }
+
+    body.light-mode .edit-section h3 {
+      color: #6d28d9;
+    }
+
+    body.light-mode .edit-field label {
+      color: #1a1a2e;
+    }
+
+    body.light-mode .btn-cancel,
+    body.light-mode .btn-cancel-edit {
+      color: #1a1a2e;
+      border-color: rgba(139, 92, 246, 0.2);
+    }
+
+    body.light-mode .btn-cancel:hover,
+    body.light-mode .btn-cancel-edit:hover {
+      background: rgba(139, 92, 246, 0.1);
+    }
+
+    body.light-mode .login-modal p,
+    body.light-mode .edit-modal > p {
+      color: #4a4a6a;
+    }
+
+    body.light-mode .login-error {
+      color: #dc2626;
+    }
+
+    body.light-mode .login-success {
+      color: #059669;
+    }
+
+    body.light-mode .edit-status.success {
+      background: rgba(5, 150, 105, 0.1);
+      color: #059669;
+      border-color: rgba(5, 150, 105, 0.2);
+    }
+
+    body.light-mode .edit-status.error {
+      background: rgba(220, 38, 38, 0.1);
+      color: #dc2626;
+      border-color: rgba(220, 38, 38, 0.2);
+    }
+
+    body.light-mode #connection-status.success {
+      background: rgba(5, 150, 105, 0.1);
+      border-color: rgba(5, 150, 105, 0.2);
+      color: #059669;
+    }
+
+    body.light-mode #connection-status.error {
+      background: rgba(220, 38, 38, 0.1);
+      border-color: rgba(220, 38, 38, 0.2);
+      color: #dc2626;
+    }
+
+    body.light-mode #connection-status.loading {
+      background: rgba(217, 119, 6, 0.1);
+      border-color: rgba(217, 119, 6, 0.2);
+      color: #d97706;
+    }
+
+    /* ============================================ */
+    /* RESPONSIVIDADE DOS MODAIS */
+    /* ============================================ */
     @media (max-width: 768px) {
+      .login-modal {
+        padding: 1.5rem;
+        margin: 1rem;
+      }
+
       .edit-modal {
-        padding: 1rem;
+        padding: 1.25rem;
         margin: 1rem auto;
       }
 
@@ -303,15 +483,26 @@
         justify-content: center;
         text-align: center;
       }
+
+      .edit-section {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.5rem;
+      }
+
+      .edit-section h3 {
+        font-size: 1rem;
+      }
     }
 
     @media (max-width: 480px) {
       .login-modal {
         padding: 1rem;
+        margin: 0.5rem;
       }
 
       .edit-modal {
         padding: 0.75rem;
+        margin: 0.5rem auto;
       }
 
       .form-actions {
@@ -322,6 +513,39 @@
       .btn-cancel {
         width: 100%;
         text-align: center;
+        justify-content: center;
+      }
+
+      .login-modal h2,
+      .edit-modal h2 {
+        font-size: 1.2rem;
+      }
+
+      .edit-field input,
+      .edit-field textarea,
+      .edit-field select {
+        font-size: 0.85rem;
+        padding: 0.5rem 0.6rem;
+      }
+
+      .edit-status {
+        font-size: 0.85rem;
+        padding: 0.5rem 0.75rem;
+      }
+    }
+
+    /* ============================================ */
+    /* REDUZIR MOVIMENTO - ACESSIBILIDADE */
+    /* ============================================ */
+    @media (prefers-reduced-motion: reduce) {
+      .login-modal,
+      .edit-modal {
+        animation: none;
+      }
+
+      .btn-login:hover,
+      .btn-save:hover {
+        transform: none;
       }
     }
   </style>
@@ -379,9 +603,14 @@
         </p>
       </div>
 
+      <!-- STATUS DE CONEXÃO -->
+      <div id="connection-status">
+        <span id="status-text">Carregando...</span>
+      </div>
+
       <!-- BOTÕES DE AÇÃO -->
       <div class="about-actions">
-        <button id="edit-btn" class="edit-btn" style="display: none;">
+        <button id="edit-btn" class="edit-btn">
           <i class="fas fa-edit"></i> Editar Perfil
         </button>
       </div>
@@ -452,7 +681,7 @@
           Habilidades & Competências
         </div>
         <div class="skills-grid" id="skills-grid">
-          <p style="grid-column: 1/-1; text-align: center;">Carregando habilidades...</p>
+          <p style="grid-column: 1/-1; text-align: center; color: var(--color-secondary-text);">Carregando habilidades...</p>
         </div>
       </div>
 
@@ -462,7 +691,7 @@
           <i class="fas fa-sparkles"></i> Meus Interesses
         </div>
         <div class="interests-grid" id="interests-grid">
-          <p style="grid-column: 1/-1; text-align: center;">Carregando interesses...</p>
+          <p style="grid-column: 1/-1; text-align: center; color: var(--color-secondary-text);">Carregando interesses...</p>
         </div>
       </div>
 
@@ -508,7 +737,7 @@
   </div>
 
   <!-- MODAL DE LOGIN -->
-  <div id="login-modal-overlay" class="login-modal-overlay" style="display: none;">
+  <div id="login-modal-overlay" class="login-modal-overlay">
     <div class="login-modal">
       <h2>🔐 Acesso ao About</h2>
       <p>Faça login para editar o conteúdo</p>
@@ -526,7 +755,7 @@
         
         <div class="form-actions">
           <button type="submit" class="btn-login">Entrar</button>
-          <button type="button" class="btn-cancel" onclick="document.getElementById('login-modal-overlay').style.display='none'">Cancelar</button>
+          <button type="button" class="btn-cancel" onclick="document.getElementById('login-modal-overlay').classList.remove('active')">Cancelar</button>
         </div>
         
         <div id="login-error" class="login-error"></div>
@@ -553,7 +782,7 @@
             <i class="fas fa-save"></i> Salvar
           </button>
           <button type="button" id="cancel-edit" class="btn-cancel-edit">
-            Cancelar
+            <i class="fas fa-times"></i> Cancelar
           </button>
         </div>
       </form>

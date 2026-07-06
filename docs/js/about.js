@@ -2,6 +2,8 @@
 // ABOUT - Módulo Principal
 // ============================================
 
+import { parseMarkdown, interpolate } from './main.js';
+
 // ============================================
 // CONFIGURAÇÃO
 // ============================================
@@ -54,18 +56,24 @@ async function checkAuth() {
             const data = await response.json();
             currentUser = data.user;
             currentToken = token;
+            console.log('✅ Usuário autenticado:', currentUser.username);
             return true;
+        } else {
+            console.warn('⚠️ Token inválido ou expirado');
         }
     } catch (error) {
-        console.error('Erro ao verificar autenticação:', error);
+        console.error('❌ Erro ao verificar autenticação:', error);
     }
     
     localStorage.removeItem('curriculumToken');
+    currentToken = null;
+    currentUser = null;
     return false;
 }
 
 async function login(username, password) {
     try {
+        console.log('🔐 Tentando login para:', username);
         const response = await fetch(`${API_BASE}/auth/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -77,13 +85,15 @@ async function login(username, password) {
             localStorage.setItem('curriculumToken', data.token);
             currentUser = data.user;
             currentToken = data.token;
+            console.log('✅ Login realizado com sucesso:', currentUser.username);
             return { success: true, user: data.user };
         } else {
             const error = await response.json();
-            return { success: false, message: error.message };
+            console.error('❌ Falha no login:', error.message);
+            return { success: false, message: error.message || 'Credenciais inválidas' };
         }
     } catch (error) {
-        console.error('Erro no login:', error);
+        console.error('❌ Erro no login:', error);
         return { success: false, message: 'Erro de conexão com o servidor' };
     }
 }
@@ -92,6 +102,7 @@ function logout() {
     localStorage.removeItem('curriculumToken');
     currentUser = null;
     currentToken = null;
+    console.log('👋 Usuário deslogado');
     location.reload();
 }
 
@@ -103,15 +114,22 @@ async function loadAboutData() {
         console.log('📡 Carregando dados do about de:', `${API_BASE}/about`);
         const response = await fetch(`${API_BASE}/about`);
         
+        console.log('📊 Status da resposta:', response.status);
+        
         if (response.ok) {
             aboutData = await response.json();
+            console.log('✅ Dados do about carregados com sucesso!');
+            updateConnectionStatus('success', '✅ Dados carregados com sucesso!');
             return true;
         } else {
-            console.error('❌ Erro ao carregar about:', response.status, response.statusText);
+            const errorText = await response.text();
+            console.error('❌ Erro ao carregar about:', response.status, errorText);
+            updateConnectionStatus('error', `❌ Erro ${response.status}: Falha ao carregar dados`);
             return false;
         }
     } catch (error) {
         console.error('❌ Erro ao carregar about:', error);
+        updateConnectionStatus('error', '❌ Erro de conexão com o servidor');
         return false;
     }
 }
@@ -123,9 +141,10 @@ async function loadProfileData() {
         
         if (response.ok) {
             profileData = await response.json();
+            console.log('✅ Perfil carregado com sucesso!');
             return true;
         } else {
-            console.error('❌ Erro ao carregar perfil:', response.status, response.statusText);
+            console.warn('⚠️ Não foi possível carregar o perfil:', response.status);
             return false;
         }
     } catch (error) {
@@ -136,11 +155,13 @@ async function loadProfileData() {
 
 async function saveAboutData(data) {
     if (!currentToken) {
+        updateConnectionStatus('error', '❌ Faça login para salvar as alterações');
         showLoginModal();
         return false;
     }
     
     try {
+        console.log('💾 Salvando dados do about...');
         const response = await fetch(`${API_BASE}/about`, {
             method: 'PUT',
             headers: {
@@ -152,56 +173,82 @@ async function saveAboutData(data) {
         
         if (response.ok) {
             const result = await response.json();
-            showEditStatus('✅ ' + result.message, 'success');
+            console.log('✅ Dados salvos com sucesso:', result);
+            showEditStatus('✅ ' + (result.message || 'Dados salvos com sucesso!'), 'success');
+            updateConnectionStatus('success', '✅ Dados salvos com sucesso!');
+            
+            // Recarregar dados para garantir consistência
             await loadAboutData();
             renderAbout(aboutData);
             return true;
         } else if (response.status === 401) {
+            console.warn('⚠️ Sessão expirada, solicitando novo login');
             localStorage.removeItem('curriculumToken');
+            currentToken = null;
+            currentUser = null;
             showLoginModal();
+            updateConnectionStatus('error', '❌ Sessão expirada. Faça login novamente.');
             return false;
         } else {
             const error = await response.json();
+            console.error('❌ Erro ao salvar:', error);
             showEditStatus('❌ ' + (error.message || 'Erro ao salvar'), 'error');
+            updateConnectionStatus('error', '❌ ' + (error.message || 'Erro ao salvar'));
             return false;
         }
     } catch (error) {
-        console.error('Erro ao salvar about:', error);
+        console.error('❌ Erro ao salvar about:', error);
         showEditStatus('❌ Erro de conexão com o servidor', 'error');
+        updateConnectionStatus('error', '❌ Erro de conexão com o servidor');
         return false;
     }
 }
 
 // ============================================
-// FUNÇÃO PARA PROCESSAR MARKDOWN
+// FUNÇÃO DE STATUS DE CONEXÃO
 // ============================================
-function parseMarkdown(text) {
-    if (!text) return '';
+function updateConnectionStatus(status, message) {
+    const statusEl = document.getElementById('connection-status');
+    const textEl = document.getElementById('status-text');
     
-    let html = text;
+    if (!statusEl || !textEl) return;
     
-    // Cabeçalhos
-    html = html.replace(/^### (.*$)/gm, '<h4>$1</h4>');
-    html = html.replace(/^## (.*$)/gm, '<h3>$1</h3>');
-    html = html.replace(/^# (.*$)/gm, '<h2>$1</h2>');
+    statusEl.style.display = 'block';
+    textEl.textContent = message;
     
-    // Negrito
-    html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    // Reset classes
+    statusEl.className = '';
+    statusEl.style.cssText = '';
     
-    // Itálico
-    html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    if (status === 'success') {
+        statusEl.style.background = 'rgba(16, 185, 129, 0.15)';
+        statusEl.style.border = '1px solid #10b981';
+        statusEl.style.color = '#10b981';
+        statusEl.style.padding = '0.75rem';
+        statusEl.style.borderRadius = '0.5rem';
+        statusEl.style.marginBottom = '1rem';
+    } else if (status === 'error') {
+        statusEl.style.background = 'rgba(239, 68, 68, 0.15)';
+        statusEl.style.border = '1px solid #ef4444';
+        statusEl.style.color = '#ef4444';
+        statusEl.style.padding = '0.75rem';
+        statusEl.style.borderRadius = '0.5rem';
+        statusEl.style.marginBottom = '1rem';
+    } else {
+        statusEl.style.background = 'rgba(245, 158, 11, 0.15)';
+        statusEl.style.border = '1px solid #f59e0b';
+        statusEl.style.color = '#f59e0b';
+        statusEl.style.padding = '0.75rem';
+        statusEl.style.borderRadius = '0.5rem';
+        statusEl.style.marginBottom = '1rem';
+    }
     
-    // Listas não ordenadas
-    html = html.replace(/^[\s]*[-*+] (.*$)/gm, '<li>$1</li>');
-    html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
-    
-    // Listas ordenadas
-    html = html.replace(/^[\s]*\d+\. (.*$)/gm, '<li>$1</li>');
-    
-    // Quebras de linha
-    html = html.replace(/\n/g, '<br>');
-    
-    return html;
+    // Auto-esconder após 5 segundos
+    setTimeout(() => {
+        if (statusEl.style.display !== 'none') {
+            statusEl.style.display = 'none';
+        }
+    }, 5000);
 }
 
 // ============================================
@@ -212,6 +259,8 @@ function renderAbout(data) {
         console.warn('⚠️ Sem dados para renderizar');
         return;
     }
+
+    console.log('🎨 Renderizando dados do about...');
 
     // Bio - Sobre Mim
     const bioContainer = document.getElementById('profile-bio');
@@ -238,10 +287,11 @@ function renderAbout(data) {
         if (studyingEl) studyingEl.textContent = data.status.studying || 'Aprendizado contínuo';
     }
 
-    // Descrição
+    // Descrição (com Markdown)
     const descriptionEl = document.getElementById('profile-description');
     if (descriptionEl && data.description) {
         descriptionEl.innerHTML = parseMarkdown(data.description);
+        console.log('✅ Descrição renderizada com Markdown');
     }
 
     // Saúde
@@ -260,32 +310,46 @@ function renderAbout(data) {
             'languages': 'Idiomas'
         };
         
-        skillsGrid.innerHTML = Object.entries(data.skills)
-            .filter(([_, items]) => items && items.length > 0)
-            .map(([category, items]) => `
-                <div class="skill-category">
-                    <h4>${categoryLabels[category] || category.charAt(0).toUpperCase() + category.slice(1)}</h4>
-                    <div class="skill-tags">
-                        ${items.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+        const hasSkills = Object.values(data.skills).some(items => items && items.length > 0);
+        
+        if (hasSkills) {
+            skillsGrid.innerHTML = Object.entries(data.skills)
+                .filter(([_, items]) => items && items.length > 0)
+                .map(([category, items]) => `
+                    <div class="skill-category">
+                        <h4>${categoryLabels[category] || category.charAt(0).toUpperCase() + category.slice(1)}</h4>
+                        <div class="skill-tags">
+                            ${items.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+                        </div>
                     </div>
-                </div>
-            `).join('');
+                `).join('');
+        } else {
+            skillsGrid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--color-secondary-text);">Nenhuma habilidade cadastrada.</p>`;
+        }
     }
 
     // Interesses
     const interestsGrid = document.getElementById('interests-grid');
     if (interestsGrid && data.interests) {
-        interestsGrid.innerHTML = data.interests.map(interest => 
-            `<div class="interest-item">${interest}</div>`
-        ).join('');
+        if (data.interests.length > 0) {
+            interestsGrid.innerHTML = data.interests.map(interest => 
+                `<div class="interest-item">${interest}</div>`
+            ).join('');
+        } else {
+            interestsGrid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--color-secondary-text);">Nenhum interesse cadastrado.</p>`;
+        }
     }
 
     // Badges
     const badgesList = document.getElementById('badges-list');
     if (badgesList && data.badges) {
-        badgesList.innerHTML = data.badges.map(badge => 
-            `<span class="badge">${badge}</span>`
-        ).join('');
+        if (data.badges.length > 0) {
+            badgesList.innerHTML = data.badges.map(badge => 
+                `<span class="badge">${badge}</span>`
+            ).join('');
+        } else {
+            badgesList.innerHTML = `<span class="badge">Nenhum badge cadastrado</span>`;
+        }
     }
 
     // História
@@ -300,90 +364,131 @@ function renderAbout(data) {
 }
 
 // ============================================
-// FUNÇÃO DE INTERPOLAÇÃO
-// ============================================
-function interpolate(template, data) {
-    if (!template || typeof template !== 'string') return template;
-    
-    function getByPath(obj, path) {
-        return path.split('.').reduce((acc, p) => (acc && acc[p] !== undefined ? acc[p] : undefined), obj);
-    }
-    
-    function escapeHtml(str) {
-        return String(str)
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#39;');
-    }
-    
-    return template.replace(/{{\s*([^}|]+?)\s*(?:\|\s*([^}]+?)\s*)?}}/g, (match, path, modifier) => {
-        const keyPath = path.trim();
-        if (!data) return '';
-        const val = getByPath(data, keyPath);
-        if (val === undefined || val === null) return '';
-        const out = Array.isArray(val) ? val.join(', ') : String(val);
-        if (modifier && modifier.trim() === 'escape') return escapeHtml(out);
-        return out;
-    });
-}
-
-// ============================================
 // MODAL DE LOGIN
 // ============================================
 function showLoginModal() {
+    // Verificar se já existe um modal aberto
     const existing = document.querySelector('.login-modal-overlay');
-    if (existing) existing.remove();
+    if (existing) {
+        existing.style.display = 'flex';
+        return;
+    }
 
     const modal = document.createElement('div');
     modal.className = 'login-modal-overlay';
+    modal.id = 'login-modal-overlay-custom';
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+    `;
+    
     modal.innerHTML = `
-        <div class="login-modal">
-            <h2>🔐 Acesso ao About</h2>
-            <p>Faça login para editar o conteúdo</p>
+        <div class="login-modal" style="
+            background: var(--bg-secondary, #12121f);
+            border: 1px solid var(--glass-border, rgba(139, 92, 246, 0.15));
+            border-radius: 1rem;
+            padding: 2rem;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        ">
+            <h2 style="color: var(--color-primary, #8b5cf6); margin-bottom: 0.5rem;">🔐 Acesso ao About</h2>
+            <p style="color: var(--color-secondary-text, #c4b5d4); margin-bottom: 1.5rem;">Faça login para editar o conteúdo</p>
             
-            <form id="login-form">
-                <div class="form-group">
-                    <label for="login-username">Usuário</label>
-                    <input type="text" id="login-username" placeholder="Usuário" required autocomplete="username">
+            <form id="login-form-custom">
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label for="login-username-custom" style="display: block; color: var(--color-text, #f0f0ff); margin-bottom: 0.3rem; font-weight: 600;">Usuário</label>
+                    <input type="text" id="login-username-custom" placeholder="Usuário" required autocomplete="username" style="
+                        width: 100%;
+                        padding: 0.6rem 0.8rem;
+                        border: 1px solid var(--glass-border, rgba(139, 92, 246, 0.15));
+                        border-radius: 0.5rem;
+                        background: var(--bg-primary, #0a0a0f);
+                        color: var(--color-text, #f0f0ff);
+                        font-size: 1rem;
+                    ">
                 </div>
                 
-                <div class="form-group">
-                    <label for="login-password">Senha</label>
-                    <input type="password" id="login-password" placeholder="Senha" required autocomplete="current-password">
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label for="login-password-custom" style="display: block; color: var(--color-text, #f0f0ff); margin-bottom: 0.3rem; font-weight: 600;">Senha</label>
+                    <input type="password" id="login-password-custom" placeholder="Senha" required autocomplete="current-password" style="
+                        width: 100%;
+                        padding: 0.6rem 0.8rem;
+                        border: 1px solid var(--glass-border, rgba(139, 92, 246, 0.15));
+                        border-radius: 0.5rem;
+                        background: var(--bg-primary, #0a0a0f);
+                        color: var(--color-text, #f0f0ff);
+                        font-size: 1rem;
+                    ">
                 </div>
                 
-                <div class="form-actions">
-                    <button type="submit" class="btn-login">Entrar</button>
-                    <button type="button" class="btn-cancel" onclick="this.closest('.login-modal-overlay').remove()">Cancelar</button>
+                <div class="form-actions" style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
+                    <button type="submit" class="btn-login" style="
+                        flex: 1;
+                        padding: 0.6rem 1.5rem;
+                        background: var(--color-primary, #8b5cf6);
+                        color: white;
+                        border: none;
+                        border-radius: 0.5rem;
+                        font-weight: 600;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                    ">Entrar</button>
+                    <button type="button" class="btn-cancel" onclick="this.closest('.login-modal-overlay').remove()" style="
+                        padding: 0.6rem 1.5rem;
+                        background: transparent;
+                        color: var(--color-text, #f0f0ff);
+                        border: 1px solid var(--glass-border, rgba(139, 92, 246, 0.15));
+                        border-radius: 0.5rem;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                    ">Cancelar</button>
                 </div>
                 
-                <div id="login-error" class="login-error"></div>
-                <div id="login-success" class="login-success"></div>
+                <div id="login-error-custom" class="login-error" style="color: #ef4444; margin-top: 0.5rem; font-size: 0.9rem;"></div>
+                <div id="login-success-custom" class="login-success" style="color: #10b981; margin-top: 0.5rem; font-size: 0.9rem;"></div>
             </form>
         </div>
     `;
     
     document.body.appendChild(modal);
     
-    document.getElementById('login-form').addEventListener('submit', async (e) => {
+    document.getElementById('login-form-custom').addEventListener('submit', async (e) => {
         e.preventDefault();
-        const username = document.getElementById('login-username').value;
-        const password = document.getElementById('login-password').value;
+        const username = document.getElementById('login-username-custom').value;
+        const password = document.getElementById('login-password-custom').value;
+        
+        const errorEl = document.getElementById('login-error-custom');
+        const successEl = document.getElementById('login-success-custom');
+        
+        errorEl.textContent = '';
+        successEl.textContent = '';
         
         const result = await login(username, password);
         if (result.success) {
-            document.getElementById('login-success').textContent = '✅ Login realizado com sucesso!';
-            document.getElementById('login-error').textContent = '';
+            successEl.textContent = '✅ Login realizado com sucesso!';
             setTimeout(() => {
                 modal.remove();
-                document.getElementById('edit-btn').style.display = 'inline-flex';
+                const editBtn = document.getElementById('edit-btn');
+                if (editBtn) {
+                    editBtn.innerHTML = '<i class="fas fa-edit"></i> Editar Perfil';
+                }
+                updateConnectionStatus('success', '✅ Login realizado com sucesso!');
                 loadAboutData().then(() => renderAbout(aboutData));
             }, 1000);
         } else {
-            document.getElementById('login-error').textContent = '❌ ' + (result.message || 'Usuário ou senha incorretos');
-            document.getElementById('login-success').textContent = '';
+            errorEl.textContent = '❌ ' + (result.message || 'Usuário ou senha incorretos');
         }
     });
 }
@@ -399,6 +504,11 @@ function showEditModal() {
 
     const overlay = document.getElementById('edit-modal-overlay');
     const container = document.getElementById('edit-fields-container');
+    
+    if (!overlay || !container) {
+        console.error('❌ Elementos do modal de edição não encontrados');
+        return;
+    }
     
     container.innerHTML = generateEditFields(aboutData);
     overlay.style.display = 'flex';
@@ -584,27 +694,48 @@ function showEditStatus(message, type) {
 document.addEventListener('DOMContentLoaded', async function() {
     console.log('📄 Inicializando About...');
     console.log('🔗 API URL:', API_BASE);
+    console.log('🌐 Hostname:', window.location.hostname);
+    
+    // Mostrar status de carregamento
+    updateConnectionStatus('loading', '🔄 Carregando dados...');
     
     // Carregar dados
-    await loadAboutData();
+    const aboutLoaded = await loadAboutData();
     await loadProfileData();
     
     // Renderizar
-    if (aboutData) {
+    if (aboutLoaded && aboutData) {
         renderAbout(aboutData);
+        updateConnectionStatus('success', '✅ Dados carregados com sucesso!');
     } else {
-        console.warn('⚠️ Sem dados do about para renderizar');
+        updateConnectionStatus('error', '⚠️ Não foi possível carregar os dados');
     }
     
     // Verificar autenticação
     const isAuth = await checkAuth();
     const editBtn = document.getElementById('edit-btn');
+    
     if (editBtn) {
-        editBtn.style.display = isAuth ? 'inline-flex' : 'none';
+        if (isAuth) {
+            editBtn.innerHTML = '<i class="fas fa-edit"></i> Editar Perfil';
+            editBtn.title = 'Editar informações do perfil';
+            editBtn.style.background = 'var(--color-primary, #8b5cf6)';
+            editBtn.style.color = 'white';
+        } else {
+            editBtn.innerHTML = '<i class="fas fa-lock"></i> Login para Editar';
+            editBtn.title = 'Faça login para editar o perfil';
+            editBtn.style.background = 'rgba(139, 92, 246, 0.2)';
+            editBtn.style.color = 'var(--color-text, #f0f0ff)';
+            editBtn.style.border = '1px solid rgba(139, 92, 246, 0.3)';
+        }
+        editBtn.style.display = 'inline-flex';
+    } else {
+        console.warn('⚠️ Botão de edição não encontrado no DOM');
     }
     
     // Event Listeners
-    document.getElementById('edit-btn')?.addEventListener('click', function() {
+    document.getElementById('edit-btn')?.addEventListener('click', function(e) {
+        e.preventDefault();
         if (!currentToken) {
             showLoginModal();
         } else {
@@ -637,4 +768,6 @@ document.addEventListener('DOMContentLoaded', async function() {
             document.body.style.overflow = 'auto';
         }
     });
+    
+    console.log('✅ About inicializado com sucesso!');
 });
