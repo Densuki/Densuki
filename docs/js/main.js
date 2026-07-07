@@ -2,6 +2,8 @@
 // IMPORTAÇÃO
 // ============================================
 import { terminalTexts } from './data/terminalTexts.js';
+import { parseMarkdown, interpolate, processText } from './markdown.js';
+import { checkAuth, login, logout, getCurrentUser, getCurrentToken, getApiBase, isAuthenticated } from './auth.js';
 
 // ============================================
 // CONFIGURAÇÃO
@@ -25,7 +27,7 @@ function resolveDataBaseUrl() {
 }
 
 // ============================================
-// CARREGAR DADOS DOS JSONS (CORRIGIDO)
+// CARREGAR DADOS DOS JSONS
 // ============================================
 async function fetchJSON(path) {
   const resource = path.replace(/^\.?\//, '');
@@ -35,40 +37,32 @@ async function fetchJSON(path) {
   const basePath = window.location.pathname;
   const isInSubdir = basePath.includes('/Densuki/') || basePath.includes('/Densuki');
   
-  // Prioridade 1: docs/data/ (onde os arquivos realmente estão)
+  // Caminhos baseados na localização dos arquivos (docs/data/)
   if (isInSubdir) {
-    // Se estiver em /Densuki/, os arquivos estão em /Densuki/data/
+    candidates.push(new URL(`data/${resource}`, window.location.href).toString());
+    candidates.push(new URL(`./data/${resource}`, window.location.href).toString());
     candidates.push(new URL(`../data/${resource}`, window.location.href).toString());
   } else {
-    // Se estiver na raiz, tentar /data/ e /docs/data/
+    candidates.push(new URL(`data/${resource}`, window.location.href).toString());
     candidates.push(new URL(`./data/${resource}`, window.location.href).toString());
     candidates.push(new URL(`../data/${resource}`, window.location.href).toString());
   }
   
-  // Prioridade 2: docs/data/ (fallback)
-  candidates.push(new URL(`../../data/${resource}`, window.location.href).toString());
+  candidates.push(new URL(`/Densuki/data/${resource}`, window.location.origin).toString());
+  candidates.push(new URL(`/data/${resource}`, window.location.origin).toString());
   
-  // Prioridade 3: js/data/ (fallback)
-  candidates.push(new URL(`./data/${resource}`, window.location.href).toString());
-  
-  // Prioridade 4: caminho base do script
   if (CONFIG.dataPath) {
     candidates.push(new URL(resource, CONFIG.dataPath).toString());
   }
 
-  // Prioridade 5: caminho relativo com /Densuki/
-  if (!isInSubdir) {
-    candidates.push(new URL(`/Densuki/data/${resource}`, window.location.origin).toString());
-  }
-
-  // Prioridade 6: caminho relativo
   candidates.push(new URL(`./${resource}`, window.location.href).toString());
 
   for (const url of candidates) {
     try {
       const res = await fetch(url, { cache: 'no-store' });
       if (!res.ok) continue;
-      return await res.json();
+      const data = await res.json();
+      return data;
     } catch (err) {
       // Silenciosamente tenta o próximo
     }
@@ -129,71 +123,6 @@ function getStatusLabel(status) {
 }
 
 // ============================================
-// FUNÇÃO PARSE MARKDOWN - EXPORTAÇÃO GLOBAL
-// ============================================
-function parseMarkdown(text) {
-    if (!text) return '';
-    
-    let html = text;
-    
-    // Cabeçalhos
-    html = html.replace(/^### (.*$)/gm, '<h4>$1</h4>');
-    html = html.replace(/^## (.*$)/gm, '<h3>$1</h3>');
-    html = html.replace(/^# (.*$)/gm, '<h2>$1</h2>');
-    
-    // Negrito
-    html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    
-    // Itálico
-    html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
-    
-    // Listas não ordenadas
-    html = html.replace(/^[\s]*[-*+] (.*$)/gm, '<li>$1</li>');
-    html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
-    
-    // Listas ordenadas
-    html = html.replace(/^[\s]*\d+\. (.*$)/gm, '<li>$1</li>');
-    
-    // Quebras de linha
-    html = html.replace(/\n/g, '<br>');
-    
-    return html;
-}
-
-// Expor globalmente
-window.parseMarkdown = parseMarkdown;
-
-// ============================================
-// FUNÇÃO INTERPOLATE - EXPORTAÇÃO GLOBAL
-// ============================================
-function interpolate(template, profile) {
-  if (!template || typeof template !== 'string') return template;
-  function getByPath(obj, path) {
-    return path.split('.').reduce((acc, p) => (acc && acc[p] !== undefined ? acc[p] : undefined), obj);
-  }
-  function escapeHtml(str) {
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;');
-  }
-  return template.replace(/{{\s*([^}|]+?)\s*(?:\|\s*([^}]+?)\s*)?}}/g, (match, path, modifier) => {
-    const keyPath = path.trim();
-    if (!profile) return '';
-    const val = getByPath(profile, keyPath);
-    if (val === undefined || val === null) return '';
-    const out = Array.isArray(val) ? val.join(', ') : String(val);
-    if (modifier && modifier.trim() === 'escape') return escapeHtml(out);
-    return out;
-  });
-}
-
-// Expor globalmente
-window.interpolate = interpolate;
-
-// ============================================
 // RENDERIZAR FOOTER
 // ============================================
 function renderFooter(profile) {
@@ -221,7 +150,7 @@ function renderFooter(profile) {
 }
 
 // ============================================
-// RENDERIZAR SOBRE
+// RENDERIZAR SOBRE (USANDO MARKDOWN)
 // ============================================
 function renderAbout(profile) {
   const aboutText = $('#about-text');
@@ -239,7 +168,7 @@ function renderAbout(profile) {
   let aboutHtml = '';
 
   if (flag('bio') && Array.isArray(profile?.bio) && profile.bio.length > 0) {
-    aboutHtml = profile.bio.map(line => `<p>${interpolate(line, profile)}</p>`).join('');
+    aboutHtml = profile.bio.map(line => `<p>${processText(line, profile)}</p>`).join('');
   } else {
     const parts = [];
     const name = safeField('name') || 'João Gabriel';
@@ -255,7 +184,7 @@ function renderAbout(profile) {
       parts.push(`e sou <strong>${safeField('location')}</strong>`);
     }
 
-    const bioText = (typeof profile?.bio === 'string' && profile.bio) ? interpolate(profile.bio, profile) : '';
+    const bioText = (typeof profile?.bio === 'string' && profile.bio) ? processText(profile.bio, profile) : '';
     if (bioText) parts.push(bioText);
 
     if (flag('hobbies') && Array.isArray(profile?.hobbies) && profile.hobbies.length > 0) {
@@ -532,9 +461,6 @@ function initThemeToggle() {
   });
 }
 
-// Expor globalmente
-window.initThemeToggle = initThemeToggle;
-
 // ============================================
 // MUSIC TOGGLE
 // ============================================
@@ -570,9 +496,6 @@ function initMusicToggle() {
     }
   });
 }
-
-// Expor globalmente
-window.initMusicToggle = initMusicToggle;
 
 // ============================================
 // MUSIC PLAYER
@@ -695,9 +618,6 @@ function initMobileNav() {
   });
 }
 
-// Expor globalmente
-window.initMobileNav = initMobileNav;
-
 // ============================================
 // SMOOTH SCROLL
 // ============================================
@@ -715,9 +635,6 @@ function initSmoothScroll() {
     });
   });
 }
-
-// Expor globalmente
-window.initSmoothScroll = initSmoothScroll;
 
 // ============================================
 // SCROLL INDICATOR
@@ -777,7 +694,6 @@ function applyVisibility(profile) {
 // ============================================
 async function init() {
   console.log('🚀 Inicializando Densuki Portfolio...');
-  console.log('📍 Pathname:', window.location.pathname);
 
   const data = await loadData();
   if (!data) {
@@ -786,13 +702,6 @@ async function init() {
   }
 
   const { profile, projects, certificates, courses, statistics, current } = data;
-
-  console.log('📊 Dados carregados:', {
-    profile: profile ? '✅' : '❌',
-    projects: projects ? projects.length : 0,
-    certificates: certificates ? certificates.length : 0,
-    courses: courses ? courses.length : 0
-  });
 
   renderHero(profile, current);
   renderAbout(profile);
@@ -858,6 +767,12 @@ export {
     $,
     $$,
     getStatusLabel,
+    renderFooter,
+    initThemeToggle,
+    initMusicToggle,
+    initMobileNav,
+    initSmoothScroll,
+    interpolate,
     parseMarkdown,
-    interpolate
+    processText
 };
