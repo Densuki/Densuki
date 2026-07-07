@@ -31,19 +31,37 @@ async function fetchJSON(path) {
   const resource = path.replace(/^\.?\//, '');
   const candidates = [];
 
+  // Obter o caminho base da página atual
+  const basePath = window.location.pathname;
+  const isInSubdir = basePath.includes('/Densuki/') || basePath.includes('/Densuki');
+  
   // Prioridade 1: docs/data/ (onde os arquivos realmente estão)
-  candidates.push(new URL(`../data/${resource}`, window.location.href).toString());
+  if (isInSubdir) {
+    // Se estiver em /Densuki/, os arquivos estão em /Densuki/data/
+    candidates.push(new URL(`../data/${resource}`, window.location.href).toString());
+  } else {
+    // Se estiver na raiz, tentar /data/ e /docs/data/
+    candidates.push(new URL(`./data/${resource}`, window.location.href).toString());
+    candidates.push(new URL(`../data/${resource}`, window.location.href).toString());
+  }
+  
+  // Prioridade 2: docs/data/ (fallback)
   candidates.push(new URL(`../../data/${resource}`, window.location.href).toString());
   
-  // Prioridade 2: js/data/ (fallback)
+  // Prioridade 3: js/data/ (fallback)
   candidates.push(new URL(`./data/${resource}`, window.location.href).toString());
   
-  // Prioridade 3: caminho base do script
+  // Prioridade 4: caminho base do script
   if (CONFIG.dataPath) {
     candidates.push(new URL(resource, CONFIG.dataPath).toString());
   }
 
-  // Prioridade 4: caminho relativo
+  // Prioridade 5: caminho relativo com /Densuki/
+  if (!isInSubdir) {
+    candidates.push(new URL(`/Densuki/data/${resource}`, window.location.origin).toString());
+  }
+
+  // Prioridade 6: caminho relativo
   candidates.push(new URL(`./${resource}`, window.location.href).toString());
 
   for (const url of candidates) {
@@ -759,6 +777,7 @@ function applyVisibility(profile) {
 // ============================================
 async function init() {
   console.log('🚀 Inicializando Densuki Portfolio...');
+  console.log('📍 Pathname:', window.location.pathname);
 
   const data = await loadData();
   if (!data) {
@@ -767,6 +786,13 @@ async function init() {
   }
 
   const { profile, projects, certificates, courses, statistics, current } = data;
+
+  console.log('📊 Dados carregados:', {
+    profile: profile ? '✅' : '❌',
+    projects: projects ? projects.length : 0,
+    certificates: certificates ? certificates.length : 0,
+    courses: courses ? courses.length : 0
+  });
 
   renderHero(profile, current);
   renderAbout(profile);
@@ -831,5 +857,7 @@ export {
     CONFIG,
     $,
     $$,
-    getStatusLabel
+    getStatusLabel,
+    parseMarkdown,
+    interpolate
 };
