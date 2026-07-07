@@ -2,236 +2,18 @@
 // ABOUT - Módulo Principal
 // ============================================
 
-// ============================================
-// CONFIGURAÇÃO
-// ============================================
-const ABOUT_CONFIG = {
-    getApiUrl() {
-        const hostname = window.location.hostname;
-        const port = '5000';
-        
-        if (hostname === 'localhost' || hostname === '127.0.0.1') {
-            return `http://localhost:${port}/api`;
-        }
-        
-        if (hostname.includes('github.dev')) {
-            const baseName = hostname.replace(/-\d+\.app\.github\.dev$/, '');
-            return `https://${baseName}-${port}.app.github.dev/api`;
-        }
-        
-        if (hostname.includes('github.io')) {
-            return 'https://portifolio-pj8c.onrender.com/api';
-        }
-        
-        return `http://localhost:${port}/api`;
-    }
-};
+// Importar funções dos módulos
+import { processText, interpolate, parseMarkdown } from './markdown.js';
+import { checkAuth, login, logout, getCurrentUser, getCurrentToken, getApiBase, isAuthenticated } from './auth.js';
 
 // ============================================
 // ESTADO GLOBAL
 // ============================================
-let currentUser = null;
-let currentToken = null;
 let aboutData = null;
 let profileData = null;
-let authCheckInterval = null;
-const API_BASE = ABOUT_CONFIG.getApiUrl();
+const API_BASE = getApiBase();
 
 console.log('🔗 About API URL:', API_BASE);
-
-// ============================================
-// FUNÇÕES DE MARKDOWN E INTERPOLAÇÃO (CORRIGIDAS)
-// ============================================
-function parseMarkdown(text) {
-    if (!text || typeof text !== 'string') return '';
-    
-    let html = text;
-    
-    // Cabeçalhos
-    html = html.replace(/^### (.*$)/gm, '<h4>$1</h4>');
-    html = html.replace(/^## (.*$)/gm, '<h3>$1</h3>');
-    html = html.replace(/^# (.*$)/gm, '<h2>$1</h2>');
-    
-    // Negrito - CORRIGIDO: garantir que pegue todos os casos
-    html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    
-    // Itálico
-    html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
-    
-    // Listas não ordenadas
-    html = html.replace(/^[\s]*[-*+] (.*$)/gm, '<li>$1</li>');
-    html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
-    
-    // Listas ordenadas
-    html = html.replace(/^[\s]*\d+\. (.*$)/gm, '<li>$1</li>');
-    
-    // Quebras de linha
-    html = html.replace(/\n/g, '<br>');
-    
-    return html;
-}
-
-function interpolate(template, data) {
-    if (!template || typeof template !== 'string') return template;
-    
-    function getByPath(obj, path) {
-        return path.split('.').reduce((acc, p) => (acc && acc[p] !== undefined ? acc[p] : undefined), obj);
-    }
-    
-    return template.replace(/{{\s*([^}|]+?)\s*(?:\|\s*([^}]+?)\s*)?}}/g, (match, path, modifier) => {
-        const keyPath = path.trim();
-        if (!data) return '';
-        const val = getByPath(data, keyPath);
-        if (val === undefined || val === null) return '';
-        const out = Array.isArray(val) ? val.join(', ') : String(val);
-        return out;
-    });
-}
-
-// ============================================
-// FUNÇÕES DE AUTENTICAÇÃO (CORRIGIDAS)
-// ============================================
-async function checkAuth() {
-    const token = localStorage.getItem('curriculumToken');
-    if (!token) {
-        console.log('🔑 Nenhum token encontrado');
-        return false;
-    }
-    
-    try {
-        console.log('🔍 Verificando token...');
-        const response = await fetch(`${API_BASE}/auth/verify`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
-        
-        if (response.ok) {
-            const data = await response.json();
-            currentUser = data.user;
-            currentToken = token;
-            console.log('✅ Usuário autenticado:', currentUser.username);
-            updateUIForAuth(true);
-            return true;
-        } else {
-            console.warn('⚠️ Token inválido ou expirado:', response.status);
-            localStorage.removeItem('curriculumToken');
-            currentToken = null;
-            currentUser = null;
-            updateUIForAuth(false);
-            return false;
-        }
-    } catch (error) {
-        console.error('❌ Erro ao verificar autenticação:', error);
-        updateUIForAuth(false);
-        return false;
-    }
-}
-
-async function login(username, password) {
-    try {
-        console.log('🔐 Tentando login para:', username);
-        const response = await fetch(`${API_BASE}/auth/login`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password })
-        });
-        
-        if (response.ok) {
-            const data = await response.json();
-            localStorage.setItem('curriculumToken', data.token);
-            currentUser = data.user;
-            currentToken = data.token;
-            console.log('✅ Login realizado com sucesso:', currentUser.username);
-            updateUIForAuth(true);
-            
-            // Iniciar verificação periódica
-            startAuthCheck();
-            
-            return { success: true, user: data.user };
-        } else {
-            const error = await response.json();
-            console.error('❌ Falha no login:', error.message);
-            return { success: false, message: error.message || 'Credenciais inválidas' };
-        }
-    } catch (error) {
-        console.error('❌ Erro no login:', error);
-        return { success: false, message: 'Erro de conexão com o servidor' };
-    }
-}
-
-function logout() {
-    localStorage.removeItem('curriculumToken');
-    currentUser = null;
-    currentToken = null;
-    if (authCheckInterval) {
-        clearInterval(authCheckInterval);
-        authCheckInterval = null;
-    }
-    console.log('👋 Usuário deslogado');
-    updateUIForAuth(false);
-    location.reload();
-}
-
-// ============================================
-// VERIFICAÇÃO PERIÓDICA DE AUTENTICAÇÃO
-// ============================================
-function startAuthCheck() {
-    if (authCheckInterval) {
-        clearInterval(authCheckInterval);
-    }
-    authCheckInterval = setInterval(async () => {
-        const token = localStorage.getItem('curriculumToken');
-        if (!token) {
-            updateUIForAuth(false);
-            return;
-        }
-        
-        try {
-            const response = await fetch(`${API_BASE}/auth/verify`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            
-            if (!response.ok) {
-                console.warn('⚠️ Sessão expirada');
-                localStorage.removeItem('curriculumToken');
-                currentToken = null;
-                currentUser = null;
-                updateUIForAuth(false);
-            }
-        } catch (error) {
-            console.error('❌ Erro na verificação periódica:', error);
-        }
-    }, 60000); // Verificar a cada 1 minuto
-}
-
-// ============================================
-// ATUALIZAR UI BASEADO NA AUTENTICAÇÃO
-// ============================================
-function updateUIForAuth(isAuth) {
-    const editBtn = document.getElementById('edit-btn');
-    if (!editBtn) return;
-    
-    if (isAuth) {
-        editBtn.innerHTML = '<i class="fas fa-edit"></i> Editar Perfil';
-        editBtn.title = 'Editar informações do perfil';
-        editBtn.style.background = 'var(--color-primary, #8b5cf6)';
-        editBtn.style.color = 'white';
-        editBtn.style.border = '2px solid var(--color-primary, #8b5cf6)';
-        editBtn.style.opacity = '1';
-        editBtn.style.cursor = 'pointer';
-        editBtn.style.pointerEvents = 'auto';
-        console.log('🔄 Botão atualizado: Modo Edição');
-    } else {
-        editBtn.innerHTML = '<i class="fas fa-lock"></i> Login para Editar';
-        editBtn.title = 'Faça login para editar o perfil';
-        editBtn.style.background = 'rgba(139, 92, 246, 0.15)';
-        editBtn.style.color = 'var(--color-text, #f0f0ff)';
-        editBtn.style.border = '2px solid rgba(139, 92, 246, 0.3)';
-        editBtn.style.opacity = '1';
-        editBtn.style.cursor = 'pointer';
-        editBtn.style.pointerEvents = 'auto';
-        console.log('🔄 Botão atualizado: Modo Login');
-    }
-}
 
 // ============================================
 // FUNÇÕES DE CARREGAMENTO
@@ -239,19 +21,13 @@ function updateUIForAuth(isAuth) {
 async function loadAboutData() {
     try {
         console.log('📡 Carregando dados do about de:', `${API_BASE}/about`);
-        const response = await fetch(`${API_BASE}/about`, {
-            headers: {
-                'Cache-Control': 'no-cache, no-store, must-revalidate',
-                'Pragma': 'no-cache'
-            }
-        });
+        const response = await fetch(`${API_BASE}/about`);
         
         console.log('📊 Status da resposta:', response.status);
         
         if (response.ok) {
             aboutData = await response.json();
             console.log('✅ Dados do about carregados com sucesso!');
-            console.log('📄 Dados recebidos:', JSON.stringify(aboutData, null, 2));
             updateConnectionStatus('success', '✅ Dados carregados com sucesso!');
             return true;
         } else {
@@ -270,17 +46,11 @@ async function loadAboutData() {
 async function loadProfileData() {
     try {
         console.log('📡 Carregando perfil de:', `${API_BASE}/profile`);
-        const response = await fetch(`${API_BASE}/profile`, {
-            headers: {
-                'Cache-Control': 'no-cache, no-store, must-revalidate',
-                'Pragma': 'no-cache'
-            }
-        });
+        const response = await fetch(`${API_BASE}/profile`);
         
         if (response.ok) {
             profileData = await response.json();
             console.log('✅ Perfil carregado com sucesso!');
-            console.log('📄 Perfil recebido:', JSON.stringify(profileData, null, 2));
             return true;
         } else {
             console.warn('⚠️ Não foi possível carregar o perfil:', response.status);
@@ -293,7 +63,8 @@ async function loadProfileData() {
 }
 
 async function saveAboutData(data) {
-    if (!currentToken) {
+    const token = getCurrentToken();
+    if (!token) {
         updateConnectionStatus('error', '❌ Faça login para salvar as alterações');
         showLoginModal();
         return false;
@@ -301,14 +72,11 @@ async function saveAboutData(data) {
     
     try {
         console.log('💾 Salvando dados do about...');
-        console.log('📤 Dados a serem salvos:', JSON.stringify(data, null, 2));
-        
         const response = await fetch(`${API_BASE}/about`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${currentToken}`,
-                'Cache-Control': 'no-cache'
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(data)
         });
@@ -319,16 +87,12 @@ async function saveAboutData(data) {
             showEditStatus('✅ ' + (result.message || 'Dados salvos com sucesso!'), 'success');
             updateConnectionStatus('success', '✅ Dados salvos com sucesso!');
             
-            // Recarregar dados para garantir consistência
             await loadAboutData();
             renderAbout(aboutData);
             return true;
         } else if (response.status === 401) {
             console.warn('⚠️ Sessão expirada, solicitando novo login');
-            localStorage.removeItem('curriculumToken');
-            currentToken = null;
-            currentUser = null;
-            updateUIForAuth(false);
+            logout();
             showLoginModal();
             updateConnectionStatus('error', '❌ Sessão expirada. Faça login novamente.');
             return false;
@@ -358,8 +122,6 @@ function updateConnectionStatus(status, message) {
     
     statusEl.style.display = 'block';
     textEl.textContent = message;
-    
-    // Reset classes
     statusEl.className = '';
     statusEl.style.cssText = '';
     
@@ -388,7 +150,7 @@ function updateConnectionStatus(status, message) {
 }
 
 // ============================================
-// RENDERIZAÇÃO (CORRIGIDA)
+// RENDERIZAÇÃO
 // ============================================
 function renderAbout(data) {
     if (!data) {
@@ -397,68 +159,53 @@ function renderAbout(data) {
     }
 
     console.log('🎨 Renderizando dados do about...');
-    console.log('📄 Dados para renderização:', JSON.stringify(data, null, 2));
 
-    // Combinar dados do about com profile para interpolação
     const combinedData = {
         ...profileData,
         ...data
     };
-    console.log('📊 Dados combinados para interpolação:', JSON.stringify(combinedData, null, 2));
 
     // Bio - Sobre Mim
     const bioContainer = document.getElementById('profile-bio');
     if (bioContainer && data.bio) {
         let bioHtml = '';
         if (Array.isArray(data.bio)) {
-            bioHtml = data.bio.map(line => {
-                const interpolated = interpolate(line, combinedData);
-                return `<p>${parseMarkdown(interpolated)}</p>`;
-            }).join('');
+            bioHtml = data.bio.map(line => `<p>${processText(line, combinedData)}</p>`).join('');
         } else if (typeof data.bio === 'string') {
-            const interpolated = interpolate(data.bio, combinedData);
-            bioHtml = `<p>${parseMarkdown(interpolated)}</p>`;
+            bioHtml = `<p>${processText(data.bio, combinedData)}</p>`;
         }
         bioContainer.innerHTML = bioHtml;
-        console.log('✅ Bio renderizada:', bioHtml);
     }
 
     // Objetivo
     const objectiveEl = document.getElementById('profile-objective');
     if (objectiveEl && data.objective) {
-        const interpolated = interpolate(data.objective, combinedData);
-        objectiveEl.textContent = interpolated;
-        console.log('✅ Objetivo renderizado:', interpolated);
+        objectiveEl.textContent = interpolate(data.objective, combinedData);
     }
 
     // Status
     if (data.status) {
         const workingEl = document.getElementById('profile-working');
         if (workingEl) {
-            const interpolated = interpolate(data.status.working || 'Em procura de oportunidades', combinedData);
-            workingEl.textContent = interpolated;
+            workingEl.textContent = interpolate(data.status.working || 'Em procura de oportunidades', combinedData);
         }
         
         const studyingEl = document.getElementById('profile-studying');
         if (studyingEl) {
-            const interpolated = interpolate(data.status.studying || 'Aprendizado contínuo', combinedData);
-            studyingEl.textContent = interpolated;
+            studyingEl.textContent = interpolate(data.status.studying || 'Aprendizado contínuo', combinedData);
         }
     }
 
-    // Descrição (com Markdown)
+    // Descrição
     const descriptionEl = document.getElementById('profile-description');
     if (descriptionEl && data.description) {
-        const interpolated = interpolate(data.description, combinedData);
-        descriptionEl.innerHTML = parseMarkdown(interpolated);
-        console.log('✅ Descrição renderizada com Markdown');
+        descriptionEl.innerHTML = processText(data.description, combinedData);
     }
 
     // Saúde
     const healthEl = document.getElementById('profile-health');
     if (healthEl && data.health) {
-        const interpolated = interpolate(data.health, combinedData);
-        healthEl.textContent = interpolated;
+        healthEl.textContent = interpolate(data.health, combinedData);
     }
 
     // Habilidades
@@ -518,24 +265,48 @@ function renderAbout(data) {
     if (historyEl && data.history) {
         let historyHtml = '';
         if (Array.isArray(data.history)) {
-            historyHtml = data.history.map(line => {
-                const interpolated = interpolate(line, combinedData);
-                return `<p>${parseMarkdown(interpolated)}</p>`;
-            }).join('');
+            historyHtml = data.history.map(line => `<p>${processText(line, combinedData)}</p>`).join('');
         } else if (typeof data.history === 'string') {
-            const interpolated = interpolate(data.history, combinedData);
-            historyHtml = `<p>${parseMarkdown(interpolated)}</p>`;
+            historyHtml = `<p>${processText(data.history, combinedData)}</p>`;
         }
         historyEl.innerHTML = historyHtml;
-        console.log('✅ História renderizada');
     }
 }
 
 // ============================================
-// MODAL DE LOGIN (CORRIGIDO)
+// ATUALIZAR UI BASEADO NA AUTENTICAÇÃO
+// ============================================
+function updateUIForAuth(isAuth) {
+    const editBtn = document.getElementById('edit-btn');
+    if (!editBtn) return;
+    
+    if (isAuth) {
+        editBtn.innerHTML = '<i class="fas fa-edit"></i> Editar Perfil';
+        editBtn.title = 'Editar informações do perfil';
+        editBtn.style.background = 'var(--color-primary, #8b5cf6)';
+        editBtn.style.color = 'white';
+        editBtn.style.border = '2px solid var(--color-primary, #8b5cf6)';
+        editBtn.style.opacity = '1';
+        editBtn.style.cursor = 'pointer';
+        editBtn.style.pointerEvents = 'auto';
+        console.log('🔄 Botão atualizado: Modo Edição');
+    } else {
+        editBtn.innerHTML = '<i class="fas fa-lock"></i> Login para Editar';
+        editBtn.title = 'Faça login para editar o perfil';
+        editBtn.style.background = 'rgba(139, 92, 246, 0.15)';
+        editBtn.style.color = 'var(--color-text, #f0f0ff)';
+        editBtn.style.border = '2px solid rgba(139, 92, 246, 0.3)';
+        editBtn.style.opacity = '1';
+        editBtn.style.cursor = 'pointer';
+        editBtn.style.pointerEvents = 'auto';
+        console.log('🔄 Botão atualizado: Modo Login');
+    }
+}
+
+// ============================================
+// MODAL DE LOGIN
 // ============================================
 function showLoginModal() {
-    // Verificar se já existe um modal aberto
     const existing = document.querySelector('.login-modal-overlay');
     if (existing) {
         existing.style.display = 'flex';
@@ -649,6 +420,7 @@ function showLoginModal() {
             setTimeout(() => {
                 modal.remove();
                 updateConnectionStatus('success', '✅ Login realizado com sucesso!');
+                updateUIForAuth(true);
                 loadAboutData().then(() => {
                     loadProfileData().then(() => {
                         renderAbout(aboutData);
@@ -665,7 +437,7 @@ function showLoginModal() {
 // MODAL DE EDIÇÃO
 // ============================================
 function showEditModal() {
-    if (!currentToken) {
+    if (!isAuthenticated()) {
         showLoginModal();
         return;
     }
@@ -686,7 +458,6 @@ function showEditModal() {
 function generateEditFields(data) {
     let html = '';
     
-    // Bio - Sobre Mim
     html += `
         <div class="edit-section">
             <h3>📖 Sobre Mim</h3>
@@ -701,7 +472,6 @@ function generateEditFields(data) {
         </div>
     `;
     
-    // Objetivo
     html += `
         <div class="edit-section">
             <h3>🎯 Objetivo Profissional</h3>
@@ -711,7 +481,6 @@ function generateEditFields(data) {
         </div>
     `;
     
-    // Status
     html += `
         <div class="edit-section">
             <h3>📊 Status</h3>
@@ -726,7 +495,6 @@ function generateEditFields(data) {
         </div>
     `;
     
-    // Descrição
     html += `
         <div class="edit-section">
             <h3>📝 Descrição</h3>
@@ -739,7 +507,6 @@ function generateEditFields(data) {
         </div>
     `;
     
-    // Saúde
     html += `
         <div class="edit-section">
             <h3>❤️ Saúde</h3>
@@ -749,7 +516,6 @@ function generateEditFields(data) {
         </div>
     `;
     
-    // Habilidades
     html += `
         <div class="edit-section">
             <h3>⚡ Habilidades</h3>
@@ -772,7 +538,6 @@ function generateEditFields(data) {
         </div>
     `;
     
-    // Interesses
     html += `
         <div class="edit-section">
             <h3>🌟 Interesses</h3>
@@ -783,7 +548,6 @@ function generateEditFields(data) {
         </div>
     `;
     
-    // Badges
     html += `
         <div class="edit-section">
             <h3>🏷️ Badges</h3>
@@ -794,7 +558,6 @@ function generateEditFields(data) {
         </div>
     `;
     
-    // História
     html += `
         <div class="edit-section">
             <h3>📜 História</h3>
@@ -811,9 +574,6 @@ function generateEditFields(data) {
     return html;
 }
 
-// ============================================
-// FUNÇÕES DE MANIPULAÇÃO DO FORMULÁRIO
-// ============================================
 function collectFormData() {
     const form = document.getElementById('about-edit-form');
     const inputs = form.querySelectorAll('[data-path]');
@@ -862,16 +622,12 @@ function showEditStatus(message, type) {
 document.addEventListener('DOMContentLoaded', async function() {
     console.log('📄 Inicializando About...');
     console.log('🔗 API URL:', API_BASE);
-    console.log('🌐 Hostname:', window.location.hostname);
     
-    // Mostrar status de carregamento
     updateConnectionStatus('loading', '🔄 Carregando dados...');
     
-    // Carregar dados
     const aboutLoaded = await loadAboutData();
-    const profileLoaded = await loadProfileData();
+    await loadProfileData();
     
-    // Renderizar
     if (aboutLoaded && aboutData) {
         renderAbout(aboutData);
         updateConnectionStatus('success', '✅ Dados carregados com sucesso!');
@@ -879,20 +635,12 @@ document.addEventListener('DOMContentLoaded', async function() {
         updateConnectionStatus('error', '⚠️ Não foi possível carregar os dados');
     }
     
-    // Verificar autenticação
     const isAuth = await checkAuth();
     updateUIForAuth(isAuth);
     
-    // Iniciar verificação periódica se autenticado
-    if (isAuth) {
-        startAuthCheck();
-    }
-    
-    // Event Listeners
     document.getElementById('edit-btn')?.addEventListener('click', function(e) {
         e.preventDefault();
-        console.log('🖱️ Botão Editar clicado. Token:', !!currentToken);
-        if (!currentToken) {
+        if (!isAuthenticated()) {
             showLoginModal();
         } else {
             showEditModal();
@@ -912,7 +660,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     document.getElementById('about-edit-form')?.addEventListener('submit', async (e) => {
         e.preventDefault();
         const data = collectFormData();
-        console.log('📤 Formulário submetido. Dados coletados:', JSON.stringify(data, null, 2));
         if (await saveAboutData(data)) {
             document.getElementById('edit-modal-overlay').style.display = 'none';
             document.body.style.overflow = 'auto';

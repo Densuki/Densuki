@@ -49,22 +49,12 @@ export function interpolate(template, data) {
         return path.split('.').reduce((acc, p) => (acc && acc[p] !== undefined ? acc[p] : undefined), obj);
     }
     
-    function escapeHtml(str) {
-        return String(str)
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#39;');
-    }
-    
     return template.replace(/{{\s*([^}|]+?)\s*(?:\|\s*([^}]+?)\s*)?}}/g, (match, path, modifier) => {
         const keyPath = path.trim();
         if (!data) return '';
         const val = getByPath(data, keyPath);
         if (val === undefined || val === null) return '';
         const out = Array.isArray(val) ? val.join(', ') : String(val);
-        if (modifier && modifier.trim() === 'escape') return escapeHtml(out);
         return out;
     });
 }
