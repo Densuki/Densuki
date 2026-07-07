@@ -1,1 +1,0 @@
-tree -I "node_modules|png|svg|__pycache__|venv" > arvore_de_arquivos.txt

@@ -1,7 +1,130 @@
-Flask==2.3.2
-Flask-Cors==4.0.0
+# ============================================
+# REQUERIMENTOS - Backend Flask
+# Projeto: Densuki Portfolio
+# ============================================
+
+# ============================================
+# CORE - Framework e Servidor
+# ============================================
+Flask==2.3.3
+Flask-Cors==4.0.1
 Flask-SQLAlchemy==3.0.5
+# Flask-SQLAlchemy==3.1.1
+Werkzeug==2.3.8
+
+# ============================================
+# AUTENTICAÇÃO E SEGURANÇA
+# ============================================
 PyJWT==2.8.0
-python-dotenv==1.0.0
+cryptography==41.0.7
+bcrypt==4.1.2
+python-dotenv==1.0.1
+
+# ============================================
+# BANCO DE DADOS - MySQL
+# ============================================
+# Para MySQL (recomendado - mais rápido)
 mysqlclient==2.2.0
+# Alternativa pura Python (caso mysqlclient não compile)
+pymysql==1.1.1
+
+# ============================================
+# SQLAlchemy Utilitários
+# ============================================
+SQLAlchemy==2.0.23
+alembic==1.12.1
+
+# ============================================
+# GERAÇÃO DE DOCUMENTOS
+# ============================================
+# ---------- DOCX (Word) ----------
 python-docx==1.1.0
+
+# ---------- PDF ----------
+reportlab==4.0.9
+# Alternativa mais leve para PDF
+fpdf2==2.7.5
+# Para assinatura digital de PDF
+pypdf2==3.0.1
+pypdf==3.17.4
+
+# ---------- EXCEL (XLSX, XLS) ----------
+openpyxl==3.1.2
+xlsxwriter==3.1.9
+pandas==2.1.4
+xlrd==2.0.1
+xlwt==1.3.0
+
+# ---------- CSV ----------
+# (já incluso no Python padrão, mas com suporte a grandes volumes)
+# pandas já cobre CSV também
+
+# ---------- PowerPoint (PPTX) ----------
+python-pptx==0.6.23
+
+# ---------- Markdown ----------
+markdown==3.5.1
+markdown2==2.4.10
+# python-markdown==3.5.1
+python-markdown==0.1.0
+
+# ---------- HTML ----------
+# Para converter HTML para PDF
+pdfkit==1.0.0
+# Para parsing HTML
+beautifulsoup4==4.12.2
+lxml==4.9.3
+# Para converter HTML para DOCX
+# html2docx==0.1.2
+html2docx==1.6.0
+
+# ---------- JSON/YAML ----------
+# ujson já incluso acima
+pyyaml==6.0.1
+
+# ---------- XML ----------
+# Para manipulação XML
+xmltodict==0.13.0
+defusedxml==0.7.1
+
+# ---------- TEXT E MARKDOWN ----------
+# Para sintaxe highlight em documentos
+pygments==2.17.2
+
+# ---------- IMAGEM ----------
+# Para processamento de imagens (thumbnails, redimensionamento)
+pillow==10.1.0
+# Para OCR (reconhecimento de texto em imagens)
+pytesseract==0.3.10
+# Para manipulação avançada de imagens
+opencv-python==4.8.1.78
+
+# ---------- ZIP/COMPRESSÃO ----------
+# Já incluso no Python padrão, mas para manipulação avançada
+patool==2.2.0
+
+# ---------- E-MAIL ----------
+# Para envio de documentos por e-mail
+yagmail==0.16.0
+
+# ============================================
+# UTILITÁRIOS
+# ============================================
+# Para trabalhar com datas e timezone
+python-dateutil==2.8.2
+# Para parsing de JSON
+ujson==5.8.0
+# Para requisições HTTP (se precisar)
+requests==2.31.0
+
+# ============================================
+# LOGGING E MONITORAMENTO
+# ============================================
+# (opcional - para logs estruturados)
+python-json-logger==2.0.7
+
+# ============================================
+# DESENVOLVIMENTO E DEBUG (opcional)
+# ============================================
+# Para hot reload em desenvolvimento
+watchdog==3.0.0
