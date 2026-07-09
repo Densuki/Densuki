@@ -26,7 +26,7 @@ def register_debug_routes(app):
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>🚀 Densuki API - Debug</title>
+            <title>🚀 Portfólio API - Debug</title>
             <style>
                 * {{ margin: 0; padding: 0; box-sizing: border-box; }}
                 body {{
@@ -160,7 +160,7 @@ def register_debug_routes(app):
         <body>
             <div class="container">
                 <div class="header">
-                    <h1>🚀 Densuki API</h1>
+                    <h1>🚀 Portfólio API</h1>
                     <p>API do Portfólio - Sistema de Currículo, About e Autenticação</p>
                     <div style="margin-top: 0.5rem;">
                         <span class="badge badge-online">✅ Online</span>
@@ -213,11 +213,11 @@ def register_debug_routes(app):
                     <p style="color: #c4b5d4; margin-bottom: 1rem;">Faça uma requisição POST para <code>/api/auth/login</code> com os dados:</p>
                     <pre>{{
     "username": "YukiriDensuki",
-    "password": "yukiridensuki4175"
+    "password": "CENSURADO"
 }}</pre>
                     <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
                         <span class="badge badge-info">👤 Usuário: YukiriDensuki</span>
-                        <span class="badge badge-info">🔑 Senha: yukiridensuki4175</span>
+                        <span class="badge badge-info">🔑 Senha: CENSURADO</span>
                     </div>
                 </div>
 
@@ -226,7 +226,7 @@ def register_debug_routes(app):
                 </div>
 
                 <div class="footer">
-                    <p>🚀 Densuki API - Desenvolvido com ❤️</p>
+                    <p>🚀 Portfólio API - Desenvolvido com ❤️</p>
                     <p><a href="https://github.com/Densuki">GitHub</a> • <a href="https://linkedin.com/in/densuki">LinkedIn</a></p>
                 </div>
             </div>
@@ -248,7 +248,7 @@ def register_debug_routes(app):
         
         return jsonify({
             'api': {
-                'name': 'Densuki API',
+                'name': 'Portfólio API',
                 'version': Config.VERSION,
                 'status': 'online',
                 'timestamp': datetime.now().isoformat()

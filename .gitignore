@@ -2,6 +2,7 @@
 node_modules
 backend/api/venv
 .venv
+others
 
 # ARQUIVOS
 .env
