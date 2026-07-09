@@ -3,102 +3,18 @@
 // ============================================
 import { terminalTexts } from './data/terminalTexts.js';
 import { parseMarkdown, interpolate, processText } from './markdown.js';
+import { CONFIG, $, $$, loadData } from './core.js';
+import { initMusicPlayer } from './music-player.js';
 import { checkAuth, login, logout, getCurrentUser, getCurrentToken, getApiBase, isAuthenticated } from './auth.js';
 
 // ============================================
-// CONFIGURAÇÃO
+// CONFIGURAÇÃO E DADOS COMPARTILHADOS
 // ============================================
-const CONFIG = {
-  dataPath: '',
-  terminalSpeed: 80,
-  terminalDelay: 2000,
-  scrollThreshold: 0.1,
-  githubUsername: 'Densuki',
-  discordId: '568923940768972808',
-  defaultVolume: 0.5,
-};
-
-function resolveDataBaseUrl() {
-  const scriptTag = document.querySelector('script[src*="main.js"]');
-  if (scriptTag?.src) {
-    return new URL('.', scriptTag.src).href;
-  }
-  return new URL('./', window.location.href).href;
-}
-
-// ============================================
-// CARREGAR DADOS DOS JSONS
-// ============================================
-async function fetchJSON(path) {
-  const resource = path.replace(/^\.?\//, '');
-  const candidates = [];
-
-  // Obter o caminho base da página atual
-  const basePath = window.location.pathname;
-  const isInSubdir = basePath.includes('/Densuki/') || basePath.includes('/Densuki');
-  
-  // Caminhos baseados na localização dos arquivos (docs/data/)
-  if (isInSubdir) {
-    candidates.push(new URL(`data/${resource}`, window.location.href).toString());
-    candidates.push(new URL(`./data/${resource}`, window.location.href).toString());
-    candidates.push(new URL(`../data/${resource}`, window.location.href).toString());
-  } else {
-    candidates.push(new URL(`data/${resource}`, window.location.href).toString());
-    candidates.push(new URL(`./data/${resource}`, window.location.href).toString());
-    candidates.push(new URL(`../data/${resource}`, window.location.href).toString());
-  }
-  
-  candidates.push(new URL(`/Densuki/data/${resource}`, window.location.origin).toString());
-  candidates.push(new URL(`/data/${resource}`, window.location.origin).toString());
-  
-  if (CONFIG.dataPath) {
-    candidates.push(new URL(resource, CONFIG.dataPath).toString());
-  }
-
-  candidates.push(new URL(`./${resource}`, window.location.href).toString());
-
-  for (const url of candidates) {
-    try {
-      const res = await fetch(url, { cache: 'no-store' });
-      if (!res.ok) continue;
-      const data = await res.json();
-      return data;
-    } catch (err) {
-      // Silenciosamente tenta o próximo
-    }
-  }
-
-  console.warn(`⚠️ Não foi possível carregar ${resource}`);
-  return null;
-}
-
-async function loadData() {
-  try {
-    const [books, cache, certificates, courses, current, games, music, profile, projects, statistics] = await Promise.all([
-      fetchJSON('books.json'),
-      fetchJSON('cache.json'),
-      fetchJSON('certificates.json'),
-      fetchJSON('courses.json'),
-      fetchJSON('current.json').catch(() => null),
-      fetchJSON('games.json'),
-      fetchJSON('music.json'),
-      fetchJSON('profile.json'),
-      fetchJSON('projects.json'),
-      fetchJSON('statistics.json'),
-    ]);
-
-    return { books, cache, certificates, courses, current, games, music, profile, projects, statistics };
-  } catch (error) {
-    console.error('❌ Erro ao carregar dados:', error);
-    return null;
-  }
-}
+// Centralizados em core.js para reaproveitamento entre páginas.
 
 // ============================================
 // UTILITÁRIOS
 // ============================================
-const $ = (selector) => document.querySelector(selector);
-const $$ = (selector) => document.querySelectorAll(selector);
 
 function isShown(profile, key) {
   if (!profile || !profile.show) return true;
@@ -462,117 +378,9 @@ function initThemeToggle() {
 }
 
 // ============================================
-// MUSIC TOGGLE
-// ============================================
-function initMusicToggle() {
-  const toggle = $('#music-toggle');
-  const audio = $('#bg-music');
-  if (!toggle || !audio) return;
-
-  let isPlaying = false;
-
-  const source = audio.querySelector('source');
-  if (source && source.src) {
-    fetch(source.src)
-      .then(res => {
-        if (!res.ok) {
-          toggle.style.display = 'none';
-        }
-      })
-      .catch(() => {
-        toggle.style.display = 'none';
-      });
-  }
-
-  toggle.addEventListener('click', () => {
-    if (isPlaying) {
-      audio.pause();
-      toggle.innerHTML = '<i class="fas fa-music"></i>';
-      isPlaying = false;
-    } else {
-      audio.play().catch(() => {});
-      toggle.innerHTML = '<i class="fas fa-pause"></i>';
-      isPlaying = true;
-    }
-  });
-}
-
-// ============================================
 // MUSIC PLAYER
 // ============================================
-function initMusicPlayer(profile) {
-  const audio = $('#bg-music');
-  const volRange = $('#volume-range');
-  const volDown = $('#vol-down');
-  const volUp = $('#vol-up');
-  const musicSelect = $('#music-select');
-  const musicControls = $('#music-controls');
-  const currentTrack = $('#current-track');
-  const panelToggle = $('#music-panel-toggle');
-
-  if (!audio || !musicControls || !volRange || !musicSelect) return;
-
-  const playlist = (profile && Array.isArray(profile.music)) ? profile.music : [];
-  musicSelect.innerHTML = playlist.map((t, i) => `<option value="${i}">${t.title || t.src}</option>`).join('');
-
-  const savedVol = parseFloat(localStorage.getItem('volume'));
-  const initialVol = !Number.isNaN(savedVol) ? savedVol : CONFIG.defaultVolume;
-  audio.volume = initialVol;
-  volRange.value = initialVol;
-
-  function loadTrack(index) {
-    const track = playlist[index];
-    if (!track) return;
-    audio.querySelector('source').src = track.src;
-    audio.load();
-    currentTrack.textContent = track.title || track.src.split('/').pop();
-  }
-
-  musicSelect.addEventListener('change', (e) => {
-    const idx = parseInt(e.target.value, 10);
-    loadTrack(idx);
-    audio.play().catch(() => {});
-  });
-
-  volRange.addEventListener('input', (e) => {
-    const v = parseFloat(e.target.value);
-    audio.volume = v;
-    localStorage.setItem('volume', String(v));
-  });
-
-  volDown.addEventListener('click', () => {
-    let v = Math.max(0, audio.volume - 0.1);
-    audio.volume = v;
-    volRange.value = v;
-    localStorage.setItem('volume', String(v));
-  });
-
-  volUp.addEventListener('click', () => {
-    let v = Math.min(1, audio.volume + 0.1);
-    audio.volume = v;
-    volRange.value = v;
-    localStorage.setItem('volume', String(v));
-  });
-
-  if (profile && profile.show && profile.show.music === false) {
-    if (musicControls) musicControls.style.display = 'none';
-    if (panelToggle) panelToggle.style.display = 'none';
-  } else {
-    if (panelToggle) {
-      panelToggle.addEventListener('click', () => {
-        const opened = musicControls.classList.toggle('open');
-        musicControls.setAttribute('aria-hidden', (!opened).toString());
-        panelToggle.setAttribute('aria-pressed', opened.toString());
-      });
-    }
-  }
-
-  if (playlist.length > 0) {
-    const first = 0;
-    musicSelect.value = String(first);
-    loadTrack(first);
-  }
-}
+// Implementação extraída para music-player.js e reaproveitada por todas as páginas.
 
 // ============================================
 // SCROLL ANIMATIONS
@@ -701,7 +509,7 @@ async function init() {
     return;
   }
 
-  const { profile, projects, certificates, courses, statistics, current } = data;
+  const { profile, projects, certificates, courses, current, music } = data;
 
   renderHero(profile, current);
   renderAbout(profile);
@@ -718,8 +526,7 @@ async function init() {
 
   typewriterEffect();
   initThemeToggle();
-  initMusicToggle();
-  initMusicPlayer(profile);
+  initMusicPlayer(profile, music);
   initScrollAnimations();
   initMobileNav();
   initSmoothScroll();
@@ -733,10 +540,9 @@ async function initPageFooter() {
     const data = await loadData();
     if (data?.profile) {
       renderFooter(data.profile);
-      initMusicPlayer(data.profile);
+      initMusicPlayer(data.profile, data.music);
     }
     initThemeToggle();
-    initMusicToggle();
     initMobileNav();
     initSmoothScroll();
   } catch (error) {
@@ -769,7 +575,6 @@ export {
     getStatusLabel,
     renderFooter,
     initThemeToggle,
-    initMusicToggle,
     initMobileNav,
     initSmoothScroll,
     interpolate,
