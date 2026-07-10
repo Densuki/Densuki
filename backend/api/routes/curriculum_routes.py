@@ -3,7 +3,7 @@ from flask import request, jsonify
 from models import db, User, CurriculumVersion, CurriculumEdit
 from auth import token_required
 from utils.json_utils import save_json_data, load_json_data, get_default_curriculum_data
-from datetime import datetime
+from services import next_version, prune_old_versions
 
 def register_curriculum_routes(app):
     
@@ -44,7 +44,7 @@ def register_curriculum_routes(app):
         
         # Criar nova versão
         version = CurriculumVersion(
-            version=f"1.0.{CurriculumVersion.query.count() + 1}",
+            version=next_version(CurriculumVersion),
             data=data,
             is_current=True,
             created_by=current_user.id
@@ -54,7 +54,7 @@ def register_curriculum_routes(app):
         db.session.query(CurriculumVersion).update({CurriculumVersion.is_current: False})
         
         db.session.add(version)
-        db.session.commit()
+        db.session.flush()
         
         # Registrar edições
         old_version = CurriculumVersion.query.filter_by(is_current=False).order_by(CurriculumVersion.created_at.desc()).first()
@@ -69,7 +69,12 @@ def register_curriculum_routes(app):
                         version_id=version.id
                     )
                     db.session.add(edit)
-            db.session.commit()
+            db.session.flush()
+        
+        removed_versions = prune_old_versions(CurriculumVersion)
+        if removed_versions:
+            print(f'🧹 {removed_versions} versões antigas removidas de CurriculumVersion.')
+        db.session.commit()
         
         # Também atualizar o arquivo JSON
         save_json_data('curriculum.json', data)

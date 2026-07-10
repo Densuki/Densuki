@@ -26,13 +26,19 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node start.js test",
     "update-readme": "node scripts/update-readme.js",
     "sync-pages": "node scripts/sync-pages.js",
     "generate-all": "node generators/certificates.js && node generators/courses.js && node generators/current-book.js && node generators/current-game.js && node generators/custom-stats.js && node generators/weekly-song.js",
     "build": "npm run generate-all && npm run sync-pages",
     "generate": "node generators/certificates.js && node generators/courses.js && node generators/current-book.js && node generators/current-game.js && node generators/custom-stats.js && node generators/weekly-song.js",
-    "sync": "cp assets/*.json docs/data/ || true"
+    "sync": "cp assets/*.json docs/data/ || true",
+    "start": "node start.js dev",
+    "dev": "node start.js dev",
+    "start:api": "node start.js api",
+    "start:frontend": "node start.js frontend",
+    "keepalive": "node start.js keepalive",
+    "check:js": "node scripts/check-js-modules.js"
   },
   "dependencies": {
     "chalk": "^4.1.2"

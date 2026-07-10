@@ -1,0 +1,35 @@
+{
+  "audio": [
+    {
+      "id": "background",
+      "title": "Background",
+      "src": "assets/audio/background.mp3",
+      "type": "audio/mpeg",
+      "playlist": "default"
+    }
+  ],
+  "images": [
+    {
+      "id": "profile",
+      "title": "Foto de perfil",
+      "src": "assets/img/profile.png",
+      "type": "image/png",
+      "tags": ["perfil", "avatar"]
+    },
+    {
+      "id": "og-image",
+      "title": "Imagem Open Graph",
+      "src": "assets/img/og-image.jpg",
+      "type": "image/jpeg",
+      "tags": ["seo", "social"]
+    },
+    {
+      "id": "default-project",
+      "title": "Imagem padrão de projeto",
+      "src": "assets/img/default-project.jpg",
+      "type": "image/jpeg",
+      "tags": ["projetos", "fallback"]
+    }
+  ],
+  "videos": []
+}
