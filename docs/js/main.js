@@ -525,7 +525,7 @@ async function init() {
     return;
   }
 
-  const { profile, projects, certificates, courses, current, music, mediaLibrary } = data;
+  const { profile, projects, certificates, courses, current, music } = data;
 
   renderHero(profile, current);
   renderAbout(profile);
@@ -542,7 +542,7 @@ async function init() {
 
   typewriterEffect();
   initThemeToggle();
-  initMusicPlayer(profile, music, mediaLibrary);
+  initMusicPlayer(profile, music);
   initScrollAnimations();
   initMobileNav();
   initSmoothScroll();
@@ -557,7 +557,7 @@ async function initPageFooter() {
     const data = await loadData();
     if (data?.profile) {
       renderFooter(data.profile);
-      initMusicPlayer(data.profile, data.music, data.mediaLibrary);
+      initMusicPlayer(data.profile, data.music);
     }
     initThemeToggle();
     initMobileNav();
