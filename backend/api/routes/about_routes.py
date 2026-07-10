@@ -3,6 +3,7 @@ from flask import request, jsonify
 from models import db, User, AboutVersion, AboutEdit
 from auth import token_required
 from utils.json_utils import save_json_data, load_json_data, get_default_about_data
+from services import next_version, prune_old_versions
 
 def register_about_routes(app):
     
@@ -43,7 +44,7 @@ def register_about_routes(app):
         
         # Criar nova versão
         version = AboutVersion(
-            version=f"1.0.{AboutVersion.query.count() + 1}",
+            version=next_version(AboutVersion),
             data=data,
             is_current=True,
             created_by=current_user.id
@@ -53,7 +54,7 @@ def register_about_routes(app):
         db.session.query(AboutVersion).update({AboutVersion.is_current: False})
         
         db.session.add(version)
-        db.session.commit()
+        db.session.flush()
         
         # Registrar edições
         old_version = AboutVersion.query.filter_by(is_current=False).order_by(AboutVersion.created_at.desc()).first()
@@ -68,7 +69,12 @@ def register_about_routes(app):
                         version_id=version.id
                     )
                     db.session.add(edit)
-            db.session.commit()
+            db.session.flush()
+        
+        removed_versions = prune_old_versions(AboutVersion)
+        if removed_versions:
+            print(f'🧹 {removed_versions} versões antigas removidas de AboutVersion.')
+        db.session.commit()
         
         # Também atualizar o arquivo JSON
         save_json_data('about.json', data)

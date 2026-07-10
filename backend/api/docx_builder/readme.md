@@ -550,3 +550,10 @@ A ideia principal é separar completamente:
 Isso permite criar diversos modelos de documentos apenas alterando o gerador e as seções, sem modificar a infraestrutura da biblioteca.
 
 Essa organização facilita manutenção, reutilização, testes, criação de novos templates e futuras expansões, como suporte a tabelas, imagens, QR Codes, gráficos, cabeçalhos personalizados, múltiplos temas e outros tipos de documentos além de currículos.
+
+## Organização dos módulos
+
+- `generator.py`: orquestra a geração do documento.
+- `builder.py`: cria e combina elementos do DOCX.
+- `sections.py`: monta as seções de conteúdo.
+- `styles.py`, `layout.py`, `constants.py`: concentram aparência, layout e constantes reutilizáveis.
