@@ -1,10 +1,11 @@
+import os
 from typing import Optional, Type
 
 from flask import Flask
 from flask_cors import CORS
 
 from config import Config
-from models import db, User, CurriculumVersion, CurriculumEdit, AboutVersion, AboutEdit
+from models import db, User
 from utils.json_utils import load_json_data
 
 
@@ -72,35 +73,14 @@ def seed_version(model: Type[db.Model], json_name: str, default_data: Optional[d
     print(f"✅ Dados iniciais de {label or json_name} carregados!")
 
 
-DEPENDENT_EDIT_MODELS = {
-    CurriculumVersion: CurriculumEdit,
-    AboutVersion: AboutEdit,
-}
-
-
 def prune_old_versions(model: Type[db.Model], keep: Optional[int] = None) -> int:
-    """Mantém as versões mais recentes e remove as antigas, preservando a atual.
-
-    Antes de remover versões antigas, apaga auditorias dependentes em tabelas
-    `*_edits`. Isso evita falhas de chave estrangeira em bancos como MySQL, onde
-    as constraints existentes podem não possuir `ON DELETE CASCADE`.
-    """
+    """Mantém as versões mais recentes e remove as antigas, preservando a atual."""
     limit = keep or Config.VERSION_RETENTION_LIMIT
     if limit <= 0:
         return 0
 
-    with db.session.no_autoflush:
-        versions = model.query.order_by(model.created_at.desc(), model.id.desc()).all()
-
+    versions = model.query.order_by(model.created_at.desc(), model.id.desc()).all()
     stale_versions = [version for index, version in enumerate(versions) if index >= limit and not version.is_current]
-    stale_ids = [version.id for version in stale_versions]
-    if not stale_ids:
-        return 0
-
-    edit_model = DEPENDENT_EDIT_MODELS.get(model)
-    if edit_model is not None:
-        edit_model.query.filter(edit_model.version_id.in_(stale_ids)).delete(synchronize_session=False)
-
     for version in stale_versions:
         db.session.delete(version)
     return len(stale_versions)

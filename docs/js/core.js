@@ -38,7 +38,7 @@ export async function fetchJSON(path) {
 }
 
 export async function loadData() {
-  const [books, cache, certificates, courses, current, games, music, mediaLibrary, profile, projects, statistics] = await Promise.all([
+  const [books, cache, certificates, courses, current, games, music, profile, projects, statistics] = await Promise.all([
     fetchJSON('books.json'),
     fetchJSON('cache.json'),
     fetchJSON('certificates.json'),
@@ -46,10 +46,9 @@ export async function loadData() {
     fetchJSON('current.json').catch(() => null),
     fetchJSON('games.json'),
     fetchJSON('music.json'),
-    fetchJSON('media-library.json'),
     fetchJSON('profile.json'),
     fetchJSON('projects.json'),
     fetchJSON('statistics.json'),
   ]);
-  return { books, cache, certificates, courses, current, games, music, mediaLibrary, profile, projects, statistics };
+  return { books, cache, certificates, courses, current, games, music, profile, projects, statistics };
 }

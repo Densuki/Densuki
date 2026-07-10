@@ -140,12 +140,6 @@ async function runTests() {
       options: { cwd: ROOT_DIR, env: { ...process.env, PYTHONDONTWRITEBYTECODE: '1' } },
     },
     {
-      label: 'Version pruning with dependent edits',
-      command: PYTHON,
-      args: ['scripts/check-version-pruning.py'],
-      options: { cwd: ROOT_DIR, env: { ...process.env, PYTHONDONTWRITEBYTECODE: '1' } },
-    },
-    {
       label: 'JavaScript syntax',
       command: process.execPath,
       args: ['scripts/check-js-modules.js'],

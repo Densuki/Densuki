@@ -1,15 +1,11 @@
 import { $, CONFIG } from './core.js';
-import { getPlaylist, normalizeMediaLibrary } from './media-library.js';
 
-function normalizePlaylist(profile, musicData, mediaLibrary) {
-  const libraryPlaylist = getPlaylist(normalizeMediaLibrary(mediaLibrary), 'default');
-  const list = Array.isArray(profile?.music)
-    ? profile.music
-    : (Array.isArray(musicData?.tracks) ? musicData.tracks : libraryPlaylist);
-  return list.length ? list : [{ title: 'Background', src: 'assets/audio/background.mp3', type: 'audio/mpeg' }];
+function normalizePlaylist(profile, musicData) {
+  const list = Array.isArray(profile?.music) ? profile.music : (Array.isArray(musicData?.tracks) ? musicData.tracks : []);
+  return list.length ? list : [{ title: 'Background', src: 'assets/audio/background.mp3' }];
 }
 
-export function initMusicPlayer(profile, musicData = null, mediaLibrary = null) {
+export function initMusicPlayer(profile, musicData = null) {
   const audio = $('#bg-music');
   const toggle = $('#music-toggle');
   const volRange = $('#volume-range');
@@ -28,7 +24,7 @@ export function initMusicPlayer(profile, musicData = null, mediaLibrary = null) 
     return;
   }
 
-  const playlist = normalizePlaylist(profile, musicData, mediaLibrary);
+  const playlist = normalizePlaylist(profile, musicData);
   let currentIndex = 0;
   let isPlaying = false;
 

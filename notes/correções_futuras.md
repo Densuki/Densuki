@@ -46,3 +46,200 @@ Eu me recordo que tinha um tipo de extensão específica para o "front-end" que 
 
 # 8 - Documentação
 Criar um sistema de documentação, seja por alguma rota + página quanto em arquivo ".md" no projeto, na pasta "Documentação".
+
+# Árvore de Arquivos:
+.
+├── Documentação
+│   └── readme.md
+├── README.md
+├── arvore_de_arquivos.txt
+├── assets
+│   ├── books.json
+│   ├── cache.json
+│   ├── certificates.json
+│   ├── courses.json
+│   ├── games.json
+│   ├── music.json
+│   ├── statistics.json
+│   └── web
+├── backend
+│   ├── api
+│   │   ├── __init__.py
+│   │   ├── app.py
+│   │   ├── auth.py
+│   │   ├── config.py
+│   │   ├── debug
+│   │   │   ├── test_db.py
+│   │   │   ├── test_health.py
+│   │   │   ├── test_login.py
+│   │   │   └── wake_up.py
+│   │   ├── docx_builder
+│   │   │   ├── builder.py
+│   │   │   ├── constants.py
+│   │   │   ├── generator.py
+│   │   │   ├── layout.py
+│   │   │   ├── readme.md
+│   │   │   ├── sections.py
+│   │   │   └── styles.py
+│   │   ├── keep_alive.py
+│   │   ├── models.py
+│   │   ├── requirements.txt
+│   │   ├── routes
+│   │   │   ├── __init__.py
+│   │   │   ├── about_routes.py
+│   │   │   ├── auth_routes.py
+│   │   │   ├── curriculum_routes.py
+│   │   │   ├── debug_routes.py
+│   │   │   ├── download_routes.py
+│   │   │   └── profile_routes.py
+│   │   ├── utils
+│   │   │   ├── __init__.py
+│   │   │   ├── docx_utils.py
+│   │   │   └── json_utils.py
+│   │   └── version.txt
+│   └── readme.md
+├── docs
+│   ├── about.html
+│   ├── assets
+│   │   ├── audio
+│   │   │   └── background.mp3
+│   │   ├── css
+│   │   │   ├── about_style.css
+│   │   │   ├── certificates.css
+│   │   │   ├── courses_style.css
+│   │   │   ├── curriculum_style.css
+│   │   │   ├── project_style.css
+│   │   │   └── style.css
+│   │   ├── curriculo_pessoal.docx
+│   │   ├── curriculo_pessoal.md
+│   │   ├── curriculo_pessoal.pdf
+│   │   ├── fonts
+│   │   ├── icons
+│   │   │   ├── apple-touch-icon.png
+│   │   │   ├── favicon-16x16.png
+│   │   │   ├── favicon-32x32.png
+│   │   │   ├── favicon.ico
+│   │   │   ├── site.webmanifest
+│   │   │   └── star.png
+│   │   └── img
+│   │       ├── certificates
+│   │       ├── default-project.jpg
+│   │       ├── games
+│   │       ├── music
+│   │       ├── og-image.jpg
+│   │       ├── profile.png
+│   │       └── projects
+│   │           ├── minecraft-forest-1.webp
+│   │           ├── minecraft-forest-2.webp
+│   │           ├── minecraft-forest-3.webp
+│   │           ├── minecraft-forest-4.webp
+│   │           ├── minecraft-forest-5.webp
+│   │           └── minecraft-forest-6.webp
+│   ├── certificates.html
+│   ├── courses.html
+│   ├── curriculum.html
+│   ├── data
+│   │   ├── about.json
+│   │   ├── books.json
+│   │   ├── cache.json
+│   │   ├── certificates.json
+│   │   ├── courses.json
+│   │   ├── current.json
+│   │   ├── curriculum.json
+│   │   ├── games.json
+│   │   ├── music.json
+│   │   ├── profile.json
+│   │   ├── projects.json
+│   │   └── statistics.json
+│   ├── index.html
+│   ├── js
+│   │   ├── about.js
+│   │   ├── auth.js
+│   │   ├── build.js
+│   │   ├── curriculum.js
+│   │   ├── data
+│   │   │   └── terminalTexts.js
+│   │   ├── editor.js
+│   │   ├── effects
+│   │   │   └── typewriter.js
+│   │   ├── main.js
+│   │   └── markdown.js
+│   ├── projects.html
+│   ├── readme.md
+│   └── templates
+│       ├── badge.html
+│       ├── card.html
+│       ├── footer.html
+│       └── navbar.html
+├── generators
+│   ├── certificates.js
+│   ├── changelog.js
+│   ├── courses.js
+│   ├── current-book.js
+│   ├── current-game.js
+│   ├── custom-stats.js
+│   └── weekly-song.js
+├── js
+│   └── data
+│       ├── books.json
+│       ├── cache.json
+│       ├── certificates.json
+│       ├── courses.json
+│       ├── current.json
+│       ├── curriculum.json
+│       ├── games.json
+│       ├── music.json
+│       ├── profile.json
+│       ├── projects.json
+│       └── statistics.json
+├── notes
+│   ├── Detalhes_Sobre_Mim.md
+│   ├── Detalhes_Sobre_Mim_Estruturado.md
+│   ├── Sobre_Mim_-_Rascunho_Yukiri_Densuki.docx
+│   ├── correções_futuras.md
+│   ├── estrutura_inicial.txt
+│   ├── references.md
+│   ├── servidor_start.md
+│   ├── sobre_mim.md
+│   ├── thinkings.md
+│   └── tutorial.md
+├── others
+│   ├── backup
+│   │   ├── README.md
+│   │   └── index.html
+│   ├── setup.sh
+│   └── start.sh
+├── package-lock.json
+├── package.json
+├── runtime.txt
+├── scripts
+│   ├── config.js
+│   ├── data.js
+│   ├── sync-data.js
+│   ├── sync-pages.js
+│   └── update-readme.js
+├── sections
+│   ├── badges.js
+│   ├── footer.js
+│   ├── profile.js
+│   ├── projects.js
+│   ├── skills.js
+│   ├── socials.js
+│   └── statistics.js
+├── start.js
+├── templates
+│   ├── badge.md
+│   ├── card.md
+│   ├── section.md
+│   └── web
+│       └── readme.md
+└── utils
+    ├── age.js
+    ├── dates.js
+    ├── file.js
+    ├── github.js
+    ├── logger.js
+    ├── markdown.js
+    └── replace.js
+
+37 directories, 156 files

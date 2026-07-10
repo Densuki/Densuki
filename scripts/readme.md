@@ -16,5 +16,3 @@ npm run check:js
 npm run sync-pages
 npm run update-readme
 ```
-
-- `check-version-pruning.py`: smoke test da retenção de versões com edições dependentes, cobrindo o caso de chave estrangeira em bancos como MySQL.
