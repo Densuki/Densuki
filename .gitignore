@@ -3,6 +3,9 @@ node_modules
 backend/api/venv
 .venv
 others
+backend/api/__pycache__
+backend/api/routes/__pycache__
+backend/api/utils/__pycache__
 
 # ARQUIVOS
 .env
