@@ -1,3 +1,4 @@
+// markdown.js - Versão melhorada
 // ============================================
 // MARKDOWN - Módulo de Processamento
 // ============================================
@@ -25,12 +26,14 @@ export function parseMarkdown(text) {
     
     // Listas não ordenadas
     html = html.replace(/^[\s]*[-*+] (.*$)/gm, '<li>$1</li>');
-    html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+    // Agrupa itens de lista consecutivos
+    html = html.replace(/(<li>.*<\/li>\s*)+/g, (match) => `<ul>${match.trim()}</ul>`);
     
     // Listas ordenadas
     html = html.replace(/^[\s]*\d+\. (.*$)/gm, '<li>$1</li>');
+    html = html.replace(/(<li>.*<\/li>\s*)+/g, (match) => `<ol>${match.trim()}</ol>`);
     
-    // Quebras de linha
+    // Quebras de linha (preservando as tags HTML)
     html = html.replace(/\n/g, '<br>');
     
     return html;
@@ -46,16 +49,49 @@ export function interpolate(template, data) {
     if (!template || typeof template !== 'string') return template;
     
     function getByPath(obj, path) {
-        return path.split('.').reduce((acc, p) => (acc && acc[p] !== undefined ? acc[p] : undefined), obj);
+        if (!obj) return undefined;
+        return path.split('.').reduce((acc, p) => {
+            if (acc && acc[p] !== undefined && acc[p] !== null) {
+                return acc[p];
+            }
+            return undefined;
+        }, obj);
     }
     
     return template.replace(/{{\s*([^}|]+?)\s*(?:\|\s*([^}]+?)\s*)?}}/g, (match, path, modifier) => {
         const keyPath = path.trim();
         if (!data) return '';
-        const val = getByPath(data, keyPath);
+        
+        let val = getByPath(data, keyPath);
+        
+        if (val === undefined || val === null) {
+            // Tenta buscar no identity também
+            if (data.identity) {
+                val = getByPath(data.identity, keyPath);
+            }
+            // Tenta buscar no status
+            if (val === undefined && data.status) {
+                val = getByPath(data.status, keyPath);
+            }
+            // Tenta buscar no location
+            if (val === undefined && data.location) {
+                val = getByPath(data.location, keyPath);
+            }
+        }
+        
         if (val === undefined || val === null) return '';
-        const out = Array.isArray(val) ? val.join(', ') : String(val);
-        return out;
+        
+        // Se for array, converte para string
+        if (Array.isArray(val)) {
+            return val.join(', ');
+        }
+        
+        // Se for booleano, converte para sim/não
+        if (typeof val === 'boolean') {
+            return val ? '✅ Sim' : '❌ Não';
+        }
+        
+        return String(val);
     });
 }
 
@@ -67,7 +103,10 @@ export function interpolate(template, data) {
  */
 export function processText(text, data) {
     if (!text) return '';
+    // Primeiro interpola as variáveis
     const interpolated = interpolate(text, data);
+    // Depois processa o Markdown/HTML
+    // Se o texto já contém HTML, o parseMarkdown vai preservar as tags
     return parseMarkdown(interpolated);
 }
 

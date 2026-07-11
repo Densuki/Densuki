@@ -2,17 +2,26 @@
   "identity": {
     "name": "João Gabriel Sousa Santos",
     "pronouns": "ele/dele",
-    "displayName": "Yukiri Densuki",
+    "displayName": "Ryusei Orihara",
     "nickname": "YukiriDensuki",
     "aliases": [
         "Yukiri",
-        "Densuki"
+        "Yuki",
+        "Densuki",
+        "Den",
+        "Ryusei"
     ],
     "birthday": "2000-03-03",
     "age": 18
   },
-  "avatar": "/docs/img/profile.png",
-  "banner": "/docs/img/banner.png",
+  "avatar": "assets/img/profile.png",
+  "avatars": [
+    "assets/img/profile.png",
+    "assets/img/profile_asthetic.png",
+    "assets/img/zutomayo.png"
+  ],
+  "avatarInterval": 5000,
+  "banner": "assets/img/banner.png",
   "badges":[
     {
         "name":"Cristão",
@@ -62,7 +71,7 @@
   "role": "Desenvolvedor de Software • Artista Digital • Escritor",
   "status":{
       "working":"WeckTech • Lan House",
-      "studying":"Concurso Público",
+      "studying":"Concurso Público • INSS",
       "learning": [
         "Libras",
         "Teoria Musical",
@@ -77,49 +86,49 @@
     ],
 
     "introduction": [
-        "<blockquote>Olá! 👋 Me chamo <strong>{{name}}</strong>, tenho <strong>{{age}}</strong> anos.</br>Embora na internet eu seja mais conhecido como <strong>{{displayName}}</strong>.</blockquote>",
+        "<blockquote>Olá! 👋 Me chamo <strong>{{name}}</strong>, tenho <strong>{{age}}</strong> anos.</br>Embora na internet eu seja mais conhecido como <strong>{{displayName}}</strong>.</blockquote></br>",
 
-        "Sou apaixonado por aprender e por transformar curiosidade em conhecimento. Costumo ser uma pessoa calma e reservada em um primeiro momento, mas bastante comunicativa quando me sinto à vontade no ambiente."
+        "Sou apaixonado por aprender e por transformar curiosidade em conhecimento. Costumo ser uma pessoa calma e reservada em um primeiro momento,</br>mas bastante comunicativa quando me sinto à vontade no ambiente.</br>"
     ],
 
     "personality": [
-        "<em>💜 A verdade guia minhas palavras;</br>o caráter e a fé em Jeová guiam minhas escolhas.</em>",
+        "<em>💜 A verdade guia minhas palavras;</br>o caráter e a fé em Jeová guiam minhas escolhas.</em></br>",
 
-        "<em>🌿 Acredito que a lealdade começa onde a honestidade nunca termina.</em>"
+        "<em>🌿 Acredito que a lealdade começa onde a honestidade nunca termina.</em></br></br>"
     ],
 
     "creativity": [
-        "Nas horas livres, gosto de escrever histórias, desenhar e dar vida a novas ideias, motivo pelo qual costumo me autointitular um Mangaká.</br>Vejo a criatividade como uma forma de expressar aquilo que nem sempre pode ser dito apenas com palavras.",
+        "Nas horas livres, gosto de escrever histórias, desenhar e dar vida a novas ideias, motivo pelo qual costumo me autointitular um Mangaká.</br>Vejo a criatividade como uma forma de expressar aquilo que nem sempre pode ser dito apenas com palavras.</br>",
 
-        "<em>🎨 Expressando o que palavras não dizem.</em>",
+        "<em>🎨 Expressando o que palavras não dizem.</em></br>",
 
-        "<em>📖 Registrando mundos que só existem na imaginação.</em>"
+        "<em>📖 Registrando mundos que só existem na imaginação.</em></br></br>"
     ],
 
     "technology": [
-        "Além da arte, sou fascinado por tecnologia.</br>Tenho grande interesse por programação, Inteligência Artificial, robótica e desenvolvimento de jogos, buscando sempre compreender a lógica por trás das coisas e construir soluções úteis.",
+        "Além da arte, sou fascinado por tecnologia.</br>Tenho grande interesse por programação, Inteligência Artificial, robótica e desenvolvimento de jogos,</br>buscando sempre compreender a lógica por trás das coisas e construir soluções úteis.</br>",
 
-        "<em>💻 Encontrando lógica no caos.</em>"
+        "<em>💻 Encontrando lógica no caos.</em></br></br>"
     ],
 
     "entertainment": [
-        "Também sou apaixonado por games, animes e música, acreditando que cada experiência pode ensinar algo novo.",
+        "Também sou apaixonado por games, animes e música, acreditando que cada experiência pode ensinar algo novo.</br>",
 
-        "<em>🎹 Descobrindo emoções em cada nota.</em>"
+        "<em>🎹 Descobrindo emoções em cada nota.</em></br></br>"
     ],
 
     "philosophy": [
-        "<em>🌟 Afinal, aprender, criar e compartilhar conhecimento sempre fizeram parte de quem eu sou.</em>"
+        "<em>🌟 Afinal, aprender, criar e compartilhar conhecimento sempre fizeram parte de quem eu sou.</em></br></hr></br>"
     ],
 
     "summary": [
-        "<strong>Objetivo:</strong> <small>{{objective}}</small>",
+        "<strong>Objetivo:</strong> <small>{{objective}}</small></br>",
 
-        "<strong>Interesses:</strong> <small>{{interests}}</small>"
+        "<strong>Interesses:</strong> <small>{{interests}}</small></br></hr></br>"
     ],
 
     "status": [
-        "<strong>Status:</strong></br>Emprego: <small>{{status.working}}</small></br>Estudando: <small>{{status.studying}}</small>",
+        "<strong>Status:</strong></br>Emprego: <small>{{status.working}}</small></br>Estudando: <small>{{status.studying}}</small></br>Aprendendo: <small>{{status.learning}}</small></br></hr></br>",
 
         "<strong>Disponível para trabalho:</strong> {{status.availableForWork}}"
     ]
@@ -175,948 +184,774 @@
     "Minecraft Modding",
     "Modelagem 3D"
   ],
-"hardSkills": {
-    "defaults": {
-      "skill": {
-        "icon": "",
-        "color": "",
-        "level": "",
-        "proficiency": "",
-        "experience": "",
-        "isFavorite": false,
-        "isLearning": false,
-        "priority": 0,
-        "description": ""
-      }
-    },
-    "programming": [
-      {
-        "name": "Java",
-        "icon": "devicon-java-plain",
-        "color": "#ED8B00",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": true,
-        "priority": 1,
-        "description": "Principal linguagem utilizada em projetos relacionados ao ecossistema Minecraft."
+  "hardSkills": {
+      "defaults": {
+        "skill": {
+          "icon": "",
+          "color": "",
+          "level": "",
+          "proficiency": "",
+          "experience": "",
+          "isFavorite": false,
+          "isLearning": false,
+          "priority": 0,
+          "description": ""
+        }
       },
-      {
-        "name": "JavaScript",
-        "icon": "devicon-javascript-plain",
-        "color": "#F7DF1E",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": true,
-        "priority": 2,
-        "description": "Desenvolvimento Web, automações e bots para Discord."
-      },
-      {
-        "name": "TypeScript",
-        "icon": "devicon-typescript-plain",
-        "color": "#3178C6",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": false,
-        "isLearning": true,
-        "priority": 3,
-        "description": ""
-      },
-      {
-        "name": "Python",
-        "icon": "devicon-python-plain",
-        "color": "#3776AB",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": false,
-        "isLearning": true,
-        "priority": 4,
-        "description": ""
-      },
-      {
-        "name": "PHP",
-        "icon": "devicon-php-plain",
-        "color": "#777BB4",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": false,
-        "isLearning": true,
-        "priority": 5,
-        "description": ""
-      },
-      {
-        "name": "Lua",
-        "icon": "devicon-lua-plain",
-        "color": "#2C2D72",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": true,
-        "priority": 6,
-        "description": "Utilizada principalmente em projetos de automação e mods."
-      },
-      {
-        "name": "HTML5",
-        "icon": "devicon-html5-plain",
-        "color": "#E34F26",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": false,
-        "priority": 7,
-        "description": "Estruturação de páginas Web."
-      },
-      {
-        "name": "CSS3",
-        "icon": "devicon-css3-plain",
-        "color": "#1572B6",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": false,
-        "priority": 8,
-        "description": "Estilização de páginas Web."
-      },
-      {
-        "name": "JSON",
-        "icon": "mdi:code-json",
-        "color": "#5E5C5C",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": false,
-        "priority": 9,
-        "description": "Estruturação e serialização de dados."
-      },
-      {
-        "name": "Markdown",
-        "icon": "mdi:language-markdown",
-        "color": "#000000",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": false,
-        "priority": 10,
-        "description": "Documentação, README e organização de projetos."
-      }
-    ],
-    "frontend": [
-      {
-        "name": "HTML5",
-        "icon": "devicon-html5-plain",
-        "color": "#E34F26",
-        "level": "", 
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": false,
-        "priority": 1,
-        "description": ""
-      },
-      {
-        "name": "CSS3",
-        "icon": "devicon-css3-plain",
-        "color": "#1572B6",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": false,
-        "priority": 2,
-        "description": ""
-      },
-      {
-        "name": "JavaScript",
-        "icon": "devicon-javascript-plain",
-        "color": "#F7DF1E",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": true,
-        "priority": 3,
-        "description": ""
-      },
-      {
-        "name": "React",
-        "icon": "devicon-react-original",
-        "color": "#61DAFB",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": false,
-        "isLearning": true,
-        "priority": 4,
-        "description": ""
-      },
-      {
-        "name": "Next.js",
-        "icon": "devicon-nextjs-original",
-        "color": "#000000",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": false,
-        "isLearning": true,
-        "priority": 5,
-        "description": ""
-      },
-      {
-        "name": "Vue",
-        "icon": "devicon-vuejs-plain",
-        "color": "#42B883",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": false,
-        "isLearning": true,
-        "priority": 6,
-        "description": ""
-      },
-      {
-        "name": "Nuxt.js",
-        "icon": "devicon-nuxtjs-plain",
-        "color": "#00DC82",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": false,
-        "isLearning": true,
-        "priority": 7,
-        "description": ""
-      },
-      {
-        "name": "Bootstrap",
-        "icon": "devicon-bootstrap-plain",
-        "color": "#7952B3",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": false,
-        "priority": 8,
-        "description": ""
-      },
-      {
-        "name": "Tailwind CSS",
-        "icon": "devicon-tailwindcss-original",
-        "color": "#06B6D4",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": true,
-        "priority": 9,
-        "description": ""
-      },
-      {
-        "name": "Material UI",
-        "icon": "logos:material-ui",
-        "color": "#007FFF",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": false,
-        "isLearning": true,
-        "priority": 10,
-        "description": ""
-      }
-    ],
-    "backend": [
-      {
-        "name": "Node.js",
-        "icon": "devicon-nodejs-plain",
-        "color": "#339933",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": true,
-        "priority": 1,
-        "description": "Runtime JavaScript utilizado em APIs, automações e bots para Discord."
-      },
-      {
-        "name": "Express.js",
-        "icon": "devicon-express-original",
-        "color": "#000000",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": true,
-        "priority": 2,
-        "description": "Framework backend para Node.js."
-      },
-      {
-        "name": "Java",
-        "icon": "devicon-java-plain",
-        "color": "#ED8B00",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": true,
-        "priority": 3,
-        "description": "Desenvolvimento de aplicações desktop, mods e plugins para Minecraft."
-      },
-      {
-        "name": "PHP",
-        "icon": "devicon-php-plain",
-        "color": "#777BB4",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": false,
-        "isLearning": true,
-        "priority": 4,
-        "description": ""
-      },
-      {
-        "name": "Python",
-        "icon": "devicon-python-plain",
-        "color": "#3776AB",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": false,
-        "isLearning": true,
-        "priority": 5,
-        "description": ""
-      },
-      {
-        "name": "JavaScript",
-        "icon": "devicon-javascript-plain",
-        "color": "#F7DF1E",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": true,
-        "priority": 6,
-        "description": ""
-      },
-      {
-        "name": "TypeScript",
-        "icon": "devicon-typescript-plain",
-        "color": "#3178C6",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": false,
-        "isLearning": true,
-        "priority": 7,
-        "description": ""
-      },
-      {
-        "name": "Lua",
-        "icon": "devicon-lua-plain",
-        "color": "#2C2D72",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": true,
-        "priority": 8,
-        "description": ""
-      }
-    ],
-    "frameworks": [
-      {
-        "name": "Discord.js",
-        "icon": "simple-icons:discord",
-        "color": "#5865F2",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": true,
-        "priority": 1,
-        "description": "Biblioteca principal utilizada no desenvolvimento de bots para Discord."
-      },
-      {
-        "name": "React",
-        "icon": "devicon-react-original",
-        "color": "#61DAFB",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": false,
-        "isLearning": true,
-        "priority": 2,
-        "description": ""
-      },
-      {
-        "name": "Vue",
-        "icon": "devicon-vuejs-plain",
-        "color": "#42B883",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": false,
-        "isLearning": true,
-        "priority": 3,
-        "description": ""
-      },
-      {
-        "name": "Express",
-        "icon": "devicon-express-original",
-        "color": "#000000",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": true,
-        "priority": 4,
-        "description": ""
-      },
-      {
-        "name": "Spring Boot",
-        "icon": "devicon-spring-plain",
-        "color": "#6DB33F",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": false,
-        "isLearning": true,
-        "priority": 5,
-        "description": ""
-      },
-      {
-        "name": "Laravel",
-        "icon": "devicon-laravel-plain",
-        "color": "#FF2D20",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": false,
-        "isLearning": true,
-        "priority": 6,
-        "description": ""
-      },
-      {
-        "name": "Django",
-        "icon": "devicon-django-plain",
-        "color": "#092E20",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": false,
-        "isLearning": true,
-        "priority": 7,
-        "description": ""
-      }
-    ],
-    "libraries": [
-      {
-        "name": "jQuery",
-        "icon": "devicon-jquery-plain",
-        "color": "#0769AD",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": false,
-        "isLearning": false,
-        "priority": 1,
-        "description": ""
-      },
-      {
-        "name": "Material UI",
-        "icon": "logos:material-ui",
-        "color": "#007FFF",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": false,
-        "isLearning": true,
-        "priority": 2,
-        "description": ""
-      },
-      {
-        "name": "Pandas",
-        "icon": "devicon-pandas-original",
-        "color": "#150458",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": false,
-        "isLearning": true,
-        "priority": 3,
-        "description": "Biblioteca Python voltada para manipulação e análise de dados."
-      }
-    ],
-    "database": [
-      {
-        "name": "MySQL",
-        "icon": "devicon-mysql-plain",
-        "color": "#4479A1",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": true,
-        "priority": 1,
-        "description": "Banco de dados relacional utilizado em aplicações Web, servidores e projetos pessoais."
-      },
-      {
-        "name": "MariaDB",
-        "icon": "devicon-mariadb-original",
-        "color": "#003545",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": false,
-        "isLearning": true,
-        "priority": 2,
-        "description": "Fork do MySQL compatível com diversas aplicações."
-      },
-      {
-        "name": "PostgreSQL",
-        "icon": "devicon-postgresql-plain",
-        "color": "#4169E1",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": false,
-        "isLearning": true,
-        "priority": 3,
-        "description": "Banco de dados relacional orientado à integridade e desempenho."
-      },
-      {
-        "name": "MongoDB",
-        "icon": "devicon-mongodb-plain",
-        "color": "#47A248",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": false,
-        "isLearning": true,
-        "priority": 4,
-        "description": "Banco de dados NoSQL orientado a documentos."
-      },
-      {
-        "name": "SQLite",
-        "icon": "devicon-sqlite-plain",
-        "color": "#003B57",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": false,
-        "isLearning": true,
-        "priority": 5,
-        "description": "Banco de dados leve embarcado em aplicações."
-      }
-    ],
-    "tools": [
-      {
-        "name": "Git",
-        "icon": "devicon-git-plain",
-        "color": "#F05032",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": true,
-        "priority": 1,
-        "description": "Sistema de controle de versão."
-      },
-      {
-        "name": "GitHub",
-        "icon": "devicon-github-original",
-        "color": "#181717",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": true,
-        "priority": 2,
-        "description": "Hospedagem de repositórios Git e colaboração em projetos."
-      },
-      {
-        "name": "GitHub Desktop",
-        "icon": "devicon-github-original",
-        "color": "#8034A9",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": false,
-        "isLearning": false,
-        "priority": 3,
-        "description": "Cliente gráfico para gerenciamento de repositórios Git."
-      },
-      {
-        "name": "VS Code",
-        "icon": "devicon-vscode-plain",
-        "color": "#007ACC",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": false,
-        "priority": 4,
-        "description": "Editor de código principal."
-      },
-      {
-        "name": "IntelliJ IDEA",
-        "icon": "devicon-intellij-plain",
-        "color": "#000000",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": false,
-        "priority": 5,
-        "description": "IDE utilizada principalmente para desenvolvimento Java."
-      },
-      {
-        "name": "Eclipse",
-        "icon": "devicon-eclipse-plain",
-        "color": "#2C2255",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": false,
-        "isLearning": false,
-        "priority": 6,
-        "description": "IDE para desenvolvimento Java."
-      },
-      {
-        "name": "Atom",
-        "icon": "devicon-atom-original",
-        "color": "#66595C",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": false,
-        "isLearning": false,
-        "priority": 7,
-        "description": "Editor de código (descontinuado)."
-      },
-      {
-        "name": "Recaf",
-        "icon": "mdi:language-java",
-        "color": "#E76F00",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": false,
-        "priority": 8,
-        "description": "Ferramenta para engenharia reversa e edição de bytecode Java."
-      },
-      {
-        "name": "Gradle",
-        "icon": "devicon-gradle-plain",
-        "color": "#02303A",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": true,
-        "priority": 9,
-        "description": "Sistema de automação de builds."
-      },
-      {
-        "name": "npm",
-        "icon": "devicon-npm-original-wordmark",
-        "color": "#CB3837",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": true,
-        "priority": 10,
-        "description": "Gerenciador de pacotes do Node.js."
-      },
-      {
-        "name": "Node.js",
-        "icon": "devicon-nodejs-plain",
-        "color": "#339933",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": true,
-        "priority": 11,
-        "description": "Runtime JavaScript."
-      }
-    ],
-    "office": [
-      {
-        "name": "Microsoft Office",
-        "icon": "simple-icons:microsoftoffice",
-        "color": "#D83B01",
-        "level": "",
-        "proficiency": "",  
-        "experience": "",
-        "isFavorite": false,
-        "isLearning": false,
-        "priority": 1,
-        "description": "Pacote de produtividade da Microsoft."
-      },
-      {
-        "name": "LibreOffice",
-        "icon": "simple-icons:libreoffice",
-        "color": "#18A303",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": false,
-        "isLearning": false,
-        "priority": 2,
-        "description": "Suíte de escritório de código aberto."
-      },
-      {
-        "name": "Google Workspace",
-        "icon": "simple-icons:googleworkspace",
-        "color": "#4285F4",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": false,
-        "isLearning": false,
-        "priority": 3,
-        "description": "Ferramentas de produtividade em nuvem do Google."
-      }
-    ],
-    "design": [
-      {
-        "name": "Adobe Photoshop",
-        "icon": "simple-icons:adobephotoshop",
-        "color": "#31A8FF",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": true,
-        "priority": 1,
-        "description": "Edição de imagens, composição e manipulação digital."
-      },
-      {
-        "name": "Clip Studio Paint",
-        "icon": "simple-icons:clipstudio",
-        "color": "#6C5CE7",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": false,
-        "priority": 2,
-        "description": "Ilustração digital, criação de mangás e concept art."
-      },
-      {
-        "name": "Figma",
-        "icon": "devicon-figma-plain",
-        "color": "#F24E1E",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": false,
-        "isLearning": true,
-        "priority": 3,
-        "description": "Design de interfaces, prototipação e experiência do usuário."
-      },
-      {
-        "name": "Blender",
-        "icon": "devicon-blender-original",
-        "color": "#F5792A",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": true,
-        "priority": 4,
-        "description": "Modelagem, animação e renderização 3D."
-      }
-    ],
-    "art": [
-      {
-        "name": "Desenho Digital",
-        "icon": "mdi:draw",
-        "color": "#8E44AD",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": false,
-        "priority": 1,
-        "description": "Ilustrações digitais e criação de personagens."
-      },
-      {
-        "name": "Pixel Art",
-        "icon": "mdi:grid",
-        "color": "#F39C12",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": true,
-        "priority": 2,
-        "description": "Arte digital baseada em pixels para jogos e interfaces."
-      },
-      {
-        "name": "Ilustração",
-        "icon": "mdi:palette",
-        "color": "#E91E63",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": true,
-        "priority": 3,
-        "description": "Criação de artes conceituais e ilustrações."
-      },
-      {
-        "name": "Modelagem 3D",
-        "icon": "mdi:cube-outline",
-        "color": "#00BCD4",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": true,
-        "priority": 4,
-        "description": "Modelagem tridimensional para jogos e projetos criativos."
-      },
-      {
-        "name": "Design",
-        "icon": "mdi:vector-square",
-        "color": "#9C27B0",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": true,
-        "priority": 5,
-        "description": "Design visual aplicado à comunicação e interfaces."
-      },
-      {
-        "name": "World Building",
-        "icon": "mdi:earth",
-        "color": "#2ECC71",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": false,
-        "priority": 6,
-        "description": "Construção de universos, culturas, sistemas e ambientações fictícias."
-      },
-      {
-        "name": "Storytelling",
-        "icon": "mdi:book-open-page-variant",
-        "color": "#D35400",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": false,
-        "priority": 7,
-        "description": "Criação de narrativas, personagens, conflitos e desenvolvimento de histórias."
-      },
-      {
-        "name": "Character Design",
-        "icon": "mdi:account-star",
-        "color": "#E67E22",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": true,
-        "priority": 8,
-        "description": "Desenvolvimento visual e conceitual de personagens."
-      },
-      {
-        "name": "Concept Art",
-        "icon": "mdi:brush",
-        "color": "#16A085",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": true,
-        "priority": 9,
-        "description": "Produção de conceitos visuais para personagens, cenários e objetos."
-      },
-      {
-        "name": "Creative Writing",
-        "icon": "mdi:pen",
-        "color": "#795548",
-        "level": "",
-        "proficiency": "", 
-        "experience": "",
-        "isFavorite": true,
-        "isLearning": false,
-        "priority": 10,
-        "description": "Escrita criativa aplicada a contos, roteiros e mangás."
-      }
-    ],
-    "gameDevelopment": {
-      "minecraft": [
+      "programming": [
         {
-          "name": "Forge Modding",
-          "icon": "mdi:anvil",
-          "color": "#2ECC71",
+          "name": "Java",
+          "icon": "devicon-java-plain",
+          "color": "#ED8B00",
           "level": "",
           "proficiency": "", 
           "experience": "",
           "isFavorite": true,
           "isLearning": true,
           "priority": 1,
-          "description": "Desenvolvimento e modificação de mods para Minecraft Forge."
+          "description": "Principal linguagem utilizada em projetos relacionados ao ecossistema Minecraft."
         },
         {
-          "name": "Plugin Development",
-          "icon": "mdi:puzzle",
-          "color": "#3498DB",
+          "name": "JavaScript",
+          "icon": "devicon-javascript-plain",
+          "color": "#F7DF1E",
           "level": "",
           "proficiency": "", 
           "experience": "",
           "isFavorite": true,
           "isLearning": true,
           "priority": 2,
-          "description": "Desenvolvimento e customização de plugins para servidores."
+          "description": "Desenvolvimento Web, automações e bots para Discord."
         },
         {
-          "name": "Resource Packs",
-          "icon": "mdi:folder-image",
-          "color": "#F1C40F",
+          "name": "TypeScript",
+          "icon": "devicon-typescript-plain",
+          "color": "#3178C6",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": false,
+          "isLearning": true,
+          "priority": 3,
+          "description": ""
+        },
+        {
+          "name": "Python",
+          "icon": "devicon-python-plain",
+          "color": "#3776AB",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": false,
+          "isLearning": true,
+          "priority": 4,
+          "description": ""
+        },
+        {
+          "name": "PHP",
+          "icon": "devicon-php-plain",
+          "color": "#777BB4",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": false,
+          "isLearning": true,
+          "priority": 5,
+          "description": ""
+        },
+        {
+          "name": "Lua",
+          "icon": "devicon-lua-plain",
+          "color": "#2C2D72",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": true,
+          "priority": 6,
+          "description": "Utilizada principalmente em projetos de automação e mods."
+        },
+        {
+          "name": "HTML5",
+          "icon": "devicon-html5-plain",
+          "color": "#E34F26",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": false,
+          "priority": 7,
+          "description": "Estruturação de páginas Web."
+        },
+        {
+          "name": "CSS3",
+          "icon": "devicon-css3-plain",
+          "color": "#1572B6",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": false,
+          "priority": 8,
+          "description": "Estilização de páginas Web."
+        },
+        {
+          "name": "JSON",
+          "icon": "mdi:code-json",
+          "color": "#5E5C5C",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": false,
+          "priority": 9,
+          "description": "Estruturação e serialização de dados."
+        },
+        {
+          "name": "Markdown",
+          "icon": "mdi:language-markdown",
+          "color": "#000000",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": false,
+          "priority": 10,
+          "description": "Documentação, README e organização de projetos."
+        }
+      ],
+      "frontend": [
+        {
+          "name": "HTML5",
+          "icon": "devicon-html5-plain",
+          "color": "#E34F26",
+          "level": "", 
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": false,
+          "priority": 1,
+          "description": ""
+        },
+        {
+          "name": "CSS3",
+          "icon": "devicon-css3-plain",
+          "color": "#1572B6",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": false,
+          "priority": 2,
+          "description": ""
+        },
+        {
+          "name": "JavaScript",
+          "icon": "devicon-javascript-plain",
+          "color": "#F7DF1E",
           "level": "",
           "proficiency": "", 
           "experience": "",
           "isFavorite": true,
           "isLearning": true,
           "priority": 3,
-          "description": "Criação e edição de pacotes de recursos."
+          "description": ""
         },
         {
-          "name": "Server Configuration",
-          "icon": "mdi:server",
-          "color": "#34495E",
+          "name": "React",
+          "icon": "devicon-react-original",
+          "color": "#61DAFB",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": false,
+          "isLearning": true,
+          "priority": 4,
+          "description": ""
+        },
+        {
+          "name": "Next.js",
+          "icon": "devicon-nextjs-original",
+          "color": "#000000",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": false,
+          "isLearning": true,
+          "priority": 5,
+          "description": ""
+        },
+        {
+          "name": "Vue",
+          "icon": "devicon-vuejs-plain",
+          "color": "#42B883",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": false,
+          "isLearning": true,
+          "priority": 6,
+          "description": ""
+        },
+        {
+          "name": "Nuxt.js",
+          "icon": "devicon-nuxtjs-plain",
+          "color": "#00DC82",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": false,
+          "isLearning": true,
+          "priority": 7,
+          "description": ""
+        },
+        {
+          "name": "Bootstrap",
+          "icon": "devicon-bootstrap-plain",
+          "color": "#7952B3",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": false,
+          "priority": 8,
+          "description": ""
+        },
+        {
+          "name": "Tailwind CSS",
+          "icon": "devicon-tailwindcss-original",
+          "color": "#06B6D4",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": true,
+          "priority": 9,
+          "description": ""
+        },
+        {
+          "name": "Material UI",
+          "icon": "logos:material-ui",
+          "color": "#007FFF",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": false,
+          "isLearning": true,
+          "priority": 10,
+          "description": ""
+        }
+      ],
+      "backend": [
+        {
+          "name": "Node.js",
+          "icon": "devicon-nodejs-plain",
+          "color": "#339933",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": true,
+          "priority": 1,
+          "description": "Runtime JavaScript utilizado em APIs, automações e bots para Discord."
+        },
+        {
+          "name": "Express.js",
+          "icon": "devicon-express-original",
+          "color": "#000000",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": true,
+          "priority": 2,
+          "description": "Framework backend para Node.js."
+        },
+        {
+          "name": "Java",
+          "icon": "devicon-java-plain",
+          "color": "#ED8B00",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": true,
+          "priority": 3,
+          "description": "Desenvolvimento de aplicações desktop, mods e plugins para Minecraft."
+        },
+        {
+          "name": "PHP",
+          "icon": "devicon-php-plain",
+          "color": "#777BB4",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": false,
+          "isLearning": true,
+          "priority": 4,
+          "description": ""
+        },
+        {
+          "name": "Python",
+          "icon": "devicon-python-plain",
+          "color": "#3776AB",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": false,
+          "isLearning": true,
+          "priority": 5,
+          "description": ""
+        },
+        {
+          "name": "JavaScript",
+          "icon": "devicon-javascript-plain",
+          "color": "#F7DF1E",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": true,
+          "priority": 6,
+          "description": ""
+        },
+        {
+          "name": "TypeScript",
+          "icon": "devicon-typescript-plain",
+          "color": "#3178C6",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": false,
+          "isLearning": true,
+          "priority": 7,
+          "description": ""
+        },
+        {
+          "name": "Lua",
+          "icon": "devicon-lua-plain",
+          "color": "#2C2D72",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": true,
+          "priority": 8,
+          "description": ""
+        }
+      ],
+      "frameworks": [
+        {
+          "name": "Discord.js",
+          "icon": "simple-icons:discord",
+          "color": "#5865F2",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": true,
+          "priority": 1,
+          "description": "Biblioteca principal utilizada no desenvolvimento de bots para Discord."
+        },
+        {
+          "name": "React",
+          "icon": "devicon-react-original",
+          "color": "#61DAFB",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": false,
+          "isLearning": true,
+          "priority": 2,
+          "description": ""
+        },
+        {
+          "name": "Vue",
+          "icon": "devicon-vuejs-plain",
+          "color": "#42B883",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": false,
+          "isLearning": true,
+          "priority": 3,
+          "description": ""
+        },
+        {
+          "name": "Express",
+          "icon": "devicon-express-original",
+          "color": "#000000",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": true,
+          "priority": 4,
+          "description": ""
+        },
+        {
+          "name": "Spring Boot",
+          "icon": "devicon-spring-plain",
+          "color": "#6DB33F",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": false,
+          "isLearning": true,
+          "priority": 5,
+          "description": ""
+        },
+        {
+          "name": "Laravel",
+          "icon": "devicon-laravel-plain",
+          "color": "#FF2D20",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": false,
+          "isLearning": true,
+          "priority": 6,
+          "description": ""
+        },
+        {
+          "name": "Django",
+          "icon": "devicon-django-plain",
+          "color": "#092E20",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": false,
+          "isLearning": true,
+          "priority": 7,
+          "description": ""
+        }
+      ],
+      "libraries": [
+        {
+          "name": "jQuery",
+          "icon": "devicon-jquery-plain",
+          "color": "#0769AD",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": false,
+          "isLearning": false,
+          "priority": 1,
+          "description": ""
+        },
+        {
+          "name": "Material UI",
+          "icon": "logos:material-ui",
+          "color": "#007FFF",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": false,
+          "isLearning": true,
+          "priority": 2,
+          "description": ""
+        },
+        {
+          "name": "Pandas",
+          "icon": "devicon-pandas-original",
+          "color": "#150458",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": false,
+          "isLearning": true,
+          "priority": 3,
+          "description": "Biblioteca Python voltada para manipulação e análise de dados."
+        }
+      ],
+      "database": [
+        {
+          "name": "MySQL",
+          "icon": "devicon-mysql-plain",
+          "color": "#4479A1",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": true,
+          "priority": 1,
+          "description": "Banco de dados relacional utilizado em aplicações Web, servidores e projetos pessoais."
+        },
+        {
+          "name": "MariaDB",
+          "icon": "devicon-mariadb-original",
+          "color": "#003545",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": false,
+          "isLearning": true,
+          "priority": 2,
+          "description": "Fork do MySQL compatível com diversas aplicações."
+        },
+        {
+          "name": "PostgreSQL",
+          "icon": "devicon-postgresql-plain",
+          "color": "#4169E1",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": false,
+          "isLearning": true,
+          "priority": 3,
+          "description": "Banco de dados relacional orientado à integridade e desempenho."
+        },
+        {
+          "name": "MongoDB",
+          "icon": "devicon-mongodb-plain",
+          "color": "#47A248",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": false,
+          "isLearning": true,
+          "priority": 4,
+          "description": "Banco de dados NoSQL orientado a documentos."
+        },
+        {
+          "name": "SQLite",
+          "icon": "devicon-sqlite-plain",
+          "color": "#003B57",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": false,
+          "isLearning": true,
+          "priority": 5,
+          "description": "Banco de dados leve embarcado em aplicações."
+        }
+      ],
+      "tools": [
+        {
+          "name": "Git",
+          "icon": "devicon-git-plain",
+          "color": "#F05032",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": true,
+          "priority": 1,
+          "description": "Sistema de controle de versão."
+        },
+        {
+          "name": "GitHub",
+          "icon": "devicon-github-original",
+          "color": "#181717",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": true,
+          "priority": 2,
+          "description": "Hospedagem de repositórios Git e colaboração em projetos."
+        },
+        {
+          "name": "GitHub Desktop",
+          "icon": "devicon-github-original",
+          "color": "#8034A9",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": false,
+          "isLearning": false,
+          "priority": 3,
+          "description": "Cliente gráfico para gerenciamento de repositórios Git."
+        },
+        {
+          "name": "VS Code",
+          "icon": "devicon-vscode-plain",
+          "color": "#007ACC",
           "level": "",
           "proficiency": "", 
           "experience": "",
           "isFavorite": true,
           "isLearning": false,
           "priority": 4,
-          "description": "Configuração de servidores, mods, plugins e economia."
+          "description": "Editor de código principal."
+        },
+        {
+          "name": "IntelliJ IDEA",
+          "icon": "devicon-intellij-plain",
+          "color": "#000000",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": false,
+          "priority": 5,
+          "description": "IDE utilizada principalmente para desenvolvimento Java."
+        },
+        {
+          "name": "Eclipse",
+          "icon": "devicon-eclipse-plain",
+          "color": "#2C2255",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": false,
+          "isLearning": false,
+          "priority": 6,
+          "description": "IDE para desenvolvimento Java."
+        },
+        {
+          "name": "Atom",
+          "icon": "devicon-atom-original",
+          "color": "#66595C",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": false,
+          "isLearning": false,
+          "priority": 7,
+          "description": "Editor de código (descontinuado)."
+        },
+        {
+          "name": "Recaf",
+          "icon": "mdi:language-java",
+          "color": "#E76F00",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": false,
+          "priority": 8,
+          "description": "Ferramenta para engenharia reversa e edição de bytecode Java."
+        },
+        {
+          "name": "Gradle",
+          "icon": "devicon-gradle-plain",
+          "color": "#02303A",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": true,
+          "priority": 9,
+          "description": "Sistema de automação de builds."
+        },
+        {
+          "name": "npm",
+          "icon": "devicon-npm-original-wordmark",
+          "color": "#CB3837",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": true,
+          "priority": 10,
+          "description": "Gerenciador de pacotes do Node.js."
+        },
+        {
+          "name": "Node.js",
+          "icon": "devicon-nodejs-plain",
+          "color": "#339933",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": true,
+          "priority": 11,
+          "description": "Runtime JavaScript."
         }
       ],
-
-      "engines": [
+      "office": [
         {
-          "name": "RPG Maker MV",
-          "icon": "mdi:controller-classic",
+          "name": "Microsoft Office",
+          "icon": "simple-icons:microsoftoffice",
+          "color": "#D83B01",
+          "level": "",
+          "proficiency": "",  
+          "experience": "",
+          "isFavorite": false,
+          "isLearning": false,
+          "priority": 1,
+          "description": "Pacote de produtividade da Microsoft."
+        },
+        {
+          "name": "LibreOffice",
+          "icon": "simple-icons:libreoffice",
+          "color": "#18A303",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": false,
+          "isLearning": false,
+          "priority": 2,
+          "description": "Suíte de escritório de código aberto."
+        },
+        {
+          "name": "Google Workspace",
+          "icon": "simple-icons:googleworkspace",
+          "color": "#4285F4",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": false,
+          "isLearning": false,
+          "priority": 3,
+          "description": "Ferramentas de produtividade em nuvem do Google."
+        }
+      ],
+      "design": [
+        {
+          "name": "Adobe Photoshop",
+          "icon": "simple-icons:adobephotoshop",
+          "color": "#31A8FF",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": true,
+          "priority": 1,
+          "description": "Edição de imagens, composição e manipulação digital."
+        },
+        {
+          "name": "Clip Studio Paint",
+          "icon": "simple-icons:clipstudio",
+          "color": "#6C5CE7",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": false,
+          "priority": 2,
+          "description": "Ilustração digital, criação de mangás e concept art."
+        },
+        {
+          "name": "Figma",
+          "icon": "devicon-figma-plain",
+          "color": "#F24E1E",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": false,
+          "isLearning": true,
+          "priority": 3,
+          "description": "Design de interfaces, prototipação e experiência do usuário."
+        },
+        {
+          "name": "Blender",
+          "icon": "devicon-blender-original",
+          "color": "#F5792A",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": true,
+          "priority": 4,
+          "description": "Modelagem, animação e renderização 3D."
+        }
+      ],
+      "art": [
+        {
+          "name": "Desenho Digital",
+          "icon": "mdi:draw",
           "color": "#8E44AD",
           "level": "",
           "proficiency": "", 
@@ -1124,23 +959,197 @@
           "isFavorite": true,
           "isLearning": false,
           "priority": 1,
-          "description": "Criação de jogos RPG em 2D."
+          "description": "Ilustrações digitais e criação de personagens."
         },
         {
-          "name": "RPG Maker MZ",
-          "icon": "mdi:controller-classic",
-          "color": "#9B59B6",
+          "name": "Pixel Art",
+          "icon": "mdi:grid",
+          "color": "#F39C12",
           "level": "",
           "proficiency": "", 
           "experience": "",
           "isFavorite": true,
           "isLearning": true,
           "priority": 2,
-          "description": "Desenvolvimento de jogos utilizando RPG Maker MZ."
+          "description": "Arte digital baseada em pixels para jogos e interfaces."
+        },
+        {
+          "name": "Ilustração",
+          "icon": "mdi:palette",
+          "color": "#E91E63",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": true,
+          "priority": 3,
+          "description": "Criação de artes conceituais e ilustrações."
+        },
+        {
+          "name": "Modelagem 3D",
+          "icon": "mdi:cube-outline",
+          "color": "#00BCD4",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": true,
+          "priority": 4,
+          "description": "Modelagem tridimensional para jogos e projetos criativos."
+        },
+        {
+          "name": "Design",
+          "icon": "mdi:vector-square",
+          "color": "#9C27B0",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": true,
+          "priority": 5,
+          "description": "Design visual aplicado à comunicação e interfaces."
+        },
+        {
+          "name": "World Building",
+          "icon": "mdi:earth",
+          "color": "#2ECC71",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": false,
+          "priority": 6,
+          "description": "Construção de universos, culturas, sistemas e ambientações fictícias."
+        },
+        {
+          "name": "Storytelling",
+          "icon": "mdi:book-open-page-variant",
+          "color": "#D35400",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": false,
+          "priority": 7,
+          "description": "Criação de narrativas, personagens, conflitos e desenvolvimento de histórias."
+        },
+        {
+          "name": "Character Design",
+          "icon": "mdi:account-star",
+          "color": "#E67E22",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": true,
+          "priority": 8,
+          "description": "Desenvolvimento visual e conceitual de personagens."
+        },
+        {
+          "name": "Concept Art",
+          "icon": "mdi:brush",
+          "color": "#16A085",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": true,
+          "priority": 9,
+          "description": "Produção de conceitos visuais para personagens, cenários e objetos."
+        },
+        {
+          "name": "Creative Writing",
+          "icon": "mdi:pen",
+          "color": "#795548",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": false,
+          "priority": 10,
+          "description": "Escrita criativa aplicada a contos, roteiros e mangás."
         }
-      ]
-    }
-  },
+      ],
+      "gameDevelopment": {
+        "minecraft": [
+          {
+            "name": "Forge Modding",
+            "icon": "mdi:anvil",
+            "color": "#2ECC71",
+            "level": "",
+            "proficiency": "", 
+            "experience": "",
+            "isFavorite": true,
+            "isLearning": true,
+            "priority": 1,
+            "description": "Desenvolvimento e modificação de mods para Minecraft Forge."
+          },
+          {
+            "name": "Plugin Development",
+            "icon": "mdi:puzzle",
+            "color": "#3498DB",
+            "level": "",
+            "proficiency": "", 
+            "experience": "",
+            "isFavorite": true,
+            "isLearning": true,
+            "priority": 2,
+            "description": "Desenvolvimento e customização de plugins para servidores."
+          },
+          {
+            "name": "Resource Packs",
+            "icon": "mdi:folder-image",
+            "color": "#F1C40F",
+            "level": "",
+            "proficiency": "", 
+            "experience": "",
+            "isFavorite": true,
+            "isLearning": true,
+            "priority": 3,
+            "description": "Criação e edição de pacotes de recursos."
+          },
+          {
+            "name": "Server Configuration",
+            "icon": "mdi:server",
+            "color": "#34495E",
+            "level": "",
+            "proficiency": "", 
+            "experience": "",
+            "isFavorite": true,
+            "isLearning": false,
+            "priority": 4,
+            "description": "Configuração de servidores, mods, plugins e economia."
+          }
+        ],
+
+        "engines": [
+          {
+            "name": "RPG Maker MV",
+            "icon": "mdi:controller-classic",
+            "color": "#8E44AD",
+            "level": "",
+            "proficiency": "", 
+            "experience": "",
+            "isFavorite": true,
+            "isLearning": false,
+            "priority": 1,
+            "description": "Criação de jogos RPG em 2D."
+          },
+          {
+            "name": "RPG Maker MZ",
+            "icon": "mdi:controller-classic",
+            "color": "#9B59B6",
+            "level": "",
+            "proficiency": "", 
+            "experience": "",
+            "isFavorite": true,
+            "isLearning": true,
+            "priority": 2,
+            "description": "Desenvolvimento de jogos utilizando RPG Maker MZ."
+          }
+        ]
+      }
+    },
   "softSkills":[
     "Aprendizado contínuo",
     "Pensamento analítico",
@@ -1422,6 +1431,7 @@
       "Asian Kung-fu Generations",
       "Ikemonogatari",
       "Muse",
+      "Kevin Penkin",
       "Imagine Dragons",
       "Linkin Park",
       "David Bowie",
@@ -1492,25 +1502,54 @@
     "courses": true,
     "music": true
   },
-  "music": [
-    {
-      "title": "Background",
-      "src": "assets/audio/background.mp3",
-      "type": "file"
-    }
-  ],
-  "playerlist": [
-    {
-      "title": "",
-      "artist": "",
-      "album": "",
-      "cover": "",
-      "src": "",
-      "loop": true,
-      "autoplay": false,
-      "type": "file"
-    }
-  ],
+  "music": {
+    "background": 1,
+    "defaultVolume": 0.35,
+    "playerlist": [
+      {
+        "id": 1,
+        "uuid": "detective-conan-collaboration",
+        "fileName": "Detective_Conan_Collaboration.mp3",
+        "title": "Detective Conan Collaboration Theme",
+        "artist": "TiMi Studio Group",
+        "artists": [
+          "TiMi Studio Group"
+        ],
+        "album": "Honor of Kings × Detective Conan Collaboration",
+        "cover": "https://i.ytimg.com/vi/a-urSY2hpIo/maxresdefault.jpg",
+        "src": "assets/audio/Detective_Conan_Collaboration.mp3",
+        "url": "https://www.youtube.com/watch?v=a-urSY2hpIo",
+        "platform": "YouTube",
+        "composer": "",
+        "arranger": "",
+        "publisher": "Tencent Games",
+        "copyright": "© Tencent Games / TiMi Studio Group",
+        "releaseDate": "",
+        "duration": "",
+        "genre": [
+          "Game OST",
+          "Instrumental",
+          "Orchestral"
+        ],
+        "language": "Instrumental",
+        "country": "China",
+        "favorite": true,
+        "background": true,
+        "loop": true,
+        "autoplay": false,
+        "volume": 0.35,
+        "type": "file",
+        "tags": [
+          "favorite",
+          "background",
+          "game",
+          "instrumental",
+          "anime"
+        ],
+        "notes": "Tema utilizado na colaboração entre Honor of Kings e Detective Conan."
+      }
+    ]
+  },
   "metadata": {
     "version": "1.0.0",
     "lastUpdated": "2026-07-11",

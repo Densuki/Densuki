@@ -35,7 +35,13 @@
     "sync": "cp assets/*.json docs/data/ || true"
   },
   "dependencies": {
-    "chalk": "^4.1.2"
+    "@distube/ytdl-core": "^4.16.12",
+    "axios": "^1.18.1",
+    "chalk": "^4.1.2",
+    "fs-extra": "^11.3.6",
+    "music-metadata": "^11.13.0",
+    "slugify": "^1.6.9",
+    "ytdl-core": "^4.11.5"
   },
   "devDependencies": {
     "http-proxy": "^1.18.1"
