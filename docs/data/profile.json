@@ -1,89 +1,1321 @@
 {
-  "name": "João Gabriel Sousa Santos",
-  "pronouns": "ele/dele",
-  "avatar": "/web/img/profile.png",
-  "banner": "/web/img/banner.png",
-  "badges": [
-    "INFJ",
-    "Cristão",
-    "Testemunha de Jeová",
-    "Estudante",
-    "Programador",
-    "Artista Digital",    
-    "Desenvolvedor",
-    "Mangaká"
-  ],
-  "nickname": "YukiriDensuki",
-  "displayname": "Yukiri Densuki",
-  "birthday": "2000-03-03",
-  "age": 18,
-  "location": "Brasil",
-  "emoji": "https://flagcdn.com/w20/br.png",
-  "objective": "Aprender continuamente, compartilhar conhecimento e desenvolver soluções úteis",
-  "role": "Desenvolvedor Web & Artista Digital",
-  "status": {
-    "working": "WeckTech • Lan House",
-    "studying": "Concurso Público",
-    "availableForWork": true
+  "identity": {
+    "name": "João Gabriel Sousa Santos",
+    "pronouns": "ele/dele",
+    "displayName": "Yukiri Densuki",
+    "nickname": "YukiriDensuki",
+    "aliases": [
+        "Yukiri",
+        "Densuki"
+    ],
+    "birthday": "2000-03-03",
+    "age": 18
   },
-  "email": "joaogabriel4175@gmail.com",
-  "bio": [
-    "<h1> • INFJ • ♾️ • 🌘</br><small><img src={{emoji}}></small></h1>",
-    "• <small>{{nationality}} • {{locations.city}}/{{locations.state}}</small> •",
-    "<blockquote>Olá! 👋 Me chamo <strong>{{name}}</strong>, tenho <strong>{{age}}</strong> anos.</br>Embora na internet eu seja mais conhecido como <strong>{{displayname}}</strong>.</blockquote>",
-    "Sou apaixonado por aprender e por transformar curiosidade em conhecimento. Costumo ser uma pessoa calma e reservada em um primeiro momento, mas bastante comunicativa quando me sinto à vontade no ambiente.</blockquote>",
-    "<em>💜 A verdade guia minhas palavras;</br>o caráter e a fé em Jeová guiam minhas escolhas.</em>",
-    "<em>🌿 Acredito que a lealdade começa onde a honestidade nunca termina.</em>",
-    "Nas horas livres, gosto de escrever histórias, desenhar e dar vida a novas ideias, motivo pelo qual costumo me autointitular um Mangaká.</br>Vejo a criatividade como uma forma de expressar aquilo que nem sempre pode ser dito apenas com palavras.",
-    "<em>🎨 Expressando o que palavras não dizem.</em>",
-    "<em>📖 Registrando mundos que só existem na imaginação.</em>",
-    "Além da arte, sou fascinado por tecnologia.</br>Tenho grande interesse por programação, Inteligência Artificial, robótica e desenvolvimento de jogos, buscando sempre compreender a lógica por trás das coisas e construir soluções úteis.",
-    "<em>💻 Encontrando lógica no caos.</em>",
-    "Também sou apaixonado por games, animes e música, acreditando que cada experiência pode ensinar algo novo.",
-    "<em>🎹 Descobrindo emoções em cada nota.</em>",
-    "<em>🌟 Afinal, aprender, criar e compartilhar conhecimento sempre fizeram parte de quem eu sou.</em></br></br>",
-    "<strong>Objetivo:</strong> <small>{{objective}}.</small>",
-    "<strong>Interesses:</strong> <small>{{interests}}.</small>",
-    "</br></br>",
-    "<strong>Status:</strong></br>Emprego: <small>{{status.working}}</small></br>Estudando: <small>{{status.studying}}</small>",
-    "<strong>Disponível para trabalho:</strong>"
+  "avatar": "/docs/img/profile.png",
+  "banner": "/docs/img/banner.png",
+  "badges":[
+    {
+        "name":"Cristão",
+        "icon":"✝️",
+        "color": ""
+    },
+    {
+        "name":"Testemunha de Jeová",
+        "icon":"📖",
+        "color": ""
+    },
+    {
+        "name":"Programador",
+        "icon":"💻",
+        "color": ""
+    },
+    {
+        "name":"Artista Digital",
+        "icon":"🎨",
+        "color": ""
+    },
+    {
+        "name":"Mangaká",
+        "icon":"🖌️",
+        "color": ""
+    },
+    {
+        "name":"Estudante",
+        "icon":"📚",
+        "color": ""
+    },
+    {
+        "name":"Desenvolvedor",
+        "icon":"🖥️",
+        "color": ""
+    }
   ],
-  "contactMessage": "Gosta de código, arte ou histórias?</br>Vamos trocar uma ideia!",
-  "quote": "<em>É por isso que não sabem quem são. Nós sabemos quem somos e por isso não precisamos de nomes.</em>",
-  "quoteAuthor": "<strong>gato, CORALINE</strong>",
-  "hobbies": ["costumo escrever e desenhar", "me auto intitulo de 'Mangaká'"],
-  "interests": ["Games", "Animes", "I.A.", "Robótica", "Jogos"],
-  "skills": {
-    "frontend": ["HTML5", "CSS3", "JavaScript", "React"],
-    "backend": ["Java", "PHP", "Python", "Node.js", "Lua"],
-    "frameworks": ["Express.js", "Spring Boot", "Laravel", "Django", "Vue.js", "Pandas"],
-    "database": ["MySQL", "PostgreSQL", "MongoDB"],
-    "tools": ["Git", "GitHub", "VS Code", "IntelliJ IDEA", "Eclipse", "ATOM"],
-    "office": ["Microsoft Office", "LibreOffice", "Google Workspace"],
-    "design": ["Photoshop", "ClipSTUDIO Paint", "Figma", "Blender"],
-    "art": ["Pixel Art", "Ilustração", "Modelagem 3D", "Design"],
-    "languages": ["Português", "Inglês (Intermediário)"],
-    "gameDev": ["RPG Maker MV", "RPG Maker MZ"],
-    "robotics": []
-},
-  "tags": [
-    "Java",
-    "Node.js",
-    "IA",
-    "Open Source",
-    "GitHub"
-  ],
-  "social": {
-    "github": "https://github.com/Densuki",
-    "linkedin": "https://www.linkedin.com/in/",
-    "instagram": ["https://www.instagram.com/yukiridensuki"],
-    "discord": "https://discord.com/users/568923940768972808"
-  },
   "nationality": "Brasileiro",
-  "locations": {
+  "location": {
     "country": "Brasil",
     "state": "Ceará",
     "city": "Fortaleza"
+  },
+  "emoji": [],
+  "flag": "https://flagcdn.com/w20/br.png",
+  "objective": "Aprender continuamente, compartilhar conhecimento e desenvolver soluções úteis",
+  "role": "Desenvolvedor de Software • Artista Digital • Escritor",
+  "status":{
+      "working":"WeckTech • Lan House",
+      "studying":"Concurso Público",
+      "learning": [
+        "Libras",
+        "Teoria Musical",
+        "Pacote Office Avançado"
+      ],
+      "availableForWork": true
+  },
+"bio": {
+    "header": [
+        "<h1> • INFJ • ♾️ • 🌘</br><small><img src={{flag}}></small></h1>",
+        "• <small>{{nationality}} • {{location.city}}/{{location.state}}</small> •"
+    ],
+
+    "introduction": [
+        "<blockquote>Olá! 👋 Me chamo <strong>{{name}}</strong>, tenho <strong>{{age}}</strong> anos.</br>Embora na internet eu seja mais conhecido como <strong>{{displayName}}</strong>.</blockquote>",
+
+        "Sou apaixonado por aprender e por transformar curiosidade em conhecimento. Costumo ser uma pessoa calma e reservada em um primeiro momento, mas bastante comunicativa quando me sinto à vontade no ambiente."
+    ],
+
+    "personality": [
+        "<em>💜 A verdade guia minhas palavras;</br>o caráter e a fé em Jeová guiam minhas escolhas.</em>",
+
+        "<em>🌿 Acredito que a lealdade começa onde a honestidade nunca termina.</em>"
+    ],
+
+    "creativity": [
+        "Nas horas livres, gosto de escrever histórias, desenhar e dar vida a novas ideias, motivo pelo qual costumo me autointitular um Mangaká.</br>Vejo a criatividade como uma forma de expressar aquilo que nem sempre pode ser dito apenas com palavras.",
+
+        "<em>🎨 Expressando o que palavras não dizem.</em>",
+
+        "<em>📖 Registrando mundos que só existem na imaginação.</em>"
+    ],
+
+    "technology": [
+        "Além da arte, sou fascinado por tecnologia.</br>Tenho grande interesse por programação, Inteligência Artificial, robótica e desenvolvimento de jogos, buscando sempre compreender a lógica por trás das coisas e construir soluções úteis.",
+
+        "<em>💻 Encontrando lógica no caos.</em>"
+    ],
+
+    "entertainment": [
+        "Também sou apaixonado por games, animes e música, acreditando que cada experiência pode ensinar algo novo.",
+
+        "<em>🎹 Descobrindo emoções em cada nota.</em>"
+    ],
+
+    "philosophy": [
+        "<em>🌟 Afinal, aprender, criar e compartilhar conhecimento sempre fizeram parte de quem eu sou.</em>"
+    ],
+
+    "summary": [
+        "<strong>Objetivo:</strong> <small>{{objective}}</small>",
+
+        "<strong>Interesses:</strong> <small>{{interests}}</small>"
+    ],
+
+    "status": [
+        "<strong>Status:</strong></br>Emprego: <small>{{status.working}}</small></br>Estudando: <small>{{status.studying}}</small>",
+
+        "<strong>Disponível para trabalho:</strong> {{status.availableForWork}}"
+    ]
+  },
+  "contactMessage": "Gosta de código, arte ou histórias?</br>Vamos trocar uma ideia!",
+  "quote": "<em>É por isso que não sabem quem são. Nós sabemos quem somos e por isso não precisamos de nomes.</em>",
+  "quoteAuthor": "<strong>Coraline (O Gato)</strong>",
+  "goals": {
+
+      "shortTerm":[
+          "Ser aprovado em concurso público",
+          "Consolidar conhecimentos em programação",
+          "Aprender Libras",
+          "Aprender tocar Teclado / Piano"
+      ],
+
+      "longTerm":[
+          "Publicar meu mangá",
+          "Criar projetos próprios",
+          "Desenvolver soluções úteis para as pessoas"
+      ]
+  },
+  "facts": [
+      "Costumo ser chamado de Yukiri Densuki na internet.",
+      "Sou apaixonado por World Building.",
+      "Gosto de criar sistemas inspirados em RPG.",
+      "Tenho interesse por Inteligência Artificial."
+  ],
+  "hobbies": [
+    "Estudar tecnologia",
+    "Escrever histórias",
+    "Desenhar e desenvolver mundos",
+    "me auto intitulo de 'Mangaká'",
+    "Tocar Teclado e Instrumentos Musicais",
+    "Jogar videogame",
+    "Assistir animes",
+    "Fazer caminhadas",
+    "Jogar Vôlei e fazer Natação"
+  ],
+  "interests": [
+    "Animes",
+    "Literatura",
+    "Escrita",
+    "Leitura",
+    "Desenhar",
+    "Música",
+    "Instrumental",
+    "Games",
+    "Programação",
+    "Inteligência Artificial",
+    "Robótica",
+    "Desenvolvimento de Jogos",
+    "Minecraft Modding",
+    "Modelagem 3D"
+  ],
+"hardSkills": {
+    "defaults": {
+      "skill": {
+        "icon": "",
+        "color": "",
+        "level": "",
+        "proficiency": "",
+        "experience": "",
+        "isFavorite": false,
+        "isLearning": false,
+        "priority": 0,
+        "description": ""
+      }
+    },
+    "programming": [
+      {
+        "name": "Java",
+        "icon": "devicon-java-plain",
+        "color": "#ED8B00",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": true,
+        "priority": 1,
+        "description": "Principal linguagem utilizada em projetos relacionados ao ecossistema Minecraft."
+      },
+      {
+        "name": "JavaScript",
+        "icon": "devicon-javascript-plain",
+        "color": "#F7DF1E",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": true,
+        "priority": 2,
+        "description": "Desenvolvimento Web, automações e bots para Discord."
+      },
+      {
+        "name": "TypeScript",
+        "icon": "devicon-typescript-plain",
+        "color": "#3178C6",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": false,
+        "isLearning": true,
+        "priority": 3,
+        "description": ""
+      },
+      {
+        "name": "Python",
+        "icon": "devicon-python-plain",
+        "color": "#3776AB",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": false,
+        "isLearning": true,
+        "priority": 4,
+        "description": ""
+      },
+      {
+        "name": "PHP",
+        "icon": "devicon-php-plain",
+        "color": "#777BB4",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": false,
+        "isLearning": true,
+        "priority": 5,
+        "description": ""
+      },
+      {
+        "name": "Lua",
+        "icon": "devicon-lua-plain",
+        "color": "#2C2D72",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": true,
+        "priority": 6,
+        "description": "Utilizada principalmente em projetos de automação e mods."
+      },
+      {
+        "name": "HTML5",
+        "icon": "devicon-html5-plain",
+        "color": "#E34F26",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": false,
+        "priority": 7,
+        "description": "Estruturação de páginas Web."
+      },
+      {
+        "name": "CSS3",
+        "icon": "devicon-css3-plain",
+        "color": "#1572B6",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": false,
+        "priority": 8,
+        "description": "Estilização de páginas Web."
+      },
+      {
+        "name": "JSON",
+        "icon": "mdi:code-json",
+        "color": "#5E5C5C",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": false,
+        "priority": 9,
+        "description": "Estruturação e serialização de dados."
+      },
+      {
+        "name": "Markdown",
+        "icon": "mdi:language-markdown",
+        "color": "#000000",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": false,
+        "priority": 10,
+        "description": "Documentação, README e organização de projetos."
+      }
+    ],
+    "frontend": [
+      {
+        "name": "HTML5",
+        "icon": "devicon-html5-plain",
+        "color": "#E34F26",
+        "level": "", 
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": false,
+        "priority": 1,
+        "description": ""
+      },
+      {
+        "name": "CSS3",
+        "icon": "devicon-css3-plain",
+        "color": "#1572B6",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": false,
+        "priority": 2,
+        "description": ""
+      },
+      {
+        "name": "JavaScript",
+        "icon": "devicon-javascript-plain",
+        "color": "#F7DF1E",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": true,
+        "priority": 3,
+        "description": ""
+      },
+      {
+        "name": "React",
+        "icon": "devicon-react-original",
+        "color": "#61DAFB",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": false,
+        "isLearning": true,
+        "priority": 4,
+        "description": ""
+      },
+      {
+        "name": "Next.js",
+        "icon": "devicon-nextjs-original",
+        "color": "#000000",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": false,
+        "isLearning": true,
+        "priority": 5,
+        "description": ""
+      },
+      {
+        "name": "Vue",
+        "icon": "devicon-vuejs-plain",
+        "color": "#42B883",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": false,
+        "isLearning": true,
+        "priority": 6,
+        "description": ""
+      },
+      {
+        "name": "Nuxt.js",
+        "icon": "devicon-nuxtjs-plain",
+        "color": "#00DC82",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": false,
+        "isLearning": true,
+        "priority": 7,
+        "description": ""
+      },
+      {
+        "name": "Bootstrap",
+        "icon": "devicon-bootstrap-plain",
+        "color": "#7952B3",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": false,
+        "priority": 8,
+        "description": ""
+      },
+      {
+        "name": "Tailwind CSS",
+        "icon": "devicon-tailwindcss-original",
+        "color": "#06B6D4",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": true,
+        "priority": 9,
+        "description": ""
+      },
+      {
+        "name": "Material UI",
+        "icon": "logos:material-ui",
+        "color": "#007FFF",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": false,
+        "isLearning": true,
+        "priority": 10,
+        "description": ""
+      }
+    ],
+    "backend": [
+      {
+        "name": "Node.js",
+        "icon": "devicon-nodejs-plain",
+        "color": "#339933",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": true,
+        "priority": 1,
+        "description": "Runtime JavaScript utilizado em APIs, automações e bots para Discord."
+      },
+      {
+        "name": "Express.js",
+        "icon": "devicon-express-original",
+        "color": "#000000",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": true,
+        "priority": 2,
+        "description": "Framework backend para Node.js."
+      },
+      {
+        "name": "Java",
+        "icon": "devicon-java-plain",
+        "color": "#ED8B00",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": true,
+        "priority": 3,
+        "description": "Desenvolvimento de aplicações desktop, mods e plugins para Minecraft."
+      },
+      {
+        "name": "PHP",
+        "icon": "devicon-php-plain",
+        "color": "#777BB4",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": false,
+        "isLearning": true,
+        "priority": 4,
+        "description": ""
+      },
+      {
+        "name": "Python",
+        "icon": "devicon-python-plain",
+        "color": "#3776AB",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": false,
+        "isLearning": true,
+        "priority": 5,
+        "description": ""
+      },
+      {
+        "name": "JavaScript",
+        "icon": "devicon-javascript-plain",
+        "color": "#F7DF1E",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": true,
+        "priority": 6,
+        "description": ""
+      },
+      {
+        "name": "TypeScript",
+        "icon": "devicon-typescript-plain",
+        "color": "#3178C6",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": false,
+        "isLearning": true,
+        "priority": 7,
+        "description": ""
+      },
+      {
+        "name": "Lua",
+        "icon": "devicon-lua-plain",
+        "color": "#2C2D72",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": true,
+        "priority": 8,
+        "description": ""
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "Discord.js",
+        "icon": "simple-icons:discord",
+        "color": "#5865F2",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": true,
+        "priority": 1,
+        "description": "Biblioteca principal utilizada no desenvolvimento de bots para Discord."
+      },
+      {
+        "name": "React",
+        "icon": "devicon-react-original",
+        "color": "#61DAFB",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": false,
+        "isLearning": true,
+        "priority": 2,
+        "description": ""
+      },
+      {
+        "name": "Vue",
+        "icon": "devicon-vuejs-plain",
+        "color": "#42B883",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": false,
+        "isLearning": true,
+        "priority": 3,
+        "description": ""
+      },
+      {
+        "name": "Express",
+        "icon": "devicon-express-original",
+        "color": "#000000",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": true,
+        "priority": 4,
+        "description": ""
+      },
+      {
+        "name": "Spring Boot",
+        "icon": "devicon-spring-plain",
+        "color": "#6DB33F",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": false,
+        "isLearning": true,
+        "priority": 5,
+        "description": ""
+      },
+      {
+        "name": "Laravel",
+        "icon": "devicon-laravel-plain",
+        "color": "#FF2D20",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": false,
+        "isLearning": true,
+        "priority": 6,
+        "description": ""
+      },
+      {
+        "name": "Django",
+        "icon": "devicon-django-plain",
+        "color": "#092E20",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": false,
+        "isLearning": true,
+        "priority": 7,
+        "description": ""
+      }
+    ],
+    "libraries": [
+      {
+        "name": "jQuery",
+        "icon": "devicon-jquery-plain",
+        "color": "#0769AD",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": false,
+        "isLearning": false,
+        "priority": 1,
+        "description": ""
+      },
+      {
+        "name": "Material UI",
+        "icon": "logos:material-ui",
+        "color": "#007FFF",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": false,
+        "isLearning": true,
+        "priority": 2,
+        "description": ""
+      },
+      {
+        "name": "Pandas",
+        "icon": "devicon-pandas-original",
+        "color": "#150458",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": false,
+        "isLearning": true,
+        "priority": 3,
+        "description": "Biblioteca Python voltada para manipulação e análise de dados."
+      }
+    ],
+    "database": [
+      {
+        "name": "MySQL",
+        "icon": "devicon-mysql-plain",
+        "color": "#4479A1",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": true,
+        "priority": 1,
+        "description": "Banco de dados relacional utilizado em aplicações Web, servidores e projetos pessoais."
+      },
+      {
+        "name": "MariaDB",
+        "icon": "devicon-mariadb-original",
+        "color": "#003545",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": false,
+        "isLearning": true,
+        "priority": 2,
+        "description": "Fork do MySQL compatível com diversas aplicações."
+      },
+      {
+        "name": "PostgreSQL",
+        "icon": "devicon-postgresql-plain",
+        "color": "#4169E1",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": false,
+        "isLearning": true,
+        "priority": 3,
+        "description": "Banco de dados relacional orientado à integridade e desempenho."
+      },
+      {
+        "name": "MongoDB",
+        "icon": "devicon-mongodb-plain",
+        "color": "#47A248",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": false,
+        "isLearning": true,
+        "priority": 4,
+        "description": "Banco de dados NoSQL orientado a documentos."
+      },
+      {
+        "name": "SQLite",
+        "icon": "devicon-sqlite-plain",
+        "color": "#003B57",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": false,
+        "isLearning": true,
+        "priority": 5,
+        "description": "Banco de dados leve embarcado em aplicações."
+      }
+    ],
+    "tools": [
+      {
+        "name": "Git",
+        "icon": "devicon-git-plain",
+        "color": "#F05032",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": true,
+        "priority": 1,
+        "description": "Sistema de controle de versão."
+      },
+      {
+        "name": "GitHub",
+        "icon": "devicon-github-original",
+        "color": "#181717",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": true,
+        "priority": 2,
+        "description": "Hospedagem de repositórios Git e colaboração em projetos."
+      },
+      {
+        "name": "GitHub Desktop",
+        "icon": "devicon-github-original",
+        "color": "#8034A9",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": false,
+        "isLearning": false,
+        "priority": 3,
+        "description": "Cliente gráfico para gerenciamento de repositórios Git."
+      },
+      {
+        "name": "VS Code",
+        "icon": "devicon-vscode-plain",
+        "color": "#007ACC",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": false,
+        "priority": 4,
+        "description": "Editor de código principal."
+      },
+      {
+        "name": "IntelliJ IDEA",
+        "icon": "devicon-intellij-plain",
+        "color": "#000000",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": false,
+        "priority": 5,
+        "description": "IDE utilizada principalmente para desenvolvimento Java."
+      },
+      {
+        "name": "Eclipse",
+        "icon": "devicon-eclipse-plain",
+        "color": "#2C2255",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": false,
+        "isLearning": false,
+        "priority": 6,
+        "description": "IDE para desenvolvimento Java."
+      },
+      {
+        "name": "Atom",
+        "icon": "devicon-atom-original",
+        "color": "#66595C",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": false,
+        "isLearning": false,
+        "priority": 7,
+        "description": "Editor de código (descontinuado)."
+      },
+      {
+        "name": "Recaf",
+        "icon": "mdi:language-java",
+        "color": "#E76F00",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": false,
+        "priority": 8,
+        "description": "Ferramenta para engenharia reversa e edição de bytecode Java."
+      },
+      {
+        "name": "Gradle",
+        "icon": "devicon-gradle-plain",
+        "color": "#02303A",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": true,
+        "priority": 9,
+        "description": "Sistema de automação de builds."
+      },
+      {
+        "name": "npm",
+        "icon": "devicon-npm-original-wordmark",
+        "color": "#CB3837",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": true,
+        "priority": 10,
+        "description": "Gerenciador de pacotes do Node.js."
+      },
+      {
+        "name": "Node.js",
+        "icon": "devicon-nodejs-plain",
+        "color": "#339933",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": true,
+        "priority": 11,
+        "description": "Runtime JavaScript."
+      }
+    ],
+    "office": [
+      {
+        "name": "Microsoft Office",
+        "icon": "simple-icons:microsoftoffice",
+        "color": "#D83B01",
+        "level": "",
+        "proficiency": "",  
+        "experience": "",
+        "isFavorite": false,
+        "isLearning": false,
+        "priority": 1,
+        "description": "Pacote de produtividade da Microsoft."
+      },
+      {
+        "name": "LibreOffice",
+        "icon": "simple-icons:libreoffice",
+        "color": "#18A303",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": false,
+        "isLearning": false,
+        "priority": 2,
+        "description": "Suíte de escritório de código aberto."
+      },
+      {
+        "name": "Google Workspace",
+        "icon": "simple-icons:googleworkspace",
+        "color": "#4285F4",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": false,
+        "isLearning": false,
+        "priority": 3,
+        "description": "Ferramentas de produtividade em nuvem do Google."
+      }
+    ],
+    "design": [
+      {
+        "name": "Adobe Photoshop",
+        "icon": "simple-icons:adobephotoshop",
+        "color": "#31A8FF",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": true,
+        "priority": 1,
+        "description": "Edição de imagens, composição e manipulação digital."
+      },
+      {
+        "name": "Clip Studio Paint",
+        "icon": "simple-icons:clipstudio",
+        "color": "#6C5CE7",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": false,
+        "priority": 2,
+        "description": "Ilustração digital, criação de mangás e concept art."
+      },
+      {
+        "name": "Figma",
+        "icon": "devicon-figma-plain",
+        "color": "#F24E1E",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": false,
+        "isLearning": true,
+        "priority": 3,
+        "description": "Design de interfaces, prototipação e experiência do usuário."
+      },
+      {
+        "name": "Blender",
+        "icon": "devicon-blender-original",
+        "color": "#F5792A",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": true,
+        "priority": 4,
+        "description": "Modelagem, animação e renderização 3D."
+      }
+    ],
+    "art": [
+      {
+        "name": "Desenho Digital",
+        "icon": "mdi:draw",
+        "color": "#8E44AD",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": false,
+        "priority": 1,
+        "description": "Ilustrações digitais e criação de personagens."
+      },
+      {
+        "name": "Pixel Art",
+        "icon": "mdi:grid",
+        "color": "#F39C12",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": true,
+        "priority": 2,
+        "description": "Arte digital baseada em pixels para jogos e interfaces."
+      },
+      {
+        "name": "Ilustração",
+        "icon": "mdi:palette",
+        "color": "#E91E63",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": true,
+        "priority": 3,
+        "description": "Criação de artes conceituais e ilustrações."
+      },
+      {
+        "name": "Modelagem 3D",
+        "icon": "mdi:cube-outline",
+        "color": "#00BCD4",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": true,
+        "priority": 4,
+        "description": "Modelagem tridimensional para jogos e projetos criativos."
+      },
+      {
+        "name": "Design",
+        "icon": "mdi:vector-square",
+        "color": "#9C27B0",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": true,
+        "priority": 5,
+        "description": "Design visual aplicado à comunicação e interfaces."
+      },
+      {
+        "name": "World Building",
+        "icon": "mdi:earth",
+        "color": "#2ECC71",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": false,
+        "priority": 6,
+        "description": "Construção de universos, culturas, sistemas e ambientações fictícias."
+      },
+      {
+        "name": "Storytelling",
+        "icon": "mdi:book-open-page-variant",
+        "color": "#D35400",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": false,
+        "priority": 7,
+        "description": "Criação de narrativas, personagens, conflitos e desenvolvimento de histórias."
+      },
+      {
+        "name": "Character Design",
+        "icon": "mdi:account-star",
+        "color": "#E67E22",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": true,
+        "priority": 8,
+        "description": "Desenvolvimento visual e conceitual de personagens."
+      },
+      {
+        "name": "Concept Art",
+        "icon": "mdi:brush",
+        "color": "#16A085",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": true,
+        "priority": 9,
+        "description": "Produção de conceitos visuais para personagens, cenários e objetos."
+      },
+      {
+        "name": "Creative Writing",
+        "icon": "mdi:pen",
+        "color": "#795548",
+        "level": "",
+        "proficiency": "", 
+        "experience": "",
+        "isFavorite": true,
+        "isLearning": false,
+        "priority": 10,
+        "description": "Escrita criativa aplicada a contos, roteiros e mangás."
+      }
+    ],
+    "gameDevelopment": {
+      "minecraft": [
+        {
+          "name": "Forge Modding",
+          "icon": "mdi:anvil",
+          "color": "#2ECC71",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": true,
+          "priority": 1,
+          "description": "Desenvolvimento e modificação de mods para Minecraft Forge."
+        },
+        {
+          "name": "Plugin Development",
+          "icon": "mdi:puzzle",
+          "color": "#3498DB",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": true,
+          "priority": 2,
+          "description": "Desenvolvimento e customização de plugins para servidores."
+        },
+        {
+          "name": "Resource Packs",
+          "icon": "mdi:folder-image",
+          "color": "#F1C40F",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": true,
+          "priority": 3,
+          "description": "Criação e edição de pacotes de recursos."
+        },
+        {
+          "name": "Server Configuration",
+          "icon": "mdi:server",
+          "color": "#34495E",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": false,
+          "priority": 4,
+          "description": "Configuração de servidores, mods, plugins e economia."
+        }
+      ],
+
+      "engines": [
+        {
+          "name": "RPG Maker MV",
+          "icon": "mdi:controller-classic",
+          "color": "#8E44AD",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": false,
+          "priority": 1,
+          "description": "Criação de jogos RPG em 2D."
+        },
+        {
+          "name": "RPG Maker MZ",
+          "icon": "mdi:controller-classic",
+          "color": "#9B59B6",
+          "level": "",
+          "proficiency": "", 
+          "experience": "",
+          "isFavorite": true,
+          "isLearning": true,
+          "priority": 2,
+          "description": "Desenvolvimento de jogos utilizando RPG Maker MZ."
+        }
+      ]
+    }
+  },
+  "softSkills":[
+    "Aprendizado contínuo",
+    "Pensamento analítico",
+    "Criatividade",
+    "Curiosidade",
+    "Resolução de problemas",
+    "Autodidatismo",
+    "Organização",
+    "Empatia",
+    "Honestidade",
+    "Persistência",
+    "Trabalho em equipe",
+    "Comunicação escrita"
+  ],
+  "favoriteTechnologies": [
+      "Node.js",
+      "Discord.js",
+      "Python",
+      "Java",
+      "Crucible",
+      "Forge",
+      "GitHub"
+  ],
+  "principles": [
+      "Aprender continuamente.",
+      "Compartilhar conhecimento.",
+      "Resolver problemas de forma ética.",
+      "Valorizar a verdade acima da conveniência."
+  ],
+  "values": [
+    "Honestidade",
+    "Lealdade",
+    "Respeito",
+    "Conhecimento",
+    "Criatividade",
+    "Fé",
+    "Humildade"
+  ],
+  "personality": {
+      "mbti": "INFJ",
+
+      "temperament": [
+          "Calmo",
+          "Reservado",
+          "Analítico",
+          "Criativo",
+          "Curioso",
+          "Observador"
+      ],
+
+      "alignment": "Lawful Good",
+
+      "archetype": "Sábio",
+
+      "introvert": true
+  },
+  "preferences":{
+      "favoriteSeason":"Inverno",
+      "favoriteWeather":"Chuva",
+      "favoriteTime":"Noite",
+      "favoriteEnvironment":"Silencioso"
+  },
+  "profileStats": {
+    "level": 26,
+    "experience": 12450,
+    "nextLevel": 15000,
+    "description": "Representação simbólica da minha personalidade e habilidades em formato de RPG. Os valores são ilustrativos e servem apenas como uma forma divertida de me apresentar.",
+
+      "health": 65,
+      "stamina": 40,
+      "mana": 80,
+      "strength": 38,
+      "dexterity": 56,
+      "agility": 54,
+      "intelligence": 90,
+      "wisdom": 92,
+      "perception": 89,
+      "charisma": 72,
+      "luck": 63,
+
+      "logic": 95,
+      "creativity": 95,
+      "curiosity": 100,
+      "patience": 91,
+      "discipline": 76,
+      "adaptability": 82,
+      "communication": 79,
+      "leadership": 67,
+      "teamwork": 74,
+      "problemSolving": 94,
+      "organization": 83,
+      "focus": 81,
+      "memory": 86,
+      "learning": 99,
+      "criticalThinking": 92,
+
+      "empathy": 90,
+      "kindness": 91,
+      "honesty": 99,
+      "loyalty": 100,
+      "resilience": 84,
+      "selfControl": 80,
+      "determination": 88,
+
+      "imagination": 100,
+      "storytelling": 96,
+      "artisticSense": 92,
+      "musicalSense": 73,
+
+      "coding": 74,
+      "debugging": 79,
+      "gameDesign": 86,
+      "worldBuilding": 99,
+      "writing": 91,
+      "drawing": 74,
+      "research": 93
+  },
+  "traits": [
+    "Autodidata",
+    "Observador",
+    "Criativo",
+    "Persistente",
+    "Reservado",
+    "Analítico",
+    "Idealista",
+    "Curioso",
+    "Calmo",
+    "Organizado"
+  ],
+  "weaknesses": [
+    "Perfeccionismo",
+    "Autocrítica",
+    "Pensar demais antes de agir",
+    "Dificuldade em pedir ajuda",
+    "Sensível a críticas injustas",
+    "TDAH"
+  ],
+  "strengths": [
+    "Aprende rápido",
+    "Hiperfoco",
+    "Resolve problemas complexos",
+    "Criatividade elevada",
+    "Facilidade para conectar ideias",
+    "Persistência",
+    "Visão de longo prazo"
+  ],
+  "class": {
+    "primary": "Scholar",
+    "secondary": "Programmer",
+    "title": "World Builder"
+  },
+  "tags": [
+    "Java",
+    "Node.js",
+    "Python",
+    "JavaScript",
+    "Lua",
+    "Web Developer",
+    "Front-End",
+    "Back-End",
+    "FullStack",  
+    "IA",
+    "Open Source",
+    "GitHub",
+    "Automation", 
+    "Discord Bot"
+  ],
+  "social": {
+    "discordId": "568923940768972808",
+    "githubUsername": "Densuki",
+    "github": "https://github.com/Densuki",
+    "linkedin": "https://www.linkedin.com/in/densuki",
+    "instagram": "https://www.instagram.com/yukiridensuki",
+    "discord": "https://discord.com/users/568923940768972808",
+    "email": "joaogabriel4175@gmail.com"
   },
   "languages": [
     {
@@ -93,13 +1325,157 @@
     {
         "name": "Inglês",
         "level": "Intermediário"
+    },
+    {
+        "name": "Japonês",
+        "level": "Noções"
+    },
+    {
+        "name": "Libras",
+        "level": "Estudando"
     }
   ],
-  "discordId": "568923940768972808",
-  "githubUsername": "Densuki",
+  "favorites": {
+    "anime": [
+      "Made in Abyss",
+      "Sousou no Frieren",
+      "SPY X Family",
+      "Boku no Hero Academia",
+      "Neon Genesis: Evangelion",
+      "Digimon Adventure (1999)",
+      "Digimon Adventure 02",
+      "Digimon Tamers",
+      "Digimon Frontier",
+      "Yu-Gi-Oh!: Duel Monsters",
+      "Yu-Gi-Oh!: 5D's",
+      "Yu-Gi-Oh!: ZeXal",
+      "Yu-Gi-Oh!: Arc-V",
+      "Yu-Gi-Oh!: VRAINS",
+      "One Piece",
+      "Bleach",
+      "Code Geass",
+      "Dr. Stone",
+      "Attack on Titans",
+      "Youjou Senki",
+      "Naruto",
+      "Boruto: Naruto the Next Generations",
+      "Durarara!!!",
+      "Toradora!",
+      "K-ON",
+      "Chuunibyouchuunibyou Demo Koi ga Shitai",
+      "Shuumatsu no Valkirie",
+      "Gabriel Droupout",
+      "KonoSuba",
+      "Zero no Tsukaima",
+      "Kyoukai no Hinne",
+      "Bakuman",
+      "Yakusoku no Neverland"
+    ],
+    "series": [
+      "Doctor Who",
+      "Supernatural",
+      "Stranger Things",
+      "Once Upon a Time"
+    ],
+    "movies": [
+      "Spirited Away (A Viagem de Chihiro)",
+      "Wolf Children (As Crianças Lobo)",
+      "Howl's Moving Castle (O Castelo Animado)",
+      "My Neighbor Totoro (Meu Amigo Totoro)",
+      "Avengers: Infinity War (Vingadores: Guerra Infinita)",
+      "Avengers: Endgame (Vingadores: Ultimato)",
+      "UP! (UP! Altas Aventuras)",
+      "Rattatouille (Ratatouille)",
+      "Inside Out (Divertida Mente)",
+      "The Incredibles (Os Incríveis)",
+      "Doctor Who: Twice Upon a Time",
+      "Yu-Gi-Oh! Duel Monsters: The Dark Side of Dimensions",
+      "Naruto Shippuden: The Last",
+      "Digimon Adventure: Last Evolution Kizuna",
+      "Digimon Adventure 02: Beggining",
+      "One Piece: Film Red",
+      "The Amazing Digital Circus: Last Episode"
+    ],
+    "games": [
+      "Minecraft",
+      "Undertale",
+      "Deltarune",
+      "Resident Evil 2, 3, 4, 7, Village",
+      "Hytale",
+      "Starcraft II",
+      "Yu-Gi-Oh!: Master Duel",
+      "Yu-Gi-Oh!: Duel Links",
+      "Yu-Gi-Oh!: Forbidden Memories",
+      "Hearthstone",
+      "Stardew Valley",
+      "World Warcraft",
+      "League of Legends",
+      "Mobile Legends",
+      "Honor of Kings",
+      "Astro Arena"
+    ],
+    "music": [
+      "Zutto Mayonaka de ii Noni (Zutomayo)",
+      "Ado",
+      "Eve",
+      "FLOW",
+      "Asian Kung-fu Generations",
+      "Ikemonogatari",
+      "Muse",
+      "Imagine Dragons",
+      "Linkin Park",
+      "David Bowie",
+      "Queen",
+      "AC/DC",
+      "Gun's N' Rose",
+      "Linked Horizon",
+      "Babymetal",
+      "Porno Graffitti",
+      "Kansas",
+      "Man with a Mission",
+      "Koji Wada",
+      "kana-boon",
+      "UVERworld",
+      "YUI",
+      "Temper City",
+      "LiSA",
+      "Unison Square Garden",
+      "YOASOBI",
+      "mrs. Green Apple",
+      "Xandria",
+      "Sambomaster",
+      "System of a Down"
+    ],
+    "books": [
+      "Pequeno Príncipe",
+      "Harry Potter",
+      "Coraline"
+    ]
+  },
   "links": {
-  }
-  ,
+    "portfolio": "https://densuki.github.io/Densuki/",
+    "curriculum": "https://densuki.github.io/Densuki/curriculum.html",
+    "sobreMim": "https://densuki.github.io/Densuki/about.html",
+    "blog": "",
+    "website": ""
+  },
+  "timeline":[
+      {
+          "year":2022,
+          "title":"Assistente Pedagógico da Sala de Inovação Digital",
+          "description":"EMTI Nossa Senhora de Fátima"
+      },
+      {
+          "year":2025,
+          "title":"Lan House",
+          "description":"WechTech - Lan House"
+      },
+      {
+          "year":2026,
+          "title":"Estudando para Concurso",
+          "description":"INSS"
+      }
+  ],
   "show": {
     "bio": true,
     "birthday": false,
@@ -122,5 +1498,24 @@
       "src": "assets/audio/background.mp3",
       "type": "file"
     }
-  ]
+  ],
+  "playerlist": [
+    {
+      "title": "",
+      "artist": "",
+      "album": "",
+      "cover": "",
+      "src": "",
+      "loop": true,
+      "autoplay": false,
+      "type": "file"
+    }
+  ],
+  "metadata": {
+    "version": "1.0.0",
+    "lastUpdated": "2026-07-11",
+    "createdAt": "2026-06-25",
+    "author": "João Gabriel Sousa Santos",
+    "schema": "profile-v3"
+  }
 }
