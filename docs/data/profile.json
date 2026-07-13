@@ -266,7 +266,7 @@
           "level": "",
           "proficiency": "", 
           "experience": "",
-          "isFavorite": true,
+          "isFavorite": false,
           "isLearning": true,
           "priority": 6,
           "description": "Utilizada principalmente em projetos de automação e mods."
@@ -278,7 +278,7 @@
           "level": "",
           "proficiency": "", 
           "experience": "",
-          "isFavorite": true,
+          "isFavorite": false,
           "isLearning": false,
           "priority": 7,
           "description": "Estruturação de páginas Web."
@@ -290,7 +290,7 @@
           "level": "",
           "proficiency": "", 
           "experience": "",
-          "isFavorite": true,
+          "isFavorite": false,
           "isLearning": false,
           "priority": 8,
           "description": "Estilização de páginas Web."
@@ -328,7 +328,7 @@
           "level": "", 
           "proficiency": "", 
           "experience": "",
-          "isFavorite": true,
+          "isFavorite": false,
           "isLearning": false,
           "priority": 1,
           "description": ""
@@ -340,7 +340,7 @@
           "level": "",
           "proficiency": "", 
           "experience": "",
-          "isFavorite": true,
+          "isFavorite": false,
           "isLearning": false,
           "priority": 2,
           "description": ""
@@ -364,7 +364,7 @@
           "level": "",
           "proficiency": "", 
           "experience": "",
-          "isFavorite": false,
+          "isFavorite": true,
           "isLearning": true,
           "priority": 4,
           "description": ""
@@ -412,7 +412,7 @@
           "level": "",
           "proficiency": "", 
           "experience": "",
-          "isFavorite": true,
+          "isFavorite": false,
           "isLearning": false,
           "priority": 8,
           "description": ""
@@ -498,7 +498,7 @@
           "level": "",
           "proficiency": "", 
           "experience": "",
-          "isFavorite": false,
+          "isFavorite": true,
           "isLearning": true,
           "priority": 5,
           "description": ""
@@ -534,7 +534,7 @@
           "level": "",
           "proficiency": "", 
           "experience": "",
-          "isFavorite": true,
+          "isFavorite": false,
           "isLearning": true,
           "priority": 8,
           "description": ""
@@ -560,7 +560,7 @@
           "level": "",
           "proficiency": "", 
           "experience": "",
-          "isFavorite": false,
+          "isFavorite": true,
           "isLearning": true,
           "priority": 2,
           "description": ""
@@ -620,7 +620,7 @@
           "level": "",
           "proficiency": "", 
           "experience": "",
-          "isFavorite": false,
+          "isFavorite": true,
           "isLearning": true,
           "priority": 7,
           "description": ""
@@ -658,7 +658,7 @@
           "level": "",
           "proficiency": "", 
           "experience": "",
-          "isFavorite": false,
+          "isFavorite": true,
           "isLearning": true,
           "priority": 3,
           "description": "Biblioteca Python voltada para manipulação e análise de dados."
@@ -696,7 +696,7 @@
           "level": "",
           "proficiency": "", 
           "experience": "",
-          "isFavorite": false,
+          "isFavorite": true,
           "isLearning": true,
           "priority": 3,
           "description": "Banco de dados relacional orientado à integridade e desempenho."
@@ -720,7 +720,7 @@
           "level": "",
           "proficiency": "", 
           "experience": "",
-          "isFavorite": false,
+          "isFavorite": true,
           "isLearning": true,
           "priority": 5,
           "description": "Banco de dados leve embarcado em aplicações."
@@ -758,7 +758,7 @@
           "level": "",
           "proficiency": "", 
           "experience": "",
-          "isFavorite": false,
+          "isFavorite": true,
           "isLearning": false,
           "priority": 3,
           "description": "Cliente gráfico para gerenciamento de repositórios Git."
@@ -819,7 +819,7 @@
           "proficiency": "", 
           "experience": "",
           "isFavorite": true,
-          "isLearning": false,
+          "isLearning": true,
           "priority": 8,
           "description": "Ferramenta para engenharia reversa e edição de bytecode Java."
         },
@@ -868,7 +868,7 @@
           "level": "",
           "proficiency": "",  
           "experience": "",
-          "isFavorite": false,
+          "isFavorite": true,
           "isLearning": false,
           "priority": 1,
           "description": "Pacote de produtividade da Microsoft."
@@ -930,7 +930,7 @@
           "level": "",
           "proficiency": "", 
           "experience": "",
-          "isFavorite": false,
+          "isFavorite": true,
           "isLearning": true,
           "priority": 3,
           "description": "Design de interfaces, prototipação e experiência do usuário."
@@ -942,7 +942,7 @@
           "level": "",
           "proficiency": "", 
           "experience": "",
-          "isFavorite": true,
+          "isFavorite": false,
           "isLearning": true,
           "priority": 4,
           "description": "Modelagem, animação e renderização 3D."
@@ -957,7 +957,7 @@
           "proficiency": "", 
           "experience": "",
           "isFavorite": true,
-          "isLearning": false,
+          "isLearning": true,
           "priority": 1,
           "description": "Ilustrações digitais e criação de personagens."
         },
@@ -1143,7 +1143,7 @@
             "proficiency": "", 
             "experience": "",
             "isFavorite": true,
-            "isLearning": true,
+            "isLearning": false,
             "priority": 2,
             "description": "Desenvolvimento de jogos utilizando RPG Maker MZ."
           }
@@ -1501,54 +1501,6 @@
     "certificates": true,
     "courses": true,
     "music": true
-  },
-  "music": {
-    "background": 1,
-    "defaultVolume": 0.35,
-    "playerlist": [
-      {
-        "id": 1,
-        "uuid": "detective-conan-collaboration",
-        "fileName": "Detective_Conan_Collaboration.mp3",
-        "title": "Detective Conan Collaboration Theme",
-        "artist": "TiMi Studio Group",
-        "artists": [
-          "TiMi Studio Group"
-        ],
-        "album": "Honor of Kings × Detective Conan Collaboration",
-        "cover": "https://i.ytimg.com/vi/a-urSY2hpIo/maxresdefault.jpg",
-        "src": "assets/audio/Detective_Conan_Collaboration.mp3",
-        "url": "https://www.youtube.com/watch?v=a-urSY2hpIo",
-        "platform": "YouTube",
-        "composer": "",
-        "arranger": "",
-        "publisher": "Tencent Games",
-        "copyright": "© Tencent Games / TiMi Studio Group",
-        "releaseDate": "",
-        "duration": "",
-        "genre": [
-          "Game OST",
-          "Instrumental",
-          "Orchestral"
-        ],
-        "language": "Instrumental",
-        "country": "China",
-        "favorite": true,
-        "background": true,
-        "loop": true,
-        "autoplay": false,
-        "volume": 0.35,
-        "type": "file",
-        "tags": [
-          "favorite",
-          "background",
-          "game",
-          "instrumental",
-          "anime"
-        ],
-        "notes": "Tema utilizado na colaboração entre Honor of Kings e Detective Conan."
-      }
-    ]
   },
   "metadata": {
     "version": "1.0.0",

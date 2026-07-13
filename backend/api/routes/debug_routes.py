@@ -1,5 +1,5 @@
 # routes/debug_routes.py
-from flask import jsonify, request
+from flask import jsonify, request, send_from_directory
 from config import Config
 from models import User, CurriculumVersion, AboutVersion, ProfileVersion
 from datetime import datetime
@@ -7,7 +7,7 @@ import platform
 import os
 
 def register_debug_routes(app):
-    
+        
     @app.route('/api', methods=['GET'])
     def api_root():
         """Página informativa sobre a API"""
@@ -24,9 +24,74 @@ def register_debug_routes(app):
         <!DOCTYPE html>
         <html lang="pt-BR">
         <head>
+            <!-- META TAGS -->
             <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>🚀 Portfólio API - Debug</title>
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+            <meta http-equiv="Pragma" content="no-cache">
+            <meta http-equiv="Expires" content="0">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+            
+            <title>🚀 Portfólio API • Debug</title>
+            <meta name="description" content="Portfólio de João Gabriel - Artista, Desenvolvedor Full Stack e criador de mundos.">
+            <meta name="keywords" content="programador, full stack, artista, mangaká, desenvolvimento web, portfólio, joão gabriel, densuki">
+            <meta name="author" content="João Gabriel Sousa Santos">
+            <meta name="copyright" content="João Gabriel Sousa Santos">
+            <meta name="creator" content="João Gabriel Sousa Santos">
+            <meta name="robots" content="index, follow">
+            <meta name="language" content="Portuguese">
+            <meta name="revisit-after" content="7 days">
+            <meta name="color-scheme" content="dark light">
+            
+            <!-- OPEN GRAPH -->
+            <meta property="og:title" content="🚀 Portfólio API • Debug">
+            <meta property="og:description" content="Portfólio de João Gabriel • Criador de mundos, código e arte.">
+            <meta property="og:type" content="website">
+            <meta property="og:url" content="https://densuki.github.io/Densuki/">
+            <meta property="og:image" content="/docs/assets/img/og-image.jpg">
+            <meta property="og:image:type" content="image/jpeg">
+            <meta property="og:image:alt" content="João Gabriel • Portfólio API">
+            <meta property="og:image:width" content="1200">
+            <meta property="og:image:height" content="630">
+            <meta property="og:site_name" content="João Gabriel • Portfólio API">
+            <meta property="og:locale" content="pt_BR">
+            
+            <!-- TWITTER -->
+            <meta name="twitter:card" content="summary_large_image">
+            <meta name="twitter:title" content="🚀 Portfólio API • Debug">
+            <meta name="twitter:description" content="Portfólio de João Gabriel - Arte, código e criatividade em um só lugar.">
+            <meta name="twitter:image" content="/docs/assets/img/og-image.jpg">
+            <meta name="twitter:creator" content="@densuki">
+            
+            <!-- MOBILE -->
+            <meta name="theme-color" content="#6d28d9">
+            <meta name="apple-mobile-web-app-capable" content="yes">
+            <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+            <meta name="apple-mobile-web-app-title" content="Densuki">
+            <meta name="mobile-web-app-capable" content="yes">
+            
+            <!-- SEO AVANÇADO -->
+            <meta name="subject" content="Portfólio Profissional • API">
+            <meta name="rating" content="General">
+            <meta name="coverage" content="Worldwide">
+            <meta name="distribution" content="Global">
+            <meta name="target" content="all">
+            <meta name="HandheldFriendly" content="True">
+            <meta name="MobileOptimized" content="320">
+            
+            <!-- PRÉ-CONEXÕES -->
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+            <link rel="preconnect" href="https://github-readme-stats.vercel.app">
+            <link rel="preconnect" href="https://lanyard.kyrie25.me">
+            
+            <!-- ICONS -->
+            <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
+            <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+            <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+            <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+            <link rel="manifest" href="/assets/icons/site.webmanifest">
             <style>
                 * {{ margin: 0; padding: 0; box-sizing: border-box; }}
                 body {{
@@ -226,8 +291,33 @@ def register_debug_routes(app):
                 </div>
 
                 <div class="footer">
-                    <p>🚀 Portfólio API - Desenvolvido com ❤️</p>
-                    <p><a href="https://github.com/Densuki">GitHub</a> • <a href="https://linkedin.com/in/densuki">LinkedIn</a></p>
+                    <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                        <span>🚀 Portfólio API</span>
+                        <span>•</span>
+                        <span>Desenvolvido com ❤️ por <strong style="color: #a78bfa;">João Gabriel Sousa Santos</strong></span>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                        <a href="https://github.com/Densuki" target="_blank" style="color: #a78bfa; text-decoration: none;">
+                            <span style="margin-right: 0.3rem;">🐙</span> GitHub
+                        </a>
+                        <a href="https://linkedin.com/in/densuki" target="_blank" style="color: #a78bfa; text-decoration: none;">
+                            <span style="margin-right: 0.3rem;">💼</span> LinkedIn
+                        </a>
+                        <a href="https://www.instagram.com/yukiridensuki" target="_blank" style="color: #a78bfa; text-decoration: none;">
+                            <span style="margin-right: 0.3rem;">📸</span> Instagram
+                        </a>
+                        <a href="mailto:joaogabriel4175@gmail.com" style="color: #a78bfa; text-decoration: none;">
+                            <span style="margin-right: 0.3rem;">✉️</span> Email
+                        </a>
+                        <a href="https://densuki.github.io/Densuki/" target="_blank" style="color: #a78bfa; text-decoration: none;">
+                            <span style="margin-right: 0.3rem;">🌐</span> Portfólio
+                        </a>
+                    </div>
+                    
+                    <div style="font-size: 0.8rem; color: #6b6b8a;">
+                        <span id="year"></span> © João Gabriel Sousa Santos - Todos os direitos reservados
+                    </div>
                 </div>
             </div>
         </body>

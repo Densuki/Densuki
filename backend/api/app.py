@@ -1,6 +1,6 @@
 # app.py
 import os
-from flask import Flask
+from flask import Flask, send_from_directory
 from flask_cors import CORS
 from config import Config
 from models import db, User, CurriculumVersion, AboutVersion, ProfileVersion
@@ -15,9 +15,36 @@ from routes.profile_routes import register_profile_routes
 from routes.download_routes import register_download_routes
 from routes.debug_routes import register_debug_routes
 
-# Criar aplicação
-app = Flask(__name__)
+# OBTENHA O DIRETÓRIO RAIZ DO PROJETO
+# backend/api/app.py -> backend/api/ -> backend/ -> raiz do projeto
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+DOCS_DIR = os.path.join(BASE_DIR, 'docs')
+
+# Criar aplicação com caminho absoluto para a pasta docs
+app = Flask(__name__, static_folder=DOCS_DIR, static_url_path='/docs')
 app.config.from_object(Config)
+
+@app.route('/assets/icons/<path:filename>')
+def serve_icons(filename):
+    """Serve ícones da pasta docs/assets/icons"""
+    icons_dir = os.path.join(DOCS_DIR, 'assets/icons')
+    return send_from_directory(icons_dir, filename)
+
+@app.route('/assets/img/<path:filename>')
+def serve_images(filename):
+    """Serve imagens da pasta docs/assets/img"""
+    img_dir = os.path.join(DOCS_DIR, 'assets/img')
+    return send_from_directory(img_dir, filename)
+
+@app.route('/assets/css/<path:filename>')
+def serve_css(filename):
+    """Serve CSS da pasta docs/assets/css"""
+    css_dir = os.path.join(DOCS_DIR, 'assets/css')
+    return send_from_directory(css_dir, filename)
+
+@app.route('/site.webmanifest')
+def manifest():
+    return send_from_directory(os.path.join(DOCS_DIR, 'assets/icons'), 'site.webmanifest')
 
 # Configurar banco de dados
 app.config['SQLALCHEMY_DATABASE_URI'] = Config.get_database_url()

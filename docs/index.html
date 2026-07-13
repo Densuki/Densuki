@@ -115,8 +115,8 @@
         <button id="music-toggle" aria-label="Alternar música">
           <i class="fas fa-music"></i>
         </button>
-        <button id="music-panel-toggle" aria-label="Abrir painel de música">
-          <i class="fas fa-sliders-h"></i>
+        <button id="music-panel-toggle" aria-label="Abrir player">
+          <i class="fas fa-headphones"></i>
         </button>
         <div class="music-controls" id="music-controls" aria-hidden="true">
           <button id="vol-down" aria-label="Diminuir volume"><i class="fas fa-volume-down"></i></button>
@@ -158,9 +158,7 @@
           </div>
         </div>
         <p class="hero-description" id="role"></p>
-        <div class="hero-badges" id="hero-badges">
-          <!-- Renderizado via JS -->
-        </div>
+        <div class="hero-badges" id="hero-badges"></div>
         <div class="hero-cta">
           <a href="#projects" class="btn btn-primary"><i class="fas fa-rocket"></i> Ver Projetos</a>
           <a href="#about" class="btn btn-secondary"><i class="fas fa-user"></i> Sobre Mim</a>
@@ -171,8 +169,6 @@
           <div class="profile-glow"></div>
           <img src="assets/img/profile.png" alt="João Gabriel - Densuki" id="profile-img">
           <div class="profile-banner" id="profile-banner"></div>
-          
-          <!-- Controles de navegação (opcional) -->
           <div class="profile-nav" id="profile-nav" style="display: none;">
             <button class="profile-nav-btn" id="profile-prev" aria-label="Imagem anterior">
               <i class="fas fa-chevron-left"></i>
@@ -184,63 +180,49 @@
           <div class="profile-dots" id="profile-dots"></div>
         </div>
       </div>
+    </div>
     <div class="scroll-indicator">
       <span>Scroll</span>
       <i class="fas fa-chevron-down"></i>
     </div>
   </section>
 
-<!-- ABOUT -->
-<section id="about" class="section about">
-  <div class="container">
-    <h2 class="section-title">
-      <span class="title-icon">📖</span>
-      Sobre Mim
-      <span class="title-line"></span>
-    </h2>
-    
-    <!-- Mini Cards com informações principais -->
-    <div id="about-mini-cards">
-      <!-- Renderizado via JS -->
-    </div>
-    
-    <div class="about-grid">
-      <div class="about-content glass-card">
-        <div class="about-text" id="about-text">
-          <!-- Preenchido via JS com dados do profile.json - BIO completa -->
-        </div>
-        <div class="about-stats">
-          <div class="stat-item">
-            <span class="stat-number" id="projects-count">0</span>
-            <span class="stat-label">Projetos</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number" id="certificates-count">0</span>
-            <span class="stat-label">Certificados</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number" id="courses-count">0</span>
-            <span class="stat-label">Cursos</span>
+  <!-- ABOUT -->
+  <section id="about" class="section about">
+    <div class="container">
+      <h2 class="section-title">
+        <span class="title-icon">📖</span>
+        Sobre Mim
+        <span class="title-line"></span>
+      </h2>
+      <div id="about-mini-cards"></div>
+      <div class="about-grid">
+        <div class="about-content glass-card">
+          <div class="about-text" id="about-text"></div>
+          <div class="about-stats">
+            <div class="stat-item">
+              <span class="stat-number" id="projects-count">0</span>
+              <span class="stat-label">Projetos</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number" id="certificates-count">0</span>
+              <span class="stat-label">Certificados</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number" id="courses-count">0</span>
+              <span class="stat-label">Cursos</span>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="about-sidebar">
-        <div class="about-softskills glass-card" id="softskills-container">
-          <!-- Preenchido via JS -->
-        </div>
-        <div class="about-hardskills glass-card" id="hardskills-container">
-          <!-- Preenchido via JS -->
-        </div>
-        <div class="about-personality glass-card" id="personality-container">
-          <!-- Preenchido via JS -->
-        </div>
-        <div class="about-languages glass-card" id="languages-container">
-          <!-- Preenchido via JS -->
+        <div class="about-sidebar">
+          <div class="about-softskills glass-card" id="softskills-container"></div>
+          <div class="about-hardskills glass-card" id="hardskills-container"></div>
+          <div class="about-personality glass-card" id="personality-container"></div>
+          <div class="about-languages glass-card" id="languages-container"></div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
   <!-- PROFILE DETAILS -->
   <section id="profile-details" class="section profile-details">
@@ -250,13 +232,11 @@
         Detalhes do Perfil
         <span class="title-line"></span>
       </h2>
-      <div class="profile-details-grid glass-card" id="profile-details-content">
-        <!-- Preenchido via JS com dados do profile.json -->
-      </div>
+      <div class="profile-details-grid glass-card" id="profile-details-content"></div>
     </div>
   </section>
 
-  <!-- CERTIFICATES -->
+  <!-- CERTIFICATES - CARROSSEL CUSTOM -->
   <section id="certificates" class="section certificates">
     <div class="container">
       <h2 class="section-title">
@@ -264,11 +244,18 @@
         Certificados
         <span class="title-line"></span>
       </h2>
-      <div id="certificates-list" class="certificates-grid"></div>
+      <div class="carousel-container" id="certificates-carousel">
+        <div class="carousel-wrapper">
+          <div class="carousel-track" id="certificates-track"></div>
+        </div>
+        <button class="carousel-btn prev" data-target="certificates">‹</button>
+        <button class="carousel-btn next" data-target="certificates">›</button>
+        <div class="carousel-dots" id="certificates-dots"></div>
+      </div>
     </div>
   </section>
 
-  <!-- COURSES -->
+  <!-- COURSES - CARROSSEL CUSTOM -->
   <section id="courses" class="section courses">
     <div class="container">
       <h2 class="section-title">
@@ -276,11 +263,18 @@
         Cursos
         <span class="title-line"></span>
       </h2>
-      <div id="courses-list" class="courses-grid"></div>
+      <div class="carousel-container" id="courses-carousel">
+        <div class="carousel-wrapper">
+          <div class="carousel-track" id="courses-track"></div>
+        </div>
+        <button class="carousel-btn prev" data-target="courses">‹</button>
+        <button class="carousel-btn next" data-target="courses">›</button>
+        <div class="carousel-dots" id="courses-dots"></div>
+      </div>
     </div>
   </section>
 
-  <!-- PROJECTS -->
+  <!-- PROJECTS - CARROSSEL CUSTOM -->
   <section id="projects" class="section projects">
     <div class="container">
       <h2 class="section-title">
@@ -288,7 +282,14 @@
         Projetos em Destaque
         <span class="title-line"></span>
       </h2>
-      <div id="project-list" class="projects-grid"></div>
+      <div class="carousel-container" id="projects-carousel">
+        <div class="carousel-wrapper">
+          <div class="carousel-track" id="projects-track"></div>
+        </div>
+        <button class="carousel-btn prev" data-target="projects">‹</button>
+        <button class="carousel-btn next" data-target="projects">›</button>
+        <div class="carousel-dots" id="projects-dots"></div>
+      </div>
     </div>
   </section>
 
@@ -301,9 +302,7 @@
         <span class="title-line"></span>
       </h2>
       <div class="stats-container glass-card">
-        <div class="github-stats" id="github-stats">
-          <!-- Renderizado via JS -->
-        </div>
+        <div class="github-stats" id="github-stats"></div>
       </div>
     </div>
   </section>
@@ -316,9 +315,7 @@
         Discord Presence
         <span class="title-line"></span>
       </h2>
-      <div class="discord-container glass-card" id="discord-container">
-        <!-- Renderizado via JS -->
-      </div>
+      <div class="discord-container glass-card" id="discord-container"></div>
     </div>
   </section>
 
@@ -330,18 +327,14 @@
         Vamos Conectar!
         <span class="title-line"></span>
       </h2>
-      <div class="contact-content glass-card" id="contact-content">
-        <!-- Renderizado via JS com dados do profile.json -->
-      </div>
+      <div class="contact-content glass-card" id="contact-content"></div>
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer id="footer">
     <div class="footer-container">
-      <div class="footer-content" id="footer-content">
-        <!-- Renderizado via JS com dados do profile.json -->
-      </div>
+      <div class="footer-content" id="footer-content"></div>
     </div>
   </footer>
 
@@ -350,9 +343,59 @@
     <source src="assets/audio/background.mp3" type="audio/mpeg">
   </audio>
 
+  <!-- MUSIC PLAYER UI -->
   <div id="music-player-ui" class="music-player-ui">
     <div class="player-info">
       <span id="current-track">—</span>
+    </div>
+  </div>
+
+  <!-- MUSIC MODAL -->
+  <div class="modal-overlay" id="musicModal">
+    <div class="modal-box glass-card">
+      <div class="modal-header">
+        <h5>
+          <i class="fas fa-music" style="color: var(--primary-light);"></i> Player de Música
+        </h5>
+        <button class="modal-close" id="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="text-center mb-3">
+          <div class="music-cover" id="music-cover">
+            <i class="fas fa-headphones" style="font-size: 4rem; color: var(--primary-light);"></i>
+          </div>
+          <h5 id="modal-current-track" class="mt-2">Nenhuma música selecionada</h5>
+          <p id="modal-current-artist" class="text-muted" style="font-size: 0.9rem;">—</p>
+        </div>
+        
+        <div class="music-controls-modal">
+          <div class="controls-row">
+            <button id="modal-prev" class="btn btn-outline-primary btn-sm">
+              <i class="fas fa-backward"></i>
+            </button>
+            <button id="modal-play-pause" class="btn btn-primary btn-sm play-btn">
+              <i class="fas fa-play"></i>
+            </button>
+            <button id="modal-next" class="btn btn-outline-primary btn-sm">
+              <i class="fas fa-forward"></i>
+            </button>
+          </div>
+          
+          <div class="volume-row">
+            <button id="modal-vol-down" class="btn btn-outline-secondary btn-sm">
+              <i class="fas fa-volume-down"></i>
+            </button>
+            <input id="modal-volume-range" type="range" min="0" max="1" step="0.01" value="0.5">
+            <button id="modal-vol-up" class="btn btn-outline-secondary btn-sm">
+              <i class="fas fa-volume-up"></i>
+            </button>
+          </div>
+          
+          <div class="select-row">
+            <select id="modal-music-select"></select>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -363,7 +406,6 @@
     </div>
   </noscript>
 
-  <!-- JAVASCRIPT -->
   <script src="js/main.js" type="module"></script>
 </body>
 </html>

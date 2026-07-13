@@ -201,7 +201,6 @@ function renderMiniCards(profile) {
         <div class="mini-card-group-items">
     `;
 
-    // Nome
     if (identity.name) {
       html += `
         <div class="mini-card-item">
@@ -210,8 +209,6 @@ function renderMiniCards(profile) {
         </div>
       `;
     }
-
-    // Pronomes
     if (identity.pronouns) {
       html += `
         <div class="mini-card-item">
@@ -220,8 +217,6 @@ function renderMiniCards(profile) {
         </div>
       `;
     }
-
-    // Display
     if (identity.displayName) {
       html += `
         <div class="mini-card-item">
@@ -230,8 +225,6 @@ function renderMiniCards(profile) {
         </div>
       `;
     }
-
-    // Nick
     if (identity.nickname) {
       html += `
         <div class="mini-card-item">
@@ -240,8 +233,6 @@ function renderMiniCards(profile) {
         </div>
       `;
     }
-
-    // Aliases (como tags/botões)
     if (identity.aliases && identity.aliases.length > 0) {
       html += `
         <div class="mini-card-item mini-card-item-tags">
@@ -252,7 +243,6 @@ function renderMiniCards(profile) {
         </div>
       `;
     }
-
     html += `
         </div>
       </div>
@@ -269,8 +259,6 @@ function renderMiniCards(profile) {
         </div>
         <div class="mini-card-group-items">
     `;
-
-    // Trabalho
     if (status.working) {
       html += `
         <div class="mini-card-item">
@@ -279,8 +267,6 @@ function renderMiniCards(profile) {
         </div>
       `;
     }
-
-    // Estudo
     if (status.studying) {
       html += `
         <div class="mini-card-item">
@@ -289,8 +275,6 @@ function renderMiniCards(profile) {
         </div>
       `;
     }
-
-    // Aprendendo (como tags/botões)
     if (status.learning && status.learning.length > 0) {
       html += `
         <div class="mini-card-item mini-card-item-tags">
@@ -301,8 +285,6 @@ function renderMiniCards(profile) {
         </div>
       `;
     }
-
-    // Disponível
     if (status.availableForWork !== undefined) {
       html += `
         <div class="mini-card-item">
@@ -311,7 +293,6 @@ function renderMiniCards(profile) {
         </div>
       `;
     }
-
     html += `
         </div>
       </div>
@@ -335,7 +316,6 @@ function renderMiniCards(profile) {
         </div>
         <div class="mini-card-group-items">
     `;
-
     // Cidade
     if (loc.city) {
       const cityFlag = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Bandeira_de_Fortaleza.svg/960px-Bandeira_de_Fortaleza.svg.png"
@@ -367,7 +347,6 @@ function renderMiniCards(profile) {
         </div>
       `;
     }
-
     html += `
         </div>
       </div>
@@ -383,7 +362,6 @@ function renderMiniCards(profile) {
         </div>
         <div class="mini-card-group-items">
           <div class="mini-card-item mini-card-item-center">
-            <img src="${profile.flag}" alt="Bandeira do Brasil">
             <span class="mini-card-value" style="text-align: center; width: 100%; font-size: 1rem; font-weight: 500;">
             ${profile.nationality}
             </span>
@@ -393,7 +371,7 @@ function renderMiniCards(profile) {
     `;
   }
 
-  // ----- OBJETIVO (opcional, pode ser adicionado aqui) -----
+  // ----- OBJETIVO -----
   if (flag('objective') && profile.objective) {
     html += `
       <div class="mini-card-group">
@@ -463,26 +441,14 @@ function renderAbout(profile) {
   if (flag('bio') && profile?.bio) {
     let aboutHtml = '';
     
-    // Função para processar cada linha com suporte a HTML e interpolação
     function processBioLine(line, data) {
       if (typeof line !== 'string') return '';
-      
-      // Primeiro interpola as variáveis {{...}}
       let processed = interpolate(line, data);
-      
-      // Depois processa o HTML (já está em HTML, só precisa garantir que seja renderizado)
-      // O processText já faz isso, mas vamos garantir que as tags HTML sejam preservadas
-      // e que as quebras de linha sejam mantidas
-      
-      // Remove quebras de linha extras que podem vir do JSON
       processed = processed.replace(/\n/g, '');
-      
       return processed;
     }
 
-    // Processa a bio baseado no tipo
     if (Array.isArray(profile.bio)) {
-      // Bio como array de strings
       aboutHtml = profile.bio.map(line => {
         if (typeof line === 'string') {
           return processBioLine(line, profile);
@@ -490,23 +456,17 @@ function renderAbout(profile) {
         return '';
       }).filter(line => line).join('');
     } else if (typeof profile.bio === 'string') {
-      // Bio como string única
       aboutHtml = processBioLine(profile.bio, profile);
     } else if (typeof profile.bio === 'object' && !Array.isArray(profile.bio)) {
-      // Bio como objeto com seções (header, introduction, etc.)
       const sections = [];
-      
-      // Processa cada seção
       Object.entries(profile.bio).forEach(([key, content]) => {
         if (Array.isArray(content)) {
-          // Se for um array, processa cada linha
           const sectionContent = content.map(line => {
             if (typeof line === 'string') {
               return processBioLine(line, profile);
             }
             return '';
           }).filter(line => line).join('');
-          
           if (sectionContent) {
             sections.push(sectionContent);
           }
@@ -515,18 +475,15 @@ function renderAbout(profile) {
           if (processed) sections.push(processed);
         }
       });
-      
       aboutHtml = sections.join('');
     }
 
-    // Se a bio for vazia, mostra mensagem padrão
     if (!aboutHtml || aboutHtml.trim() === '') {
       aboutHtml = '<p>Bio não disponível.</p>';
     }
 
     aboutText.innerHTML = aboutHtml;
   } else {
-    // Fallback
     const name = profile?.identity?.name || profile?.name || 'João Gabriel';
     aboutText.innerHTML = `<p>Olá! 👋 Me chamo <strong>${name}</strong>. Bem-vindo ao meu portfólio!</p>`;
   }
@@ -558,7 +515,7 @@ function renderLanguages(profile) {
 }
 
 // ============================================
-// RENDERIZAR HARD SKILLS (SIDEBAR - VERSÃO MELHORADA)
+// RENDERIZAR HARD SKILLS (SIDEBAR)
 // ============================================
 function renderHardSkills(profile) {
   const container = $('#hardskills-container');
@@ -573,7 +530,6 @@ function renderHardSkills(profile) {
     return;
   }
 
-  // Define as categorias principais e suas cores
   const categories = {
     'programming': { label: 'Programação', icon: 'fa-code', color: '#8b5cf6' },
     'frontend': { label: 'Front-end', icon: 'fa-laptop-code', color: '#3b82f6' },
@@ -582,6 +538,7 @@ function renderHardSkills(profile) {
     'libraries': { label: 'Bibliotecas', icon: 'fa-book', color: '#ef4444' },
     'database': { label: 'Banco de Dados', icon: 'fa-database', color: '#06b6d4' },
     'tools': { label: 'Ferramentas', icon: 'fa-tools', color: '#8b5cf6' },
+    'office': { label: 'Pacote Office', icon: 'fa-file-alt', color: '#d83b01' },
     'design': { label: 'Design', icon: 'fa-paint-brush', color: '#ec4899' },
     'art': { label: 'Arte', icon: 'fa-palette', color: '#f472b6' }
   };
@@ -597,10 +554,6 @@ function renderHardSkills(profile) {
     const skills = profile.hardSkills[key];
     if (skills && Array.isArray(skills) && skills.length > 0) {
       hasSkills = true;
-      // Pega apenas as habilidades principais (limitado a 5 para não poluir)
-      const displaySkills = skills.slice(0, 5);
-      const moreCount = skills.length > 5 ? skills.length - 5 : 0;
-
       html += `
         <div class="hardskill-category">
           <div class="hardskill-category-header">
@@ -609,7 +562,7 @@ function renderHardSkills(profile) {
             <span class="hardskill-category-count">${skills.length}</span>
           </div>
           <div class="hardskill-items">
-            ${displaySkills.map(skill => `
+            ${skills.map(skill => `
               <div class="hardskill-item" title="${skill.description || skill.name}" style="${skill.color ? `border-color: ${skill.color};` : ''}">
                 ${skill.icon ? `<i class="${skill.icon}" style="color: ${skill.color || cat.color};"></i>` : ''}
                 <span class="hardskill-name">${skill.name}</span>
@@ -617,19 +570,65 @@ function renderHardSkills(profile) {
                 ${skill.isLearning ? '<span class="hardskill-learning">📖</span>' : ''}
               </div>
             `).join('')}
-            ${moreCount > 0 ? `<div class="hardskill-more">+${moreCount} outros</div>` : ''}
           </div>
         </div>
       `;
     }
   });
 
-  html += `</div>`;
+  // Game Development
+  if (profile.hardSkills.gameDevelopment) {
+    const gameDev = profile.hardSkills.gameDevelopment;
+    if (gameDev.minecraft && Array.isArray(gameDev.minecraft) && gameDev.minecraft.length > 0) {
+      hasSkills = true;
+      html += `
+        <div class="hardskill-category">
+          <div class="hardskill-category-header">
+            <span class="hardskill-category-icon"><i class="fas fa-cubes" style="color: #2ECC71;"></i></span>
+            <span class="hardskill-category-label">Minecraft</span>
+            <span class="hardskill-category-count">${gameDev.minecraft.length}</span>
+          </div>
+          <div class="hardskill-items">
+            ${gameDev.minecraft.map(skill => `
+              <div class="hardskill-item" title="${skill.description || skill.name}">
+                ${skill.icon ? `<i class="${skill.icon}" style="color: ${skill.color || '#2ECC71'};"></i>` : ''}
+                <span class="hardskill-name">${skill.name}</span>
+                ${skill.isFavorite ? '<span class="hardskill-favorite">⭐</span>' : ''}
+                ${skill.isLearning ? '<span class="hardskill-learning">📖</span>' : ''}
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+    if (gameDev.engines && Array.isArray(gameDev.engines) && gameDev.engines.length > 0) {
+      hasSkills = true;
+      html += `
+        <div class="hardskill-category">
+          <div class="hardskill-category-header">
+            <span class="hardskill-category-icon"><i class="fas fa-gamepad" style="color: #9B59B6;"></i></span>
+            <span class="hardskill-category-label">Game Engines</span>
+            <span class="hardskill-category-count">${gameDev.engines.length}</span>
+          </div>
+          <div class="hardskill-items">
+            ${gameDev.engines.map(skill => `
+              <div class="hardskill-item" title="${skill.description || skill.name}">
+                ${skill.icon ? `<i class="${skill.icon}" style="color: ${skill.color || '#9B59B6'};"></i>` : ''}
+                <span class="hardskill-name">${skill.name}</span>
+                ${skill.isFavorite ? '<span class="hardskill-favorite">⭐</span>' : ''}
+                ${skill.isLearning ? '<span class="hardskill-learning">📖</span>' : ''}
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+  }
 
+  html += `</div>`;
   if (!hasSkills) {
     html += `<p class="text-muted">Nenhuma hard skill cadastrada.</p>`;
   }
-
   container.innerHTML = html;
 }
 
@@ -649,23 +648,18 @@ function renderSoftSkills(profile) {
     return;
   }
 
-  // Agrupa soft skills por categoria (se possível) ou apenas lista
   const skills = profile.softSkills;
-  
-  // Define algumas categorias manuais para organizar melhor
   const categories = {
     'Pessoais': ['Empatia', 'Honestidade', 'Persistência', 'Organização', 'Curiosidade', 'Criatividade', 'Autodidatismo'],
     'Interpessoais': ['Trabalho em equipe', 'Comunicação escrita', 'Liderança', 'Adaptabilidade'],
     'Analíticas': ['Pensamento analítico', 'Resolução de problemas', 'Aprendizado contínuo', 'Organização']
   };
 
-  // Verifica quais habilidades se encaixam em cada categoria
   const categorized = {};
   Object.keys(categories).forEach(cat => {
     categorized[cat] = skills.filter(s => categories[cat].some(c => s.includes(c) || c.includes(s)));
   });
 
-  // Habilidades não categorizadas
   const uncategorized = skills.filter(s => 
     !Object.values(categories).flat().some(c => s.includes(c) || c.includes(s))
   );
@@ -675,7 +669,6 @@ function renderSoftSkills(profile) {
     <div class="softskills-container">
   `;
 
-  // Mostra categorias que têm habilidades
   Object.entries(categorized).forEach(([cat, items]) => {
     if (items.length > 0) {
       html += `
@@ -689,7 +682,6 @@ function renderSoftSkills(profile) {
     }
   });
 
-  // Habilidades não categorizadas
   if (uncategorized.length > 0) {
     html += `
       <div class="softskill-category">
@@ -733,7 +725,7 @@ function renderContact(profile) {
 }
 
 // ============================================
-// RENDERIZAR DETALHES DO PERFIL (SEM REDUNDÂNCIAS)
+// RENDERIZAR DETALHES DO PERFIL (ESTILO HARD SKILLS COM CARROSSEL)
 // ============================================
 function renderProfileDetails(profile) {
   const container = $('#profile-details-content');
@@ -743,138 +735,462 @@ function renderProfileDetails(profile) {
     return !(profile && profile.show && profile.show[key] === false);
   }
 
-  function formatArray(arr, separator = ', ', maxItems = null) {
-    if (!arr || !Array.isArray(arr) || arr.length === 0) return 'Não informado';
-    const items = maxItems ? arr.slice(0, maxItems) : arr;
-    let result = items.join(separator);
-    if (maxItems && arr.length > maxItems) {
-      result += ` +${arr.length - maxItems} outros`;
-    }
-    return result;
-  }
-
-  function formatGoals(goals) {
-    if (!goals) return 'Não informado';
-    let text = '';
-    if (goals.shortTerm && goals.shortTerm.length > 0) {
-      text += `<strong>Curto Prazo:</strong> ${formatArray(goals.shortTerm, ' • ')}`;
-    }
-    if (goals.longTerm && goals.longTerm.length > 0) {
-      if (text) text += '<br>';
-      text += `<strong>Longo Prazo:</strong> ${formatArray(goals.longTerm, ' • ')}`;
-    }
-    return text || 'Não informado';
-  }
-
-  const items = [];
-
-  // Hobbies
+  // ==========================================
+  // HOBBIES - Estilo Soft Skills (tags)
+  // ==========================================
+  let hobbiesHtml = '';
   if (flag('hobbies') && profile.hobbies && profile.hobbies.length > 0) {
-    items.push({
-      icon: 'fa-heart',
-      label: 'Hobbies',
-      value: formatArray(profile.hobbies, ' • ')
-    });
+    hobbiesHtml = `
+      <div class="profile-detail-slide">
+        <div class="profile-detail-group">
+          <div class="profile-detail-group-title">
+            <i class="fas fa-heart"></i> HOBBIES
+          </div>
+          <div class="profile-detail-group-items">
+            <div class="profile-detail-tags">
+              ${profile.hobbies.map(h => `<span class="profile-detail-tag">${h}</span>`).join('')}
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
   }
 
-  // Metas
+  // ==========================================
+  // METAS - Estilo Hard Skills (categorias com header)
+  // ==========================================
+  let goalsHtml = '';
   if (profile.goals) {
-    items.push({
-      icon: 'fa-flag-checkered',
-      label: 'Metas',
-      value: formatGoals(profile.goals),
-      isHtml: true
-    });
+    let goalsContent = '';
+    if (profile.goals.shortTerm && profile.goals.shortTerm.length > 0) {
+      goalsContent += `
+        <div class="profile-detail-subgroup">
+          <div class="profile-detail-subgroup-title">
+            <i class="fas fa-clock" style="color: #f59e0b;"></i> Curto Prazo
+          </div>
+          <div class="profile-detail-tags">
+            ${profile.goals.shortTerm.map(g => `<span class="profile-detail-tag">${g}</span>`).join('')}
+          </div>
+        </div>
+      `;
+    }
+    if (profile.goals.longTerm && profile.goals.longTerm.length > 0) {
+      goalsContent += `
+        <div class="profile-detail-subgroup">
+          <div class="profile-detail-subgroup-title">
+            <i class="fas fa-flag" style="color: #10b981;"></i> Longo Prazo
+          </div>
+          <div class="profile-detail-tags">
+            ${profile.goals.longTerm.map(g => `<span class="profile-detail-tag">${g}</span>`).join('')}
+          </div>
+        </div>
+      `;
+    }
+    if (goalsContent) {
+      goalsHtml = `
+        <div class="profile-detail-slide">
+          <div class="profile-detail-group">
+            <div class="profile-detail-group-title">
+              <i class="fas fa-flag-checkered"></i> METAS
+            </div>
+            <div class="profile-detail-group-items">
+              ${goalsContent}
+            </div>
+          </div>
+        </div>
+      `;
+    }
   }
 
-  // Interesses
+  // ==========================================
+  // INTERESSES - Estilo Soft Skills (tags)
+  // ==========================================
+  let interestsHtml = '';
   if (profile.interests && profile.interests.length > 0) {
-    items.push({
-      icon: 'fa-star',
-      label: 'Interesses',
-      value: formatArray(profile.interests, ' • ')
-    });
+    interestsHtml = `
+      <div class="profile-detail-slide">
+        <div class="profile-detail-group">
+          <div class="profile-detail-group-title">
+            <i class="fas fa-star"></i> INTERESSES
+          </div>
+          <div class="profile-detail-group-items">
+            <div class="profile-detail-tags">
+              ${profile.interests.map(i => `<span class="profile-detail-tag">${i}</span>`).join('')}
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
   }
 
-  // Valores e Princípios
-  const values = [];
-  if (profile.values && profile.values.length > 0) {
-    values.push(`Valores: ${formatArray(profile.values, ' • ')}`);
-  }
-  if (profile.principles && profile.principles.length > 0) {
-    values.push(`Princípios: ${formatArray(profile.principles, ' • ')}`);
-  }
-  if (values.length > 0) {
-    items.push({
-      icon: 'fa-gem',
-      label: 'Valores & Princípios',
-      value: values.join('<br>'),
-      isHtml: true
-    });
+  // ==========================================
+  // VALORES & PRINCÍPIOS - Estilo Personalidade
+  // ==========================================
+  let valuesHtml = '';
+  if ((profile.values && profile.values.length > 0) || (profile.principles && profile.principles.length > 0)) {
+    let valuesContent = '';
+    if (profile.values && profile.values.length > 0) {
+      valuesContent += `
+        <div class="profile-detail-personality-item">
+          <span class="profile-detail-personality-label">Valores</span>
+          <div class="profile-detail-tags">
+            ${profile.values.map(v => `<span class="profile-detail-tag">${v}</span>`).join('')}
+          </div>
+        </div>
+      `;
+    }
+    if (profile.principles && profile.principles.length > 0) {
+      valuesContent += `
+        <div class="profile-detail-personality-item">
+          <span class="profile-detail-personality-label">Princípios</span>
+          <div class="profile-detail-tags">
+            ${profile.principles.map(p => `<span class="profile-detail-tag">${p}</span>`).join('')}
+          </div>
+        </div>
+      `;
+    }
+    if (valuesContent) {
+      valuesHtml = `
+        <div class="profile-detail-slide">
+          <div class="profile-detail-group">
+            <div class="profile-detail-group-title">
+              <i class="fas fa-gem"></i> VALORES & PRINCÍPIOS
+            </div>
+            <div class="profile-detail-group-items profile-detail-personality-grid">
+              ${valuesContent}
+            </div>
+          </div>
+        </div>
+      `;
+    }
   }
 
-  // Forças e Fraquezas
-  const strengthsWeaknesses = [];
-  if (profile.strengths && profile.strengths.length > 0) {
-    strengthsWeaknesses.push(`<strong>Forças:</strong> ${formatArray(profile.strengths.slice(0, 5), ' • ')}`);
-  }
-  if (profile.weaknesses && profile.weaknesses.length > 0) {
-    strengthsWeaknesses.push(`<strong>Fraquezas:</strong> ${formatArray(profile.weaknesses.slice(0, 5), ' • ')}`);
-  }
-  if (strengthsWeaknesses.length > 0) {
-    items.push({
-      icon: 'fa-balance-scale',
-      label: 'Forças & Fraquezas',
-      value: strengthsWeaknesses.join('<br>'),
-      isHtml: true
-    });
+  // ==========================================
+  // FORÇAS & FRAQUEZAS - Estilo Personalidade
+  // ==========================================
+  let strengthsHtml = '';
+  if ((profile.strengths && profile.strengths.length > 0) || (profile.weaknesses && profile.weaknesses.length > 0)) {
+    let swContent = '';
+    if (profile.strengths && profile.strengths.length > 0) {
+      swContent += `
+        <div class="profile-detail-personality-item">
+          <span class="profile-detail-personality-label">Forças</span>
+          <div class="profile-detail-tags">
+            ${profile.strengths.map(s => `<span class="profile-detail-tag">${s}</span>`).join('')}
+          </div>
+        </div>
+      `;
+    }
+    if (profile.weaknesses && profile.weaknesses.length > 0) {
+      swContent += `
+        <div class="profile-detail-personality-item">
+          <span class="profile-detail-personality-label">Fraquezas</span>
+          <div class="profile-detail-tags">
+            ${profile.weaknesses.map(w => `<span class="profile-detail-tag">${w}</span>`).join('')}
+          </div>
+        </div>
+      `;
+    }
+    if (swContent) {
+      strengthsHtml = `
+        <div class="profile-detail-slide">
+          <div class="profile-detail-group">
+            <div class="profile-detail-group-title">
+              <i class="fas fa-balance-scale"></i> FORÇAS & FRAQUEZAS
+            </div>
+            <div class="profile-detail-group-items profile-detail-personality-grid">
+              ${swContent}
+            </div>
+          </div>
+        </div>
+      `;
+    }
   }
 
-  // Favorites (apenas alguns destaques)
+  // ==========================================
+  // FAVORITOS - Estilo Hard Skills (categorias com header)
+  // ==========================================
+  let favoritesHtml = '';
   if (profile.favorites) {
-    const favItems = [];
-    if (profile.favorites.anime && profile.favorites.anime.length > 0) {
-      favItems.push(`Anime: ${formatArray(profile.favorites.anime.slice(0, 3), ' • ')}`);
-    }
-    if (profile.favorites.games && profile.favorites.games.length > 0) {
-      favItems.push(`Games: ${formatArray(profile.favorites.games.slice(0, 3), ' • ')}`);
-    }
-    if (profile.favorites.series && profile.favorites.series.length > 0) {
-      favItems.push(`Séries: ${formatArray(profile.favorites.series.slice(0, 3), ' • ')}`);
-    }
-    if (profile.favorites.movies && profile.favorites.movies.length > 0) {
-      favItems.push(`Filmes: ${formatArray(profile.favorites.movies.slice(0, 3), ' • ')}`);
-    }
-    if (favItems.length > 0) {
-      items.push({
-        icon: 'fa-heart',
-        label: 'Favoritos',
-        value: favItems.join('<br>'),
-        isHtml: true
-      });
+    const favCategories = [
+      { key: 'anime', label: 'Anime', icon: 'fa-tv', color: '#ec4899' },
+      { key: 'series', label: 'Séries', icon: 'fa-film', color: '#3b82f6' },
+      { key: 'movies', label: 'Filmes', icon: 'fa-video', color: '#f59e0b' },
+      { key: 'games', label: 'Games', icon: 'fa-gamepad', color: '#10b981' },
+      { key: 'music', label: 'Música', icon: 'fa-music', color: '#8b5cf6' },
+      { key: 'books', label: 'Livros', icon: 'fa-book', color: '#ef4444' }
+    ];
+    
+    let favContent = '';
+    favCategories.forEach(cat => {
+      const items = profile.favorites[cat.key];
+      if (items && items.length > 0) {
+        const displayItems = items.slice(0, 5);
+        const moreCount = items.length > 5 ? items.length - 5 : 0;
+        favContent += `
+          <div class="profile-detail-subgroup">
+            <div class="profile-detail-subgroup-title">
+              <i class="fas ${cat.icon}" style="color: ${cat.color};"></i> ${cat.label}
+            </div>
+            <div class="profile-detail-tags">
+              ${displayItems.map(item => `<span class="profile-detail-tag">${item}</span>`).join('')}
+              ${moreCount > 0 ? `<span class="profile-detail-tag-more" data-more="${items.slice(5).join(' • ')}">+${moreCount}</span>` : ''}
+            </div>
+          </div>
+        `;
+      }
+    });
+    if (favContent) {
+      favoritesHtml = `
+        <div class="profile-detail-slide">
+          <div class="profile-detail-group">
+            <div class="profile-detail-group-title">
+              <i class="fas fa-heart"></i> FAVORITOS
+            </div>
+            <div class="profile-detail-group-items">
+              ${favContent}
+            </div>
+          </div>
+        </div>
+      `;
     }
   }
 
-  // Timeline (últimos 3 eventos)
-  if (profile.timeline && profile.timeline.length > 0) {
-    const timelineItems = profile.timeline.slice(-3).map(t => 
-      `${t.year}: ${t.title}${t.description ? ` (${t.description})` : ''}`
-    );
-    items.push({
-      icon: 'fa-clock',
-      label: 'Linha do Tempo',
-      value: timelineItems.join('<br>'),
-      isHtml: true
+  // ==========================================
+  // MONTAR HTML FINAL COM CARROSSEL
+  // ==========================================
+  const slides = [hobbiesHtml, goalsHtml, interestsHtml, valuesHtml, strengthsHtml, favoritesHtml].filter(Boolean);
+  
+  if (slides.length === 0) {
+    container.innerHTML = '<p class="text-muted" style="text-align: center; padding: 2rem;">Nenhum detalhe adicional disponível.</p>';
+    return;
+  }
+
+  const carouselId = 'profile-details-carousel';
+  
+  container.innerHTML = `
+    <div class="profile-carousel-container" id="${carouselId}">
+      <div class="profile-carousel-wrapper">
+        <div class="profile-carousel-track" id="profile-details-track">
+          ${slides.join('')}
+        </div>
+      </div>
+      <button class="profile-carousel-btn prev" data-target="profile-details">‹</button>
+      <button class="profile-carousel-btn next" data-target="profile-details">›</button>
+      <div class="profile-carousel-dots" id="profile-details-dots"></div>
+    </div>
+  `;
+
+  // Inicializa o carrossel dos detalhes do perfil
+  initProfileDetailsCarousel();
+}
+
+// ============================================
+// CARROSSEL DOS DETALHES DO PERFIL
+// ============================================
+let profileDetailsInterval = null;
+
+function initProfileDetailsCarousel() {
+  const container = document.getElementById('profile-details-carousel');
+  const track = document.getElementById('profile-details-track');
+  const prevBtn = container?.querySelector('.prev');
+  const nextBtn = container?.querySelector('.next');
+  const dotsContainer = document.getElementById('profile-details-dots');
+  
+  if (!track || !container) return;
+
+  const slides = track.querySelectorAll('.profile-detail-slide');
+  const totalSlides = slides.length;
+  
+  if (totalSlides === 0) return;
+  
+  let currentIndex = 0;
+  const slidesPerView = 1;
+
+  function updateCarousel() {
+    const slideWidth = slides[0]?.offsetWidth || 0;
+    const gap = 16;
+    const offset = currentIndex * (slideWidth + gap);
+    track.style.transform = `translateX(-${offset}px)`;
+    updateDots(currentIndex);
+  }
+
+  function goTo(index) {
+    currentIndex = Math.max(0, Math.min(index, totalSlides - slidesPerView));
+    updateCarousel();
+  }
+
+  function next() {
+    if (currentIndex < totalSlides - slidesPerView) {
+      goTo(currentIndex + 1);
+    } else {
+      goTo(0);
+    }
+  }
+
+  function prev() {
+    if (currentIndex > 0) {
+      goTo(currentIndex - 1);
+    } else {
+      goTo(totalSlides - slidesPerView);
+    }
+  }
+
+  function updateDots(active) {
+    if (!dotsContainer) return;
+    const totalDots = totalSlides;
+    let dotsHtml = '';
+    for (let i = 0; i < totalDots; i++) {
+      dotsHtml += `<button class="profile-carousel-dot ${i === active ? 'active' : ''}" data-index="${i}"></button>`;
+    }
+    dotsContainer.innerHTML = dotsHtml;
+    
+    dotsContainer.querySelectorAll('.profile-carousel-dot').forEach((dot) => {
+      dot.addEventListener('click', () => {
+        const index = parseInt(dot.dataset.index, 10);
+        goTo(index);
+        resetProfileDetailsInterval();
+      });
     });
   }
 
-  // Renderizar
-  container.innerHTML = items.map(item => `
-    <div class="profile-detail-item${item.isFullWidth ? ' full-width' : ''}">
-      <span class="detail-label"><i class="fas ${item.icon}"></i> ${item.label}</span>
-      <div class="detail-value">${item.isHtml ? item.value : processText(item.value, profile)}</div>
-    </div>
-  `).join('') || '<p class="text-muted">Nenhum detalhe adicional disponível.</p>';
+  // Eventos dos botões
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      prev();
+      resetProfileDetailsInterval();
+    });
+  }
+  
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      next();
+      resetProfileDetailsInterval();
+    });
+  }
+
+  // Auto-play
+  if (totalSlides > 1) {
+    profileDetailsInterval = setInterval(() => {
+      next();
+    }, 5000);
+  }
+
+  // Atualiza ao redimensionar
+  const resizeObserver = new ResizeObserver(() => {
+    updateCarousel();
+  });
+  resizeObserver.observe(track);
+
+  container._carousel = { goTo, next, prev, currentIndex: () => currentIndex };
+  container._resizeObserver = resizeObserver;
+  
+  updateCarousel();
+  updateDots(0);
+  
+  // Inicializa tooltips após carregar
+  setTimeout(initMoreTooltips, 100);
+}
+
+function resetProfileDetailsInterval() {
+  if (profileDetailsInterval) {
+    clearInterval(profileDetailsInterval);
+    profileDetailsInterval = null;
+    const container = document.getElementById('profile-details-carousel');
+    if (container) {
+      const slides = container.querySelectorAll('.profile-detail-slide');
+      if (slides.length > 1) {
+        profileDetailsInterval = setInterval(() => {
+          if (container._carousel) {
+            container._carousel.next();
+          }
+        }, 5000);
+      }
+    }
+  }
+}
+
+// ============================================
+// POP-UP PARA "+MORE" - ESTILO MODAL
+// ============================================
+function initMoreTooltips() {
+  // Remove pop-ups antigos
+  document.querySelectorAll('.profile-detail-popup').forEach(el => el.remove());
+  
+  document.querySelectorAll('.profile-detail-tag-more').forEach(el => {
+    const moreText = el.dataset.more;
+    if (!moreText) return;
+    
+    // Remove o title padrão
+    el.removeAttribute('title');
+    
+    // Cria o overlay do pop-up
+    const popup = document.createElement('div');
+    popup.className = 'profile-detail-popup-overlay';
+    popup.innerHTML = `
+      <div class="profile-detail-popup glass-card">
+        <div class="profile-detail-popup-header">
+          <span class="profile-detail-popup-title">
+            <i class="fas fa-list"></i> Itens adicionais
+          </span>
+          <button class="profile-detail-popup-close">&times;</button>
+        </div>
+        <div class="profile-detail-popup-body">
+          <div class="profile-detail-popup-tags">
+            ${moreText.split(' • ').map(item => `<span class="profile-detail-popup-tag">${item}</span>`).join('')}
+          </div>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(popup);
+    
+    const overlay = popup;
+    const closeBtn = popup.querySelector('.profile-detail-popup-close');
+    const popupBody = popup.querySelector('.profile-detail-popup-body');
+    
+    // Função para abrir o pop-up
+    function openPopup(e) {
+      e.stopPropagation();
+      
+      // Fecha outros pop-ups abertos
+      document.querySelectorAll('.profile-detail-popup-overlay.active').forEach(p => {
+        p.classList.remove('active');
+      });
+      
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      
+      // Centraliza o pop-up
+      const popupContent = overlay.querySelector('.profile-detail-popup');
+      popupContent.style.maxHeight = '60vh';
+    }
+    
+    // Função para fechar o pop-up
+    function closePopup() {
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    
+    // Evento de clique no +N
+    el.addEventListener('click', openPopup);
+    
+    // Evento de clique no fechar
+    closeBtn.addEventListener('click', closePopup);
+    
+    // Fecha ao clicar no overlay (fora do pop-up)
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) {
+        closePopup();
+      }
+    });
+    
+    // Fecha ao pressionar ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && overlay.classList.contains('active')) {
+        closePopup();
+      }
+    });
+  });
 }
 
 // ============================================
@@ -914,99 +1230,301 @@ function renderDiscord() {
 }
 
 // ============================================
-// RENDERIZAR PROJETOS
+// RENDERIZAR PROJETOS (CARROSSEL CUSTOM - COM IMAGEM REDUZIDA)
 // ============================================
 function renderProjects(projects) {
-  const container = $('#project-list');
-  if (!container) return;
+  const track = $('#projects-track');
+  const dots = $('#projects-dots');
+  if (!track) return;
 
   if (!projects || projects.length === 0) {
-    container.innerHTML = `<p class="empty-message">📭 Nenhum projeto cadastrado ainda.</p>`;
+    track.innerHTML = `<div class="carousel-slide"><p class="empty-message">📭 Nenhum projeto cadastrado ainda.</p></div>`;
     return;
   }
 
-  container.innerHTML = projects.map(project => `
-    <div class="project-card glass-card">
-      <div class="project-image">
-        <img src="${project.image || 'assets/img/default-project.jpg'}" alt="${project.title}">
-        <span class="project-status status-${project.status}">${getStatusLabel(project.status)}</span>
-      </div>
-      <div class="project-content">
-        <h3>${project.title}</h3>
-        <p>${project.description}</p>
-        <div class="project-tech">
-          ${project.technologies.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
+  let slidesHtml = '';
+  projects.forEach((project) => {
+    slidesHtml += `
+      <div class="carousel-slide">
+        <div class="project-card glass-card">
+          <div class="project-image">
+            <img src="${project.image || 'assets/img/default-project.jpg'}" alt="${project.title}">
+            <span class="project-status status-${project.status}">${getStatusLabel(project.status)}</span>
+          </div>
+          <div class="project-content">
+            <h3>${project.title}</h3>
+            <p>${project.description}</p>
+            <div class="project-tech">
+              ${project.technologies.slice(0, 3).map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
+              ${project.technologies.length > 3 ? `<span class="tech-tag">+${project.technologies.length - 3}</span>` : ''}
+            </div>
+            <div class="project-links">
+              ${project.url && project.url !== '#' ? `<a href="${project.url}" target="_blank" rel="noopener noreferrer" class="btn-small">🔗 Demo</a>` : ''}
+              ${project.repo && project.repo !== '#' ? `<a href="${project.repo}" target="_blank" rel="noopener noreferrer" class="btn-small">📂 GitHub</a>` : ''}
+            </div>
+          </div>
         </div>
-        <div class="project-links">
-          ${project.url && project.url !== '#' ? `<a href="${project.url}" target="_blank" rel="noopener noreferrer" class="btn-small">🔗 Ver Demo</a>` : ''}
-          ${project.repo && project.repo !== '#' ? `<a href="${project.repo}" target="_blank" rel="noopener noreferrer" class="btn-small">📂 GitHub</a>` : ''}
-        </div>
       </div>
-    </div>
-  `).join('');
+    `;
+  });
+
+  track.innerHTML = slidesHtml;
+  initCarousel('projects', projects.length);
+  updateDots('projects', projects.length, 0);
 }
 
 // ============================================
-// RENDERIZAR CERTIFICADOS
+// RENDERIZAR CERTIFICADOS (CARROSSEL CUSTOM)
 // ============================================
 function renderCertificates(certificates) {
-  const container = $('#certificates-list');
-  if (!container) return;
+  const track = $('#certificates-track');
+  const dots = $('#certificates-dots');
+  if (!track) return;
 
   if (!certificates || certificates.length === 0) {
-    container.innerHTML = `<p class="empty-message">📭 Nenhum certificado cadastrado ainda.</p>`;
+    track.innerHTML = `<div class="carousel-slide"><p class="empty-message">📭 Nenhum certificado cadastrado ainda.</p></div>`;
     return;
   }
 
-  container.innerHTML = certificates.map(cert => `
-    <div class="certificate-card glass-card">
-      <div class="certificate-icon">🏆</div>
-      <div class="certificate-content">
-        <h4>${cert.name}</h4>
-        <p class="cert-institution">${cert.institution}</p>
-        <p class="cert-date">📅 ${cert.date}</p>
-        ${cert.description ? `<p class="cert-description">${cert.description}</p>` : ''}
-        ${cert.link && cert.link !== '#' ? `<a href="${cert.link}" target="_blank" rel="noopener noreferrer" class="btn-small">🔗 Ver Certificado</a>` : ''}
+  let slidesHtml = '';
+  certificates.forEach((cert) => {
+    slidesHtml += `
+      <div class="carousel-slide">
+        <div class="certificate-card glass-card" style="text-align: center;">
+          <div class="certificate-icon">🏆</div>
+          <div class="certificate-content">
+            <h4>${cert.name}</h4>
+            <p class="cert-institution">${cert.institution}</p>
+            <p class="cert-date">📅 ${cert.date}</p>
+            ${cert.description ? `<p class="cert-description">${cert.description}</p>` : ''}
+            ${cert.link && cert.link !== '#' ? `<a href="${cert.link}" target="_blank" rel="noopener noreferrer" class="btn-small">🔗 Ver</a>` : ''}
+          </div>
+        </div>
       </div>
-    </div>
-  `).join('');
+    `;
+  });
+
+  track.innerHTML = slidesHtml;
+  initCarousel('certificates', certificates.length);
+  updateDots('certificates', certificates.length, 0);
 }
 
 // ============================================
-// RENDERIZAR CURSOS
+// RENDERIZAR CURSOS (CARROSSEL CUSTOM)
 // ============================================
 function renderCourses(courses) {
-  const container = $('#courses-list');
-  if (!container) return;
+  const track = $('#courses-track');
+  const dots = $('#courses-dots');
+  if (!track) return;
 
   if (!courses || courses.length === 0) {
-    container.innerHTML = `<p class="empty-message">📭 Nenhum curso cadastrado ainda.</p>`;
+    track.innerHTML = `<div class="carousel-slide"><p class="empty-message">📭 Nenhum curso cadastrado ainda.</p></div>`;
     return;
   }
 
-  container.innerHTML = courses.map(course => `
-    <div class="course-card glass-card">
-      <div class="course-header">
-        <span class="course-status status-${course.status}">${getStatusLabel(course.status)}</span>
-        <span class="course-category">${course.category || 'Geral'}</span>
-      </div>
-      <div class="course-content">
-        <h4>${course.name}</h4>
-        <p class="course-platform">📚 ${course.platform} ${course.instructor ? `- ${course.instructor}` : ''}</p>
-        ${course.description ? `<p class="course-description">${course.description}</p>` : ''}
-        ${course.progress !== undefined ? `
-          <div class="course-progress">
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: ${course.progress}%"></div>
-            </div>
-            <span class="progress-text">${course.progress}%</span>
+  let slidesHtml = '';
+  courses.forEach((course) => {
+    slidesHtml += `
+      <div class="carousel-slide">
+        <div class="course-card glass-card">
+          <div class="course-header">
+            <span class="course-status status-${course.status}">${getStatusLabel(course.status)}</span>
+            <span class="course-category">${course.category || 'Geral'}</span>
           </div>
-        ` : ''}
-        ${course.url && course.url !== '#' ? `<a href="${course.url}" target="_blank" rel="noopener noreferrer" class="btn-small">🔗 Ver Curso</a>` : ''}
+          <div class="course-content">
+            <h4>${course.name}</h4>
+            <p class="course-platform">📚 ${course.platform} ${course.instructor ? `- ${course.instructor}` : ''}</p>
+            ${course.description ? `<p class="course-description">${course.description}</p>` : ''}
+            ${course.progress !== undefined ? `
+              <div class="course-progress">
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: ${course.progress}%"></div>
+                </div>
+                <span class="progress-text">${course.progress}%</span>
+              </div>
+            ` : ''}
+            ${course.url && course.url !== '#' ? `<a href="${course.url}" target="_blank" rel="noopener noreferrer" class="btn-small">🔗 Ver</a>` : ''}
+          </div>
+        </div>
       </div>
-    </div>
-  `).join('');
+    `;
+  });
+
+  track.innerHTML = slidesHtml;
+  initCarousel('courses', courses.length);
+  updateDots('courses', courses.length, 0);
 }
+
+// ============================================
+// INICIALIZAR CARROSSEL
+// ============================================
+let carouselIntervals = {};
+
+function initCarousel(id, totalItems) {
+  const container = document.getElementById(`${id}-carousel`);
+  const track = document.getElementById(`${id}-track`);
+  const prevBtn = container.querySelector('.prev');
+  const nextBtn = container.querySelector('.next');
+  
+  if (!track || !container) return;
+  
+  // Remove intervalo anterior
+  if (carouselIntervals[id]) {
+    clearInterval(carouselIntervals[id]);
+    delete carouselIntervals[id];
+  }
+
+  const slides = track.querySelectorAll('.carousel-slide');
+  const slidesPerView = getSlidesPerView();
+  const totalSlides = slides.length;
+  
+  if (totalSlides === 0) return;
+  
+  let currentIndex = 0;
+  const maxIndex = Math.max(0, totalSlides - slidesPerView);
+
+  function updateCarousel() {
+    const slideWidth = slides[0]?.offsetWidth || 0;
+    const gap = 16; // gap entre slides
+    const offset = currentIndex * (slideWidth + gap);
+    track.style.transform = `translateX(-${offset}px)`;
+    updateDots(id, totalSlides, currentIndex);
+  }
+
+  function goTo(index) {
+    currentIndex = Math.max(0, Math.min(index, maxIndex));
+    updateCarousel();
+  }
+
+  function next() {
+    if (currentIndex < maxIndex) {
+      goTo(currentIndex + 1);
+    } else {
+      goTo(0);
+    }
+  }
+
+  function prev() {
+    if (currentIndex > 0) {
+      goTo(currentIndex - 1);
+    } else {
+      goTo(maxIndex);
+    }
+  }
+
+  // Eventos dos botões
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      prev();
+      resetInterval(id);
+    });
+  }
+  
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      next();
+      resetInterval(id);
+    });
+  }
+
+  // Auto-play
+  if (totalSlides > slidesPerView) {
+    carouselIntervals[id] = setInterval(() => {
+      next();
+    }, 5000);
+  }
+
+  // Atualiza ao redimensionar
+  const resizeObserver = new ResizeObserver(() => {
+    updateCarousel();
+  });
+  resizeObserver.observe(track);
+
+  // Guarda referências
+  container._carousel = { goTo, next, prev, currentIndex: () => currentIndex };
+  container._resizeObserver = resizeObserver;
+  
+  // Inicializa
+  updateCarousel();
+}
+
+function getSlidesPerView() {
+  if (window.innerWidth < 480) return 1;
+  if (window.innerWidth < 768) return 2;
+  return 3;
+}
+
+function updateDots(id, total, active) {
+  const dotsContainer = document.getElementById(`${id}-dots`);
+  if (!dotsContainer) return;
+  
+  const slidesPerView = getSlidesPerView();
+  const totalDots = Math.max(1, Math.ceil(total / slidesPerView));
+  
+  let dotsHtml = '';
+  for (let i = 0; i < totalDots; i++) {
+    dotsHtml += `<button class="carousel-dot ${i === active ? 'active' : ''}" data-index="${i}"></button>`;
+  }
+  dotsContainer.innerHTML = dotsHtml;
+  
+  // Eventos dos dots
+  dotsContainer.querySelectorAll('.carousel-dot').forEach((dot) => {
+    dot.addEventListener('click', () => {
+      const index = parseInt(dot.dataset.index, 10);
+      const container = document.getElementById(`${id}-carousel`);
+      if (container && container._carousel) {
+        container._carousel.goTo(index);
+        resetInterval(id);
+      }
+    });
+  });
+}
+
+function resetInterval(id) {
+  if (carouselIntervals[id]) {
+    clearInterval(carouselIntervals[id]);
+    delete carouselIntervals[id];
+    // Reinicia o intervalo
+    const container = document.getElementById(`${id}-carousel`);
+    if (container) {
+      const slides = container.querySelectorAll('.carousel-slide');
+      const slidesPerView = getSlidesPerView();
+      if (slides.length > slidesPerView) {
+        carouselIntervals[id] = setInterval(() => {
+          if (container._carousel) {
+            container._carousel.next();
+          }
+        }, 5000);
+      }
+    }
+  }
+}
+
+// Atualiza carrosséis ao redimensionar
+let resizeTimeout;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    ['projects', 'certificates', 'courses'].forEach((id) => {
+      const container = document.getElementById(`${id}-carousel`);
+      if (container && container._carousel) {
+        const track = document.getElementById(`${id}-track`);
+        if (track) {
+          const slides = track.querySelectorAll('.carousel-slide');
+          const slidesPerView = getSlidesPerView();
+          const maxIndex = Math.max(0, slides.length - slidesPerView);
+          const currentIndex = container._carousel.currentIndex();
+          if (currentIndex > maxIndex) {
+            container._carousel.goTo(maxIndex);
+          } else {
+            container._carousel.goTo(currentIndex);
+          }
+          updateDots(id, slides.length, Math.min(currentIndex, maxIndex));
+        }
+      }
+    });
+  }, 300);
+});
 
 // ============================================
 // ATUALIZAR ESTATÍSTICAS
@@ -1042,7 +1560,7 @@ function renderHeroBadges(profile) {
 }
 
 // ============================================
-// RENDERIZAR HERO (com múltiplas imagens)
+// RENDERIZAR HERO
 // ============================================
 let avatarInterval = null;
 let currentAvatarIndex = 0;
@@ -1053,7 +1571,6 @@ function renderHero(profile, current) {
   const statusEl = $('#status-text');
   const profileImg = $('#profile-img');
 
-  // Nome completo sem quebra
   if (nameEl) {
     const fullName = profile?.identity?.name || profile?.name || 'João Gabriel';
     nameEl.textContent = fullName;
@@ -1070,38 +1587,25 @@ function renderHero(profile, current) {
     statusEl.textContent = '✨ Disponível para novos projetos';
   }
 
-  // ==========================================
-  // MULTIPLAS IMAGENS DE PERFIL
-  // ==========================================
   if (profileImg) {
-    // Limpa o intervalo anterior se existir
     if (avatarInterval) {
       clearInterval(avatarInterval);
       avatarInterval = null;
     }
 
-    // Verifica se temos múltiplas imagens
     const avatars = profile?.avatars || [];
     const singleAvatar = profile?.avatar;
-    const interval = profile?.avatarInterval || 5000; // padrão 5 segundos
+    const interval = profile?.avatarInterval || 5000;
 
     if (avatars.length > 1) {
-      // Temos múltiplas imagens - vamos alternar
       currentAvatarIndex = 0;
-      
-      // Define a primeira imagem
       profileImg.src = avatars[0];
       profileImg.alt = `João Gabriel - Densuki ${currentAvatarIndex + 1}`;
       
-      // Configura o intervalo para trocar as imagens
       avatarInterval = setInterval(() => {
-        // Avança para a próxima imagem
         currentAvatarIndex = (currentAvatarIndex + 1) % avatars.length;
-        
-        // Adiciona efeito de fade
         profileImg.style.transition = 'opacity 0.5s ease';
         profileImg.style.opacity = '0';
-        
         setTimeout(() => {
           profileImg.src = avatars[currentAvatarIndex];
           profileImg.alt = `João Gabriel - Densuki ${currentAvatarIndex + 1}`;
@@ -1110,15 +1614,12 @@ function renderHero(profile, current) {
       }, interval);
       
       console.log(`🔄 Alternando entre ${avatars.length} imagens de perfil a cada ${interval/1000}s`);
-      
     } else if (singleAvatar) {
-      // Apenas uma imagem
       profileImg.src = singleAvatar;
       profileImg.alt = 'João Gabriel - Densuki';
     }
   }
 
-  // Renderizar badges
   renderHeroBadges(profile);
 }
 
@@ -1135,33 +1636,26 @@ function initProfileControls(profile) {
   if (!profileImg) return;
 
   const avatars = profile?.avatars || [];
-  const singleAvatar = profile?.avatar;
 
-  // Se não houver múltiplas imagens, esconde os controles
   if (avatars.length <= 1) {
     if (navContainer) navContainer.style.display = 'none';
     if (dotsContainer) dotsContainer.style.display = 'none';
     return;
   }
 
-  // Mostra os controles
   if (navContainer) navContainer.style.display = 'flex';
   if (dotsContainer) dotsContainer.style.display = 'flex';
 
   let currentIndex = 0;
 
-  // Cria os dots
   dotsContainer.innerHTML = avatars.map((_, i) => 
     `<span class="profile-dot ${i === 0 ? 'active' : ''}" data-index="${i}"></span>`
   ).join('');
 
-  // Função para trocar a imagem
   function changeImage(index) {
-    // Limita o índice
     index = (index + avatars.length) % avatars.length;
     currentIndex = index;
 
-    // Efeito de fade
     profileImg.style.transition = 'opacity 0.5s ease';
     profileImg.style.opacity = '0';
 
@@ -1171,17 +1665,14 @@ function initProfileControls(profile) {
       profileImg.style.opacity = '1';
     }, 500);
 
-    // Atualiza os dots
     document.querySelectorAll('.profile-dot').forEach((dot, i) => {
       dot.classList.toggle('active', i === currentIndex);
     });
   }
 
-  // Eventos dos botões
   if (prevBtn) {
     prevBtn.addEventListener('click', () => {
       changeImage(currentIndex - 1);
-      // Pausa o intervalo automático se existir
       if (avatarInterval) {
         clearInterval(avatarInterval);
         avatarInterval = null;
@@ -1199,7 +1690,6 @@ function initProfileControls(profile) {
     });
   }
 
-  // Eventos dos dots
   document.querySelectorAll('.profile-dot').forEach((dot) => {
     dot.addEventListener('click', () => {
       const index = parseInt(dot.dataset.index, 10);
@@ -1211,7 +1701,6 @@ function initProfileControls(profile) {
     });
   });
 
-  // Salva a referência para o intervalo
   window._profileControls = { changeImage, currentIndex };
 }
 
@@ -1294,19 +1783,6 @@ function initMusicToggle() {
 
   let isPlaying = false;
 
-  const source = audio.querySelector('source');
-  if (source && source.src) {
-    fetch(source.src)
-      .then(res => {
-        if (!res.ok) {
-          toggle.style.display = 'none';
-        }
-      })
-      .catch(() => {
-        toggle.style.display = 'none';
-      });
-  }
-
   toggle.addEventListener('click', () => {
     if (isPlaying) {
       audio.pause();
@@ -1321,9 +1797,35 @@ function initMusicToggle() {
 }
 
 // ============================================
-// MUSIC PLAYER
+// CARREGAR PLAYLIST DO MUSIC.JSON
 // ============================================
-function initMusicPlayer(profile) {
+async function loadMusicPlaylist() {
+  try {
+    const response = await fetch('data/music.json');
+    if (response.ok) {
+      const data = await response.json();
+      if (data && data.playerlist && data.playerlist.length > 0) {
+        return data.playerlist;
+      }
+    }
+  } catch (err) {
+    console.warn('Erro ao carregar music.json:', err);
+  }
+  return [];
+}
+
+// ============================================
+// MUSIC PLAYER COM MODAL CUSTOM
+// ============================================
+let musicModalInstance = null;
+let currentPlaylist = [];
+let currentTrackIndex = 0;
+let isModalPlaying = false;
+let musicPlayerInitialized = false;
+
+async function initMusicPlayer(profile) {
+  if (musicPlayerInitialized) return;
+  
   const audio = $('#bg-music');
   const volRange = $('#volume-range');
   const volDown = $('#vol-down');
@@ -1333,49 +1835,90 @@ function initMusicPlayer(profile) {
   const currentTrack = $('#current-track');
   const panelToggle = $('#music-panel-toggle');
 
+  const modalMusicSelect = $('#modal-music-select');
+  const modalPlayPause = $('#modal-play-pause');
+  const modalPrev = $('#modal-prev');
+  const modalNext = $('#modal-next');
+  const modalVolDown = $('#modal-vol-down');
+  const modalVolUp = $('#modal-vol-up');
+  const modalVolRange = $('#modal-volume-range');
+  const modalCurrentTrack = $('#modal-current-track');
+  const modalCurrentArtist = $('#modal-current-artist');
+  const musicCover = $('#music-cover');
+  const modalClose = $('#modal-close');
+  const musicModal = $('#musicModal');
+
   if (!audio || !musicControls || !volRange || !musicSelect) return;
 
-  let playlist = (profile && Array.isArray(profile.music)) ? profile.music : [];
-  
+  // Carrega playlist do music.json
+  let playlist = await loadMusicPlaylist();
+
+  // Fallback
   if (playlist.length === 0) {
     playlist = [
-      { title: 'Background', src: 'assets/audio/background.mp3' }
+      { title: 'Detective Conan', artist: 'TiMi Studio Group', src: 'assets/audio/Detective_Conan_Collaboration.mp3' }
     ];
   }
 
-  musicSelect.innerHTML = playlist.map((t, i) => 
-    `<option value="${i}">${t.title || t.src.split('/').pop() || `Música ${i + 1}`}</option>`
-  ).join('');
+  currentPlaylist = playlist;
 
+  // Preenche selects
+  const optionsHtml = playlist.map((t, i) => 
+    `<option value="${i}">${t.title || t.src?.split('/').pop() || `Música ${i + 1}`}</option>`
+  ).join('');
+  
+  musicSelect.innerHTML = optionsHtml;
+  if (modalMusicSelect) modalMusicSelect.innerHTML = optionsHtml;
+
+  // Volume
   const savedVol = parseFloat(localStorage.getItem('volume'));
   const initialVol = !Number.isNaN(savedVol) ? savedVol : CONFIG.defaultVolume;
   audio.volume = initialVol;
   volRange.value = initialVol;
+  if (modalVolRange) modalVolRange.value = initialVol;
 
+  // Função para carregar música
   function loadTrack(index) {
     const track = playlist[index];
     if (!track) return;
     
+    currentTrackIndex = index;
     const source = audio.querySelector('source');
     if (source) {
-      source.src = track.src;
+      source.src = track.src || track.url || 'assets/audio/background.mp3';
       audio.load();
     }
     
-    const trackName = track.title || track.src.split('/').pop() || `Música ${index + 1}`;
+    const trackName = track.title || track.src?.split('/').pop() || `Música ${index + 1}`;
     currentTrack.textContent = trackName;
+    if (modalCurrentTrack) modalCurrentTrack.textContent = trackName;
+    if (modalCurrentArtist) modalCurrentArtist.textContent = track.artist || 'Artista desconhecido';
+    
+    if (musicCover) {
+      musicCover.classList.remove('playing');
+    }
+    
+    musicSelect.value = index;
+    if (modalMusicSelect) modalMusicSelect.value = index;
   }
 
+  // Inicializa com primeira música
+  if (playlist.length > 0) {
+    loadTrack(0);
+  }
+
+  // Eventos do player normal
   musicSelect.addEventListener('change', (e) => {
     const idx = parseInt(e.target.value, 10);
     loadTrack(idx);
-    audio.play().catch(() => {});
+    if (modalMusicSelect) modalMusicSelect.value = idx;
   });
 
   volRange.addEventListener('input', (e) => {
     const v = parseFloat(e.target.value);
     audio.volume = v;
     localStorage.setItem('volume', String(v));
+    if (modalVolRange) modalVolRange.value = v;
   });
 
   volDown.addEventListener('click', () => {
@@ -1383,6 +1926,7 @@ function initMusicPlayer(profile) {
     audio.volume = v;
     volRange.value = v;
     localStorage.setItem('volume', String(v));
+    if (modalVolRange) modalVolRange.value = v;
   });
 
   volUp.addEventListener('click', () => {
@@ -1390,26 +1934,153 @@ function initMusicPlayer(profile) {
     audio.volume = v;
     volRange.value = v;
     localStorage.setItem('volume', String(v));
+    if (modalVolRange) modalVolRange.value = v;
   });
 
+  // Modal events
+  if (modalMusicSelect) {
+    modalMusicSelect.addEventListener('change', (e) => {
+      const idx = parseInt(e.target.value, 10);
+      loadTrack(idx);
+      musicSelect.value = idx;
+    });
+  }
+
+  if (modalVolRange) {
+    modalVolRange.addEventListener('input', (e) => {
+      const v = parseFloat(e.target.value);
+      audio.volume = v;
+      volRange.value = v;
+      localStorage.setItem('volume', String(v));
+    });
+  }
+
+  if (modalVolDown) {
+    modalVolDown.addEventListener('click', () => {
+      let v = Math.max(0, audio.volume - 0.1);
+      audio.volume = v;
+      volRange.value = v;
+      if (modalVolRange) modalVolRange.value = v;
+      localStorage.setItem('volume', String(v));
+    });
+  }
+
+  if (modalVolUp) {
+    modalVolUp.addEventListener('click', () => {
+      let v = Math.min(1, audio.volume + 0.1);
+      audio.volume = v;
+      volRange.value = v;
+      if (modalVolRange) modalVolRange.value = v;
+      localStorage.setItem('volume', String(v));
+    });
+  }
+
+  if (modalPlayPause) {
+    modalPlayPause.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play().catch(() => {});
+        modalPlayPause.innerHTML = '<i class="fas fa-pause"></i>';
+        isModalPlaying = true;
+        if (musicCover) musicCover.classList.add('playing');
+      } else {
+        audio.pause();
+        modalPlayPause.innerHTML = '<i class="fas fa-play"></i>';
+        isModalPlaying = false;
+        if (musicCover) musicCover.classList.remove('playing');
+      }
+    });
+  }
+
+  if (modalNext) {
+    modalNext.addEventListener('click', () => {
+      const nextIndex = (currentTrackIndex + 1) % playlist.length;
+      loadTrack(nextIndex);
+      musicSelect.value = nextIndex;
+      if (modalMusicSelect) modalMusicSelect.value = nextIndex;
+      if (isModalPlaying) {
+        audio.play().catch(() => {});
+        if (musicCover) musicCover.classList.add('playing');
+      }
+    });
+  }
+
+  if (modalPrev) {
+    modalPrev.addEventListener('click', () => {
+      const prevIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+      loadTrack(prevIndex);
+      musicSelect.value = prevIndex;
+      if (modalMusicSelect) modalMusicSelect.value = prevIndex;
+      if (isModalPlaying) {
+        audio.play().catch(() => {});
+        if (musicCover) musicCover.classList.add('playing');
+      }
+    });
+  }
+
+  // Abrir/fechar modal
+  if (panelToggle) {
+    panelToggle.addEventListener('click', () => {
+      if (musicModal) {
+        musicModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+      if (modalCurrentTrack) {
+        modalCurrentTrack.textContent = currentTrack.textContent || 'Nenhuma música';
+      }
+      if (modalPlayPause) {
+        modalPlayPause.innerHTML = audio.paused ? '<i class="fas fa-play"></i>' : '<i class="fas fa-pause"></i>';
+      }
+      if (musicCover) {
+        if (!audio.paused) {
+          musicCover.classList.add('playing');
+        } else {
+          musicCover.classList.remove('playing');
+        }
+      }
+      isModalPlaying = !audio.paused;
+    });
+  }
+
+  if (modalClose) {
+    modalClose.addEventListener('click', () => {
+      if (musicModal) {
+        musicModal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+  }
+
+  // Fechar modal ao clicar fora
+  if (musicModal) {
+    musicModal.addEventListener('click', (e) => {
+      if (e.target === musicModal) {
+        musicModal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+  }
+
+  audio.addEventListener('play', () => {
+    if (modalPlayPause) modalPlayPause.innerHTML = '<i class="fas fa-pause"></i>';
+    if (musicCover) musicCover.classList.add('playing');
+    isModalPlaying = true;
+  });
+
+  audio.addEventListener('pause', () => {
+    if (modalPlayPause) modalPlayPause.innerHTML = '<i class="fas fa-play"></i>';
+    if (musicCover) musicCover.classList.remove('playing');
+    isModalPlaying = false;
+  });
+
+  // Mostra o botão de música
   if (profile && profile.show && profile.show.music === false) {
     if (musicControls) musicControls.style.display = 'none';
     if (panelToggle) panelToggle.style.display = 'none';
   } else {
-    if (panelToggle) {
-      panelToggle.addEventListener('click', () => {
-        const opened = musicControls.classList.toggle('open');
-        musicControls.setAttribute('aria-hidden', (!opened).toString());
-        panelToggle.setAttribute('aria-pressed', opened.toString());
-      });
-    }
+    if (panelToggle) panelToggle.style.display = 'flex';
   }
 
-  if (playlist.length > 0) {
-    const first = 0;
-    musicSelect.value = String(first);
-    loadTrack(first);
-  }
+  musicPlayerInitialized = true;
 }
 
 // ============================================
@@ -1509,6 +2180,22 @@ function applyVisibility(profile) {
   }
 }
 
+async function initPageFooter() {
+  try {
+    const data = await loadData();
+    if (data?.profile) {
+      renderFooter(data.profile);
+      await initMusicPlayer(data.profile);
+    }
+    initThemeToggle();
+    initMusicToggle();
+    initMobileNav();
+    initSmoothScroll();
+  } catch (error) {
+    console.error('❌ Erro ao carregar footer:', error);
+  }
+}
+
 // ============================================
 // INICIALIZAÇÃO
 // ============================================
@@ -1524,7 +2211,7 @@ async function init() {
   const { profile, projects, certificates, courses, statistics, current } = data;
 
   renderHero(profile, current);
-  initProfileControls(profile); // NOVO - Inicializa os controles
+  initProfileControls(profile);
   renderMiniCards(profile);
   renderAbout(profile);
   renderSoftSkills(profile);
@@ -1532,6 +2219,7 @@ async function init() {
   renderPersonality(profile);
   renderLanguages(profile);
   renderProfileDetails(profile);
+  initMoreTooltips();
   renderFooter(profile);
   renderContact(profile);
   renderGitHubStats();
@@ -1546,7 +2234,7 @@ async function init() {
   typewriterEffect();
   initThemeToggle();
   initMusicToggle();
-  initMusicPlayer(profile);
+  await initMusicPlayer(profile);
   initScrollAnimations();
   initMobileNav();
   initSmoothScroll();
